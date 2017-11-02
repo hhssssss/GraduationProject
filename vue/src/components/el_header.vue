@@ -3,11 +3,11 @@
       <nav class="navbar navbar-default">
         <div class="container-fluid">
           <div class="navbar-header">
-            <a class="navbar-brand" href="javascript">Brand</a>
+            <a class="navbar-brand" href="javascript" v-if="loginFlag">您还未登录!</a>
+            <a class="navbar-brand" href="javascript" v-else="">欢迎您！&nbsp&nbsp{{userId}}&nbsp&nbsp</a>
           </div>
-          <button type="button" class="btn btn-primary navbar-btn" v-bind:class="{ active: flagChange }"@click="flagChangeChild">升序</button>
-          <button type="button" class="btn btn-primary navbar-btn" @click="flagChangeChild">降序</button>
-          <button type="button" class="btn btn-primary navbar-btn" @click="loginShow">登陆</button>
+          <button type="button" class="btn btn-primary navbar-btn" @click="loginShow" v-if="loginFlag">登录</button>
+          <button type="button" class="btn btn-primary navbar-btn" @click="loginOut" v-else="">注销</button>
         </div>
       </nav>
     </div>
@@ -19,14 +19,25 @@
             return {
             }
         },
-        props:['flagChange'],
-        methods:{
-          flagChangeChild(){
-            this.$emit('flagChange')
+        computed:{
+          userId(){
+            return this.$store.state.userId;
           },
+          loginFlag(){
+            return !this.$store.state.userId;
+          }
+        },
+        methods:{
           loginShow(){
             this.$emit('loginShow')
-          }
+          },
+          loginOut(){
+            let content = {
+              id : '',
+              pwd : ''
+            }
+            this.$store.commit('updateUserInfo',content);
+          },
         }
     }
 </script>

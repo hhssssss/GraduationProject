@@ -28,22 +28,38 @@ router.get("/",function (req,res,next) {
     db.on("disconnected",function () {
         console.log("mongodb-doubanTop250 disconnected");
     });
-
+    let pageId = req.param('pageId');
     let movie = db.model('movie',movieSchema,'movies')
-    movie.find({},function (err,doc) {
-        if(err){
-            res.json({
-                status:'0',
-                msg:err.message
-            })
-        }else{
-            res.json({
-                status:'1',
-                message:doc.length,
-                result:doc
-            })
-        }
-        db.close();
+    // movie.find({},function (err,doc) {
+    //     if(err){
+    //         res.json({
+    //             status:'0',
+    //             msg:err.message
+    //         })
+    //     }else{
+    //         res.json({
+    //             status:'1',
+    //             message:doc.length,
+    //             result:doc
+    //         })
+    //     }
+    //     db.close();
+    // })
+    let movieQuery = movie.find({});
+    movieQuery.limit(25).skip(pageId*25).exec(function (err,doc) {
+            if(err){
+                res.json({
+                    status:'0',
+                    msg:err.message
+                })
+            }else{
+                res.json({
+                    status:'1',
+                    message:doc.length,
+                    result:doc
+                })
+            }
+            db.close();
     })
 });
 
