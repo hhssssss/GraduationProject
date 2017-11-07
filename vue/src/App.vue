@@ -12,11 +12,16 @@ export default {
 </script>
 
 <style>
-  #app {
-  }
-  html,body{
-    height: 100%;
-    width: 100%;
-    background-color: #fff;
-  }
+  /*#app {*/
+    /*height: 100%;*/
+    /*width: 100%;*/
+    /*background: url("assets/bac.jpg") center no-repeat;*/
+    /*background-size: cover;*/
+    /*padding-top: 140px;*/
+  /*}*/
+  /*html,body{*/
+    /*height: 100%;*/
+    /*width: 100%;*/
+    /*background-color: #fff;*/
+  /*}*/
 </style>

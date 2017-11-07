@@ -22,7 +22,6 @@ const store = new Vuex.Store({
     }
   }
 })
-/* eslint-disable no-new */
 new Vue({
   el: '#app',
   store,

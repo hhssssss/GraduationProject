@@ -11,7 +11,7 @@ import el_header from '../components/el_header.vue';
 import el_body from '../components/el_body.vue';
 import login from '../components/login.vue';
 export default {
-  name: 'hello',
+  name: 'main',
   data () {
     return {
       loginShowFlag:false,
@@ -49,15 +49,4 @@ export default {
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  li{
-    text-align: left;
-    line-height: 2;
-  }
-  ul,li{
-    list-style: none;
-  }
-  ul{
-    margin: 0;
-    padding: 0;
-  }
 </style>

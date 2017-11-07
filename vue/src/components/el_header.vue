@@ -1,11 +1,15 @@
 <template>
-    <div>
+    <div id="el_header" :class='{animation1:backgroundFlag,animation2:!backgroundFlag&&initFlag}'>
       <div class="container">
         <img src="../assets/logo.png" alt="" class="logo">
         <div class="control">
-          <a  href="javascript" v-if="loginFlag">您还未登录!</a>
-          <a  href="javascript" v-else="">欢迎您！&nbsp&nbsp{{userId}}&nbsp&nbsp</a>
-
+          <div class="search">
+            <input type="text" placeholder="Search for...">
+            <div class="search-button">Go!</div>
+          </div>
+          <div  class="title" v-if="loginFlag">您还未登录!</div>
+          <div  class="title" v-else="">欢迎您！&nbsp&nbsp{{userId}}&nbsp&nbsp</div>
+          <div  class="title" v-if="!loginFlag">修改个人信息</div>
           <div  class='button' @click="loginShow" v-if="loginFlag">登录</div>
           <div  class='button' @click="loginOut" v-else="">注销</div>
         </div>
@@ -15,8 +19,12 @@
 
 <script>
     export default {
+        name:'elHeader',
         data() {
             return {
+              scroll:'',
+              backgroundFlag:false,
+              initFlag:false,
             }
         },
         computed:{
@@ -27,7 +35,19 @@
             return !this.$store.state.userId;
           }
         },
+        mounted() {
+          window.addEventListener('scroll', this.menu);
+        },
         methods:{
+          menu() {
+            this.scroll = window.scrollY;
+            if(this.scroll>=50){
+              this.backgroundFlag = true;
+              this.initFlag = true;
+            }else {
+              this.backgroundFlag = false;
+            }
+          },
           loginShow(){
             this.$emit('loginShow')
           },
@@ -43,34 +63,127 @@
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .container{
+  #el_header{
+    position: fixed;
     width: 100%;
+    min-width: 1024px;
     height: 140px;
+    top: 0;
+    left: 0;
+    z-index: 99;
+  }
+  .animation1{
+    animation:myfirst 0.7s ease-in-out;
+    animation-fill-mode : forwards
+  }
+  @keyframes myfirst{
+    from{
+      background-color: rgba(0,0,0,0);
+      height: 140px
+    }
+    to{
+      background-color: rgba(0,0,0,0.8);
+      height: 100px
+    }
+  }
+  .animation2{
+    animation:mySecond 0.7s ease-in-out;
+    animation-fill-mode : forwards
+  }
+  @keyframes mySecond{
+    from{
+      background-color: rgba(0,0,0,0.8);
+      height: 100px
+    }
+    to{
+      background-color: rgba(0,0,0,0);
+      height: 140px
+    }
+  }
+  div.container{
+    width: 100%;
+    height: 100%;
     padding: 0 10%;
     display: flex;
     align-items: center;
+    color: #fff;
+    letter-spacing: 2px;
   }
-  .logo{
+  img.logo{
     height: 50px;
     width: auto;
   }
-  .control{
+  div.control{
     flex-grow: 1;
     height: 100%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
   }
-  .button{
+  div.search{
+    width: 300px;
     height: 40px;
-    width: 120px;
+  }
+  .search input{
+    height: 100%;
+    width: 80%;
+    float: left;
+    outline: none;
+    border: none;
+    border-right: 1px solid #08aba6;
+    color: #08aba6;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    transition: all 0.3s ease-in-out;
+  }
+  .search input::-webkit-input-placeholder{
+    color: #dcdcdc;
+  }
+  .search input:hover{
+    border-color: #08aba6;
+    position: relative;
+    box-shadow: 0 0 10px 0px #08aba6 ;
+  }
+  .search input:focus{
+    position: relative;
+    box-shadow: 0 0 10px 0px #08aba6 ;
+  }
+  .search-button{
+    height: 100%;
+    line-height: 40px;
+    text-align: center;
+    width: 20%;
+    background-color: #08aba6;
+    color: #fff;
+    float: left;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+  }
+  .search-button:hover{
+    background-color: #fff;
+    color: #08aba6;
+  }
+  div.title{
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    width: 140px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+  div.title:hover{
+    color: #08aba6;
+  }
+  div.button{
+    height: 40px;
+    width: 140px;
     background-color: #08aba6;
     color: white;
     text-align: center;
     line-height: 40px;
     transition: all 0.3s ease-in-out;
+    cursor: pointer;
   }
-  .button:hover{
+  div.button:hover{
     background-color: #fff;
     color: #08aba6;
   }

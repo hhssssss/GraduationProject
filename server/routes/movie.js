@@ -6,12 +6,18 @@ const Schema = mongoose.Schema;
 
 let movieSchema = new Schema({
     "ranking" : String,
+    "name" : String,
+    "grade" : String,
+    "title" : String,
+    "alias" : String,
+    "director" :String,
+    "actor" : String,
+    "length" : String,
+    "language" : String,
+    "time" : String,
+    "genre" : String,
+    "country" : String,
     "image" : String,
-    "CnName" : String,
-    "EnName" : String,
-    "information" : String,
-    "rating" : String,
-    "describe" : String,
 });
 
 router.get("/",function (req,res,next) {
@@ -46,7 +52,7 @@ router.get("/",function (req,res,next) {
     //     db.close();
     // })
     let movieQuery = movie.find({});
-    movieQuery.limit(25).skip(pageId*25).exec(function (err,doc) {
+    movieQuery.limit(10).skip(pageId*10).exec(function (err,doc) {
             if(err){
                 res.json({
                     status:'0',
