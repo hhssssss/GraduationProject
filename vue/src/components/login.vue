@@ -138,7 +138,7 @@
     background-color: rgba(255, 255, 255, 0.95);
     width: 420px;
     height: 280px;
-    border: 1px solid #000000;
+    border: 1px solid #08aba6;
     border-radius: 6px;
     padding: 10px;
   }
@@ -150,9 +150,9 @@
     text-align: center;
     font-size: 36px;
     font-weight: bold;
-    color: #bfbfbf;
+    color: #08aba6;
     margin-bottom: 20px;
-    border-bottom: 1px solid #dcdcdc;
+    border-bottom: 1px solid #08aba6;
   }
   .cancel{
     position: absolute;
@@ -190,7 +190,9 @@
     border-radius: 4px;
     padding-left: 52px;
   }
-
+  .login-input-box input::-webkit-input-placeholder{
+    color: #dcdcdc;
+  }
   .login-input-box input:hover{
     border: 1px solid #ff7d0a;
   }

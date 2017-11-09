@@ -35,8 +35,11 @@
             return !this.$store.state.userId;
           }
         },
-        mounted() {
+        created() {
           window.addEventListener('scroll', this.menu);
+        },
+        beforeDestroy () {
+          window.removeEventListener('scroll', this.menu)
         },
         methods:{
           menu() {

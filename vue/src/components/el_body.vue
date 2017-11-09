@@ -11,11 +11,11 @@
                   <span>&laquo;</span>
                 </a>
               </li>
-              <li><a href="#" @click="searchByPageId($event)">{{parseInt(pageId)+1}}</a></li>
-              <li><a href="#" @click="searchByPageId($event)">{{parseInt(pageId)+2}}</a></li>
-              <li><a href="#" @click="searchByPageId($event)">{{parseInt(pageId)+3}}</a></li>
-              <li><a href="#" @click="searchByPageId($event)">{{parseInt(pageId)+4}}</a></li>
-              <li><a href="#" @click="searchByPageId($event)">{{parseInt(pageId)+5}}</a></li>
+              <li><a href="#" @click="searchByPageId($event)">{{pages[0]}}</a></li>
+              <li><a href="#" @click="searchByPageId($event)">{{pages[1]}}</a></li>
+              <li><a href="#" @click="searchByPageId($event)">{{pages[2]}}</a></li>
+              <li><a href="#" @click="searchByPageId($event)">{{pages[3]}}</a></li>
+              <li><a href="#" @click="searchByPageId($event)">{{pages[4]}}</a></li>
               <li>
                 <a href="#" @click="next">
                   <span>&raquo;</span>
@@ -66,6 +66,7 @@
           return {
             movies : [],
             pageId : '0',
+            pages : [1,2,3,4,5],
             collection_icon : collection_icon1,
             comment_icon : comment_icon1,
           }
@@ -94,6 +95,9 @@
           else {
             this.pageId--;
             this.getMoviesList(this.pageId);
+            this.pages.forEach((item,index) => {
+              this.pages[index] = item - 1;
+            })
           }
         },
         next() {
@@ -103,12 +107,15 @@
           else {
             this.pageId++;
             this.getMoviesList(this.pageId);
+            this.pages.forEach((item,index) => {
+              this.pages[index] = item + 1;
+            })
           }
         },
         searchByPageId(e){
-          console.log(e.currentTarget.innerText)
-          this.getMoviesList(e.currentTarget.innerText-1);
-//          this.pageId = e.currentTarget.innerText-1;
+          console.log(e.currentTarget.innerText);
+          this.pageId = e.currentTarget.innerText-1;
+          this.getMoviesList(this.pageId);
         },
         collectionEnter(e){
           let $t = $(e.target)
@@ -133,6 +140,7 @@
 <style scoped lang="less">
   #el_body{
     background-color: #08aba6;
+    padding-bottom: 20px;
   }
   .body-top{
     height: 140px;
@@ -280,8 +288,5 @@
         }
       }
     }
-    .item[index='9']{
-      margin-bottom: 0px;
-  }
   }
 </style>
