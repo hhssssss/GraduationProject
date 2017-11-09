@@ -132,6 +132,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 9;
   }
   .content{
     position: relative;
@@ -194,11 +195,11 @@
     color: #dcdcdc;
   }
   .login-input-box input:hover{
-    border: 1px solid #ff7d0a;
+    border: 1px solid #08aba6;
   }
 
   .login-input-box input:after{
-    border: 1px solid #ff7d0a;
+    border: 1px solid #08aba6;
   }
 
   .login-input-box .icon{

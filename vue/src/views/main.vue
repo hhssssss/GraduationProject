@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="main">
       <el_header @loginShow="loginShow"></el_header>
       <el_body></el_body>
       <el_footer></el_footer>
@@ -55,4 +55,7 @@ export default {
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  #main{
+    height: 100%;
+  }
 </style>

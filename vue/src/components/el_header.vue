@@ -1,11 +1,11 @@
 <template>
     <div id="el_header" :class='{animation1:backgroundFlag,animation2:!backgroundFlag&&initFlag}'>
       <div class="container">
-        <img src="../assets/logo.png" alt="" class="logo">
+        <img src="../assets/logo.png" alt="" class="logo" draggable="false">
         <div class="control">
           <div class="search">
-            <input type="text" placeholder="Search for...">
-            <div class="search-button">Go!</div>
+            <input type="text" placeholder="Search for..." v-model="searchKey" @keyup.enter="search">
+            <div class="search-button" @click="search" >Go!</div>
           </div>
           <div  class="title" v-if="loginFlag">您还未登录!</div>
           <div  class="title" v-else="">欢迎您！&nbsp&nbsp{{userId}}&nbsp&nbsp</div>
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+  import axios from 'axios';
     export default {
         name:'elHeader',
         data() {
@@ -25,6 +26,7 @@
               scroll:'',
               backgroundFlag:false,
               initFlag:false,
+              searchKey:''
             }
         },
         computed:{
@@ -61,6 +63,17 @@
             }
             this.$store.commit('updateUserInfo',content);
           },
+          search(){
+            axios.get("/movies/search", {params:{searchKey:this.searchKey}}).then((response) => {
+              let res = response.data;
+              if (res.status == '1') {
+                this.$parent.$children[1].$data.movies = res.result;
+              } else {
+                this.$parent.$children[1].$data.movies = [];
+              }
+            })
+
+          }
         }
     }
 </script>
@@ -73,7 +86,8 @@
     height: 140px;
     top: 0;
     left: 0;
-    z-index: 99;
+    z-index: 1;
+    user-select: none;
   }
   .animation1{
     animation:myfirst 0.7s ease-in-out;

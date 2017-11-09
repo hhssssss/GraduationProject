@@ -51,6 +51,7 @@
           </div>
         </div>
       </div>
+      <div class="body-tip" v-if="bodyTipFlag">空荡荡的什么也没有，换个词试试吧！</div>
     </div>
 </template>
 
@@ -72,7 +73,13 @@
           }
       },
       computed:{
-
+            bodyTipFlag(){
+              if(this.movies==''){
+                return true;
+              }else {
+                return false;
+              }
+            }
       },
       mounted(){
         this.getMoviesList(this.pageId);
@@ -141,6 +148,7 @@
   #el_body{
     background-color: #08aba6;
     padding-bottom: 20px;
+    min-height: 100%;
   }
   .body-top{
     height: 140px;
@@ -288,5 +296,12 @@
         }
       }
     }
+  }
+  .body-tip{
+    color: #fff;
+    font-size: 28px;
+    text-align: center;
+    width: 100%;
+    margin-top: 140px;
   }
 </style>

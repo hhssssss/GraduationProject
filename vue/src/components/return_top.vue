@@ -39,7 +39,7 @@
     width: 35px;
     background-color: rgba(255,255,255,0.8);
     position: fixed;
-    z-index: 99;
+    z-index: 1;
     right: 12px;
     bottom: 12px;
     box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, .075);
