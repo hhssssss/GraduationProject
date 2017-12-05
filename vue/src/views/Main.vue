@@ -1,19 +1,19 @@
 <template>
     <div id="main">
-      <el_header @loginShow="loginShow"></el_header>
-      <el_body></el_body>
-      <el_footer></el_footer>
+      <elHeader @loginShow="loginShow"></elHeader>
+      <elBody></elBody>
+      <elFooter></elFooter>
       <login v-show="loginShowFlag" @loginHide="loginHide" @loginSuccess="loginSuccess"></login>
-      <return_top></return_top>
+      <returnTop></returnTop>
     </div>
 </template>
 
 <script>
-import el_header from '../components/el_header.vue';
-import el_body from '../components/el_body.vue';
-import login from '../components/login.vue';
-import el_footer from '../components/el_footer.vue';
-import return_top from '../components/return_top.vue';
+import Header from '../components/Header';
+import Body from './selfComponents/main/Body';
+import Login from './selfComponents/main/Login';
+import Footer from '../components/Footer';
+import ReturnTop from './selfComponents/main/ReturnTop';
 export default {
   name: 'main',
   data () {
@@ -30,11 +30,11 @@ export default {
     }
   },
   components:{
-    el_header,
-    el_body,
-    el_footer,
-    login,
-    return_top
+    elHeader:Header,
+    elBody:Body,
+    elFooter:Footer,
+    login:Login,
+    returnTop:ReturnTop
   },
   methods:{
     loginShow(){

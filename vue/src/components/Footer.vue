@@ -1,5 +1,5 @@
 <template>
-    <div id="#el_footer">
+    <div id="footer">
       <div class="main">
         ©&nbsp;&nbsp;归我所有
       </div>
@@ -8,7 +8,7 @@
 
 <script>
     export default {
-      name:'elFooter',
+      name:'footer',
       data() {
           return {}
       }

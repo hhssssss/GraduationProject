@@ -161,7 +161,7 @@
     top: 15px;
     width: 24px;
     height: 24px;
-    background:url("../assets/cancel.png") center no-repeat;
+    background:url("../../../assets/cancel.png") center no-repeat;
     background-size: 24px auto;
     cursor: pointer;
   }
@@ -213,12 +213,12 @@
   }
 
   .login-input-box .icon.icon-user{
-    background: url("../assets/man.png") center no-repeat;
+    background: url("../../../assets/man.png") center no-repeat;
     background-size: 24px auto;
   }
 
   .login-input-box .icon.icon-password{
-    background: url("../assets/pwd.png") center no-repeat;
+    background: url("../../../assets/pwd.png") center no-repeat;
     background-size: 24px auto;
   }
   .login-button-box{

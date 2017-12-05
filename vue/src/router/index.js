@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '../views/Hello.vue'
-import ShowMongodbData from '../views/main.vue'
+import Main from '../views/Main.vue'
+import UserSettings from '../views/UserSettings'
 
 Vue.use(Router)
 
@@ -15,8 +16,13 @@ export default new Router({
     },
     {
       path: '/',
-      name: 'showData',
-      component: ShowMongodbData
+      name: 'Main',
+      component: Main
+    },
+    {
+      path: '/user/settings',
+      name: 'UserSettings',
+      component: UserSettings
     }
   ]
 })

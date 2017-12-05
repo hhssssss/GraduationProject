@@ -1,5 +1,5 @@
 <template>
-    <div id="el_body">
+    <div id="body">
       <div class="body-top"></div>
       <div class="body-mid">
         <div class="body-mid-nav">
@@ -57,12 +57,12 @@
 
 <script>
     import axios from 'axios';
-    import collection_icon1 from '../assets/icon/collection_icon1.png'
-    import collection_icon2 from '../assets/icon/collection_icon2.png'
-    import comment_icon1 from '../assets/icon/comment_icon1.png'
-    import comment_icon2 from '../assets/icon/comment_icon2.png'
+    import collection_icon1 from '../../../assets/icon/collection_icon1.png'
+    import collection_icon2 from '../../../assets/icon/collection_icon2.png'
+    import comment_icon1 from '../../../assets/icon/comment_icon1.png'
+    import comment_icon2 from '../../../assets/icon/comment_icon2.png'
     export default {
-      name:'elBody',
+      name:'body',
       data() {
           return {
             movies : [],
@@ -145,14 +145,15 @@
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-  #el_body{
+  #body{
     background-color: #08aba6;
-    padding-bottom: 20px;
+    margin-bottom: -60px;
     min-height: 100%;
+    padding-bottom: 60px;
   }
   .body-top{
     height: 140px;
-    background: url("../assets/bac.jpg") center no-repeat;
+    background: url("../../../assets/bac.jpg") center no-repeat;
     background-size: 100% auto;
   }
   .body-mid{

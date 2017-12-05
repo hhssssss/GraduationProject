@@ -1,5 +1,5 @@
 <template>
-    <div id="el_header" :class='{animation1:backgroundFlag,animation2:!backgroundFlag&&initFlag}'>
+    <div id="header" :class='{animation1:backgroundFlag,animation2:!backgroundFlag&&initFlag}'>
       <div class="container">
         <img src="../assets/logo.png" alt="" class="logo" draggable="false">
         <div class="control">
@@ -7,11 +7,18 @@
             <input type="text" placeholder="Search for..." v-model="searchKey" @keyup.enter="search">
             <div class="search-button" @click="search" >Go!</div>
           </div>
-          <div  class="title" v-if="loginFlag">您还未登录!</div>
-          <div  class="title" v-else="">欢迎您！&nbsp&nbsp{{userId}}&nbsp&nbsp</div>
-          <div  class="title" v-if="!loginFlag">修改个人信息</div>
+          <!--<div  class="title" v-if="loginFlag">您还未登录!</div>-->
+          <!--<div  class="title" v-else="">欢迎您！&nbsp&nbsp{{userId}}&nbsp&nbsp</div>-->
+          <!--<div  class="title" v-if="!loginFlag">修改个人信息</div>-->
           <div  class='button' @click="loginShow" v-if="loginFlag">登录</div>
-          <div  class='button' @click="loginOut" v-else="">注销</div>
+          <!--<div  class='button' @click="loginOut" v-else="">注销</div>-->
+          <div class="user" v-else @click="userFunctionShow"></div>
+          <transition name="slide-fade">
+            <div class="user-function" v-show="userFunctionFlag">
+              <router-link to="/user/settings"><div class="user-function-item" @click="userFunctionShow">个人信息设置</div></router-link>
+              <div class="user-function-item" @click="loginOut">登出</div>
+            </div>
+          </transition>
         </div>
       </div>
     </div>
@@ -20,13 +27,14 @@
 <script>
   import axios from 'axios';
     export default {
-        name:'elHeader',
+        name:'header',
         data() {
             return {
               scroll:'',
               backgroundFlag:false,
               initFlag:false,
-              searchKey:''
+              searchKey:'',
+              userFunctionFlag:false
             }
         },
         computed:{
@@ -62,6 +70,7 @@
               pwd : ''
             }
             this.$store.commit('updateUserInfo',content);
+            this.userFunctionShow();
           },
           search(){
             axios.get("/movies/search", {params:{searchKey:this.searchKey}}).then((response) => {
@@ -73,13 +82,16 @@
               }
             })
 
+          },
+          userFunctionShow(){
+            this.userFunctionFlag = !this.userFunctionFlag;
           }
         }
     }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-  #el_header{
+<style scoped lang="less">
+  #header{
     position: fixed;
     width: 100%;
     min-width: 1024px;
@@ -199,10 +211,51 @@
     line-height: 40px;
     transition: all 0.3s ease-in-out;
     cursor: pointer;
+    margin-left: 100px;
   }
   div.button:hover{
     background-color: #fff;
     color: #08aba6;
   }
-
+  .user{
+    height: 50px;
+    width: 50px;
+    border-radius: 100%;
+    background-image: url("../assets/user.png");
+    background-size: contain;
+    cursor: pointer;
+    margin-left: 100px;
+  }
+  .user-function{
+    width: 200px;
+    background-color: #fff;
+    position: absolute;
+    top: 100%;
+    padding: 20px 0;
+    color: #333;
+    border-radius: 5px;
+    box-shadow: 0px 0px 3px 3px rgba(0, 0, 0, .075);
+    .user-function-item{
+      height: 35px;
+      line-height: 35px;
+      padding: 0 15px;
+      cursor: pointer;
+      &:hover{
+        background-color: rgba(0,0,0,.05);
+      }
+    }
+  }
+  .slide-fade-enter-active,.slide-fade-leave-active{
+    transition: all .3s ease-in-out;
+  }
+  .slide-fade-enter,.slide-fade-leave-to
+  {
+    transform: translateX(20px);
+    opacity: 0;
+  }
+  a {
+    text-decoration:none;
+    out-line: none;
+    color: #333;
+  }
 </style>
