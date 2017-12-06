@@ -1,4 +1,7 @@
 var express = require('express');
+var formidable = require("formidable"); //载入 formidable
+var path = require("path");
+var fs = require("fs");
 var router = express.Router();
 const mongoose = require('mongoose');
 // const user = require('../models/user');
@@ -96,5 +99,28 @@ router.get("/login",function (req,res,next) {
         }
         db.close();
     });
+});
+router.post("/settings",function (req,res,next) {
+    var form = new formidable.IncomingForm();
+    form.encoding = 'utf-8';
+    form.uploadDir = path.join(__dirname + "/../upload");
+    form.keepExtensions = true;//保留后缀
+    form.maxFieldsSize = 2 * 1024 * 1024;
+    form.parse(req, function (err, fields, files){
+        console.log(files.profilePicture);
+        var filename = files.profilePicture.name
+        var nameArray = filename.split('.');
+        var type = nameArray[nameArray.length - 1];
+        var name = '';
+        for (var i = 0; i < nameArray.length - 1; i++) {
+            name = name + nameArray[i];
+        }
+        var date = new Date();
+        var time = '_' + date.getFullYear() + "_" + date.getMonth() + "_" + date.getDay() + "_" + date.getHours() + "_" + date.getMinutes();
+        var avatarName = name + time + '.' + type;
+        var newPath = form.uploadDir + "/" + avatarName;
+        fs.renameSync(files.profilePicture.path, newPath);  //重命名
+        res.send({data:"/upload/"+avatarName})
+    })
 });
 module.exports = router;
