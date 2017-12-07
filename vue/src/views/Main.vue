@@ -43,12 +43,12 @@ export default {
     loginHide(){
       this.loginShowFlag = !this.loginShowFlag;
     },
-    loginSuccess(id,pwd){
+    loginSuccess(id,pwd,name,pic){
       this.loginShowFlag = !this.loginShowFlag;
       let content = {
-        id,pwd
+        id,pwd,name,pic
       }
-      this.$store.commit('updateUserInfo',content);
+      this.$store.commit('getUserInfo',content);
     }
   }
 }

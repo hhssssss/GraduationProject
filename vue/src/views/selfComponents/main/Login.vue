@@ -71,12 +71,9 @@
             },1000);
             return;
           }
-          let params = {
+          axios.post("/users/register",{
             userId:this.userId,
             userPwd:this.userPwd
-          }
-          axios.get("/users",{
-            params:params
           }).then((response) => {
             let res = response.data;
             if (res.status == '1'){
@@ -96,19 +93,16 @@
           })
         },
         login(){
-          let params = {
+          axios.post("/users/login",{
             userId:this.userId,
             userPwd:this.userPwd
-          }
-          axios.get("/users/login",{
-            params:params
           }).then((response) => {
             let res = response.data;
             if (res.status == '1'){
               this.loginSuccess = true;
               setTimeout(() => {
                 this.loginSuccess = false;
-                this.$emit('loginSuccess',this.userId,this.userPwd)
+                this.$emit('loginSuccess',this.userId,this.userPwd,res.result[0].userName,res.result[0].userProfilePicture)
               },1000)
             }else{
               this.loginFail = true;

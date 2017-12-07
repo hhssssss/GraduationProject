@@ -22,7 +22,10 @@ export default new Router({
     {
       path: '/user/settings',
       name: 'UserSettings',
-      component: UserSettings
+      component: UserSettings,
+      meta: {
+        requireAuth: true,
+      },
     }
   ]
 })

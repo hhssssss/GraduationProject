@@ -12,7 +12,7 @@
           <!--<div  class="title" v-if="!loginFlag">修改个人信息</div>-->
           <div  class='button' @click="loginShow" v-if="loginFlag">登录</div>
           <!--<div  class='button' @click="loginOut" v-else="">注销</div>-->
-          <div class="user" v-else @click="userFunctionShow"></div>
+          <div class="user" v-else @click="userFunctionShow" :style="{ 'background-image' : `url(${userProfilePicture})`}"></div>
           <transition name="slide-fade">
             <div class="user-function" v-show="userFunctionFlag">
               <router-link to="/user/settings"><div class="user-function-item" @click="userFunctionShow">个人信息设置</div></router-link>
@@ -43,6 +43,9 @@
           },
           loginFlag(){
             return !this.$store.state.userId;
+          },
+          userProfilePicture(){
+            return this.$store.state.userProfilePicture
           }
         },
         created() {
@@ -65,12 +68,9 @@
             this.$emit('loginShow')
           },
           loginOut(){
-            let content = {
-              id : '',
-              pwd : ''
-            }
-            this.$store.commit('updateUserInfo',content);
+            this.$store.commit('loginOut');
             this.userFunctionShow();
+            this.$router.push('/')
           },
           search(){
             axios.get("/movies/search", {params:{searchKey:this.searchKey}}).then((response) => {
@@ -221,7 +221,6 @@
     height: 50px;
     width: 50px;
     border-radius: 100%;
-    background-image: url("../assets/user.png");
     background-size: contain;
     cursor: pointer;
     margin-left: 100px;

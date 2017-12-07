@@ -8,7 +8,7 @@
             头像
           </div>
           <div class="right" style="padding: 0">
-            <div class="profile-picture" :style="{ 'background-image' : `url(${imgUrl})`}"></div>
+            <div class="profile-picture" :style="{ 'background-image' : `url(${userProfilePicture})`}"></div>
             <label class="button">
               <input type="file" name="profile-picture" id="profile-picture" accept="image/gif,image/jpeg,image/jpg,image/png" @change="changeImage($event)" ref="profilePicture">上传头像
             </label>
@@ -19,7 +19,7 @@
             昵称
           </div>
           <div class="right">
-            <input type="text" placeholder="填写你的昵称">
+            <input type="text" placeholder="填写你的昵称" v-model="userName">
           </div>
         </div>
         <div class="body-main-item">
@@ -28,9 +28,9 @@
           </div>
           <div class="right sex">
             <!--<input type="text" placeholder="填写你的性别">-->
-            <label class="label-sex"><input name="Sex" type="radio"><span class="radioInput"></span>保密</label>
-            <label class="label-sex"><input name="Sex" type="radio"><span class="radioInput"></span>男</label>
-            <label class="label-sex"><input name="Sex" type="radio"><span class="radioInput"></span>女</label>
+            <label class="label-sex"><input name="Sex" type="radio" value="secret" v-model="userGender"><span class="radioInput"></span>保密</label>
+            <label class="label-sex"><input name="Sex" type="radio" value="boy" v-model="userGender"><span class="radioInput"></span>男</label>
+            <label class="label-sex"><input name="Sex" type="radio" value="girl" v-model="userGender"><span class="radioInput"></span>女</label>
           </div>
         </div>
         <div class="body-main-item">
@@ -38,7 +38,7 @@
             喜欢的电影类型
           </div>
           <div class="right">
-            <input type="text" placeholder="填写你喜欢的电影类型">
+            <input type="text" placeholder="填写你喜欢的电影类型" v-model="userLikeTypes">
           </div>
         </div>
         <div class="body-main-item" style="border-bottom: 1px solid #f1f1f1;">
@@ -46,12 +46,12 @@
             个人介绍
           </div>
           <div class="right">
-            <input type="text" placeholder="填写你擅长的事情，喜欢的事情">
+            <input type="text" placeholder="填写你擅长的事情，喜欢的事情" v-model="userSelfIntroduction">
           </div>
         </div>
         <div class="body-main-bottom">
           <div class="button" @click="saveChanges">保存修改</div>
-          <div class="button">返回</div>
+          <div class="button" @click="goBack">返回</div>
         </div>
       </div>
     </div>
@@ -59,36 +59,67 @@
 
 <script>
   import axios from 'axios';
-  import imgUrl from '../../../assets/user.png'
     export default {
       name: "body",
-      data(){
-          return{
-            imgUrl: imgUrl
-          }
+      data() {
+        return {
+          userProfilePicture: '',
+          userName: '',
+          userGender: '',
+          userSelfIntroduction: '',
+          userLikeTypes: '',
+        }
       },
-      methods:{
+      mounted() {
+        axios.get('/users/getUserInfo', {params: {userId: this.$store.state.userId}}).then((response) => {
+          let res = response.data;
+          if (res.status == '1') {
+            this.userProfilePicture = !res.result[0].userProfilePicture ? this.$store.state.userProfilePicture : 'data:image/png;base64,' + res.result[0].userProfilePicture;
+            this.userName = res.result[0].userName;
+            this.userGender = res.result[0].userGender;
+            this.userSelfIntroduction = res.result[0].userSelfIntroduction;
+            this.userLikeTypes = res.result[0].userLikeTypes;
+          } else {
+            console.log(res)
+          }
+        })
+      },
+      methods: {
         changeImage(e) {
           var file = e.target.files[0];
           var reader = new FileReader();
           var that = this;
           reader.readAsDataURL(file);
-          reader.onload = function() {
-            that.imgUrl = this.result
+          reader.onload = function () {
+            that.userProfilePicture = this.result
           }
         },
-        saveChanges(){
-          if (this.$refs.profilePicture.files.length !== 0) {
-            var image = new FormData()
-            image.append('profilePicture', this.$refs.profilePicture.files[0])
-            axios.post('/users/settings', image, {
-              headers: {
-                "Content-Type": "multipart/form-data"
+        saveChanges() {
+          var infoData = new FormData();
+          infoData.append('profilePicture', this.$refs.profilePicture.files[0] ? this.$refs.profilePicture.files[0] : '');
+          infoData.append('profilePictureFlag', this.$refs.profilePicture.files[0] ? '1' : '0');
+          infoData.append('userName', this.userName);
+          infoData.append('userLikeTypes', this.userLikeTypes);
+          infoData.append('userSelfIntroduction', this.userSelfIntroduction);
+          infoData.append('userGender', this.userGender);
+          infoData.append('userId', this.$store.state.userId)
+          axios.post('/users/settings', infoData, {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          }).then((response) => {
+            let res = response.data;
+            if(res.status=="1"){
+              let content = {
+                name:this.userName,
+                pic:this.userProfilePicture
               }
-            }).then((response) => {
-              console.log(response)
-            })
-          }
+              this.$store.commit('updateUserInfo1',content);
+            }
+          })
+        },
+        goBack(){
+          this.$router.go(-1)
         }
       }
     }
