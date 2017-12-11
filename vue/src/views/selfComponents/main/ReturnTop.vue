@@ -1,8 +1,13 @@
 <template>
     <div id="returnTop">
-      <div class="main" @click="backToTop" v-show="show">
-        <img src="../../../assets/return_top.png" alt="返回顶部" draggable="false">
-      </div>
+      <transition v-on:before-enter="beforeEnter"
+                  v-on:enter="enter"
+                  v-on:leave="leave"
+                  v-bind:css="false">
+        <div class="main" @click="backToTop" v-show="show">
+          <img src="../../../assets/return_top.png" alt="返回顶部" draggable="false">
+        </div>
+      </transition>
     </div>
 </template>
 
@@ -29,6 +34,16 @@
         backToTop () {
           scrollIt(0, 400, 'linear', this.currentPageYOffset);
         },
+        beforeEnter: function (el) {
+          el.style.opacity = 0
+        },
+        enter: function (el, done) {
+          Velocity(el, { opacity: 1, height: 45,width: 45 }, { duration: 300 })
+          Velocity(el, { height: 35,width: 35 }, { complete: done })
+        },
+        leave: function (el, done) {
+          Velocity(el, { opacity: 0,  }, { duration: 600,complete: done })
+        }
       }
     }
 </script>

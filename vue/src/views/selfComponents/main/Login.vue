@@ -9,12 +9,14 @@
         <div v-if="registerError" >账号或密码不能为空！</div>
         <div v-if="loginSuccess" style="color: #419641">登陆成功！</div>
       </div>
-      <div class="login-header" v-if="loginHeader">
-        LOGIN
-      </div>
-      <div class="login-header" v-else="">
-        Register
-      </div>
+      <transition name="slide-fade" mode="out-in">
+        <div class="login-header" v-if="loginHeader" :key="1">
+          LOGIN
+        </div>
+        <div class="login-header" v-else="" :key="2">
+          Register
+        </div>
+      </transition>
       <form>
         <div class="login-input-box">
           <span class="icon icon-user"></span>
@@ -27,9 +29,9 @@
       </form>
       <div class="login-button-box">
         <button type="button" class="btn btn-default" @click="registerShow" v-if="loginHeader">注册</button>
-        <button type="button" class="btn btn-default" @click="registerHide" v-else="">取消</button>
+        <button type="button" class="btn btn-default" @click="registerHide" v-if="!loginHeader">取消</button>
         <button type="button" class="btn btn-default" v-if="loginHeader" @click="login">登录</button>
-        <button type="button" class="btn btn-default" v-else="" @click="register">确认</button>
+        <button type="button" class="btn btn-default" v-if="!loginHeader" @click="register">确认</button>
       </div>
     </div>
   </div>
@@ -121,7 +123,7 @@
     position: fixed;
     height: 100%;
     width: 100%;
-    top: 0;
+    top: -100px;
     background: rgba(0,0,0,0.3);
     display: flex;
     justify-content: center;
@@ -224,5 +226,15 @@
   }
   .login-button-box button{
     width: 80px;
+  }
+  .slide-fade-enter-active {
+    transition: all .3s ease-in-out;
+  }
+  .slide-fade-leave-active {
+    transition: all .3s ease-in-out;
+  }
+  .slide-fade-enter, .slide-fade-leave-to
+  {
+    opacity: 0;
   }
 </style>

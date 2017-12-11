@@ -24,7 +24,16 @@
             </ul>
           </div>
         </div>
-        <div v-for="(movie,index) in movies" class="body-mid-content">
+        <transition-group
+          name="fade"
+          mode="in-out"
+          tag="div"
+          v-bind:css="false"
+          v-on:before-enter="beforeEnter"
+          v-on:enter="enter"
+          v-on:leave="leave"
+        >
+          <div v-for="(movie,index) in movies" class="body-mid-content" v-bind:key="movie.ranking">
           <div class="item" :index="index">
             <div class="pic">
               <div>{{movie.ranking}}.</div>
@@ -50,6 +59,7 @@
             </div>
           </div>
         </div>
+        </transition-group>
       </div>
       <div class="body-tip" v-if="bodyTipFlag">空荡荡的什么也没有，换个词试试吧！</div>
     </div>
@@ -102,21 +112,29 @@
           else {
             this.pageId--;
             this.getMoviesList(this.pageId);
-            this.pages.forEach((item,index) => {
-              this.pages[index] = item - 1;
-            })
+            if(this.pages[0]==1)
+              return;
+            else {
+              this.pages.forEach((item,index) => {
+                this.pages[index] = item - 1;
+              })
+            }
           }
         },
         next() {
-          if (this.pageId >= 20) {
+          if (this.pageId >= 24) {
             return;
           }
           else {
             this.pageId++;
             this.getMoviesList(this.pageId);
-            this.pages.forEach((item,index) => {
-              this.pages[index] = item + 1;
-            })
+            if(this.pages[4]==25)
+              return;
+            else {
+              this.pages.forEach((item, index) => {
+                this.pages[index] = item + 1;
+              })
+            }
           }
         },
         searchByPageId(e){
@@ -140,6 +158,23 @@
           let $t = $(e.target)
           $t.find('img').attr('src',this.comment_icon);
         },
+        beforeEnter: function (el) {
+          el.style.opacity = 0
+        },
+        enter: function (el, done) {
+            Velocity(
+              el,
+              { opacity: 1,translateY:-100},
+              { complete: done,duration:800 }
+            )
+        },
+        leave: function (el, done) {
+            Velocity(
+              el,
+              {opacity: 0},
+              {complete: done,duration:400}
+            )
+        }
       }
     }
 </script>
@@ -166,10 +201,10 @@
       user-select: none;
       cursor: default;
       position: relative;
+      margin-bottom: 100px;
       .flip{
         position: absolute;
         height: 80px;
-        /*background-color: rebeccapurple;*/
         width: 400px;
         bottom: 0;
         right: 0;

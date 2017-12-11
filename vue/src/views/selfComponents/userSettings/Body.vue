@@ -1,6 +1,12 @@
 <template>
     <div id="body">
       <div class="body-top"></div>
+      <transition
+        appear
+        appear-class="custom-appear-class"
+        appear-to-class="custom-appear-to-class"
+        appear-active-class="custom-appear-active-class"
+      >
       <div class="body-main">
         <div class="body-main-title">个人资料</div>
         <div class="body-main-item">
@@ -54,6 +60,7 @@
           <div class="button" @click="goBack">返回</div>
         </div>
       </div>
+      </transition>
     </div>
 </template>
 
@@ -239,5 +246,15 @@
       background-color: #fff;
       color: #08aba6;
     }
+  }
+  .custom-appear-class{
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  .custom-appear-to-class{
+    opacity: 1;
+  }
+  .custom-appear-active-class{
+    transition: all 1s;
   }
 </style>

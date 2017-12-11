@@ -7,11 +7,7 @@
             <input type="text" placeholder="Search for..." v-model="searchKey" @keyup.enter="search">
             <div class="search-button" @click="search" >Go!</div>
           </div>
-          <!--<div  class="title" v-if="loginFlag">您还未登录!</div>-->
-          <!--<div  class="title" v-else="">欢迎您！&nbsp&nbsp{{userId}}&nbsp&nbsp</div>-->
-          <!--<div  class="title" v-if="!loginFlag">修改个人信息</div>-->
           <div  class='button' @click="loginShow" v-if="loginFlag">登录</div>
-          <!--<div  class='button' @click="loginOut" v-else="">注销</div>-->
           <div class="user" v-else @click="userFunctionShow" :style="{ 'background-image' : `url(${userProfilePicture})`}"></div>
           <transition name="slide-fade">
             <div class="user-function" v-show="userFunctionFlag">
@@ -98,7 +94,7 @@
     height: 140px;
     top: 0;
     left: 0;
-    z-index: 1;
+    z-index: 9;
     user-select: none;
   }
   .animation1{

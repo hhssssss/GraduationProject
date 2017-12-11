@@ -6,6 +6,8 @@ import App from './App'
 import router from './router'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.min.js'
+var Velocity = require("../node_modules/velocity-animate/velocity");
+require("../node_modules/velocity-animate/velocity.ui.js");
 import imgUrl from './assets/user.png'
 Vue.use(Vuex);
 Vue.config.productionTip = false
