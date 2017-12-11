@@ -167,7 +167,6 @@
     width: 400px;
     height: 50px;
     line-height: 50px;
-    /*background-color: rebeccapurple;*/
     text-align: center;
     color: #c12e2a;
   }

@@ -29,6 +29,7 @@ db.on("error",function () {
 db.on("disconnected",function () {
     console.log("mongodb disconnected");
 });
+
 router.post("/register",function (req,res,next) {
     let user = db.model('user',userSchema,'users');
     let content = {

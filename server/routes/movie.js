@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-// const movie = require('../models/movie');
 const Schema = mongoose.Schema;
 
 let movieSchema = new Schema({
@@ -20,54 +19,40 @@ let movieSchema = new Schema({
     "image" : String,
 });
 
+let db = mongoose.createConnection('mongodb://127.0.0.1:27017/doubanTop250');
+
+db.on("connected",function () {
+    console.log("mongodb connected success");
+});
+
+db.on("error",function () {
+    console.log("mongodb connected fail");
+});
+
+db.on("disconnected",function () {
+    console.log("mongodb disconnected");
+});
+
 router.get("/",function (req,res,next) {
-    let db = mongoose.createConnection('mongodb://127.0.0.1:27017/doubanTop250');
-
-    db.on("connected",function () {
-        console.log("mongodb-doubanTop250 connected success");
-    });
-
-    db.on("error",function () {
-        console.log("mongodb-doubanTop250 connected fail");
-    });
-
-    db.on("disconnected",function () {
-        console.log("mongodb-doubanTop250 disconnected");
-    });
     let pageId = req.param('pageId');
-    let searchKey = req.param('searchKey');
     let movie = db.model('movie',movieSchema,'movies');
     let movieQuery = movie.find({});
     movieQuery.limit(10).skip(pageId*10).exec(function (err,doc) {
-            if(err){
-                res.json({
-                    status:'0',
-                    msg:err.message
-                })
-            }else{
-                res.json({
-                    status:'1',
-                    message:doc.length,
-                    result:doc
-                })
-            }
-            db.close();
+        if(err){
+            res.json({
+                status:'0',
+                msg:err.message
+            })
+        }else{
+            res.json({
+                status:'1',
+                message:doc.length,
+                result:doc
+            })
+        }
     })
 });
 router.get("/search",function (req,res,next) {
-    let db = mongoose.createConnection('mongodb://127.0.0.1:27017/doubanTop250');
-
-    db.on("connected",function () {
-        console.log("mongodb-doubanTop250 connected success");
-    });
-
-    db.on("error",function () {
-        console.log("mongodb-doubanTop250 connected fail");
-    });
-
-    db.on("disconnected",function () {
-        console.log("mongodb-doubanTop250 disconnected");
-    });
     let searchKey = req.param('searchKey');
     let movie = db.model('movie',movieSchema,'movies');
     let movieQuery = movie.find({$or:[
@@ -94,7 +79,6 @@ router.get("/search",function (req,res,next) {
                 result:doc,
             })
         }
-        db.close();
     })
 });
 module.exports = router;
