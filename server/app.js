@@ -44,5 +44,8 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
+//全局抓取错误防止服务器崩掉
+process.on('uncaughtException', function(err){
+    console.error('got an error: %s', err.message);
+});
 module.exports = app;

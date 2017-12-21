@@ -37,7 +37,7 @@
           <div class="item" :index="index">
             <div class="pic">
               <div>{{movie.ranking}}.</div>
-              <img :src=movie.image :alt=movie.CnName draggable="false">
+              <img :src='`/movies/getImg?imgId=${movie.image}`' :alt=movie.CnName draggable="false">
             </div>
             <div class="info">
               <p>{{movie.title}}</p>

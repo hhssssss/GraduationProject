@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const model = require('../db/index');
+const fs = require("fs");
+const path = require("path");
 
 router.get("/",function (req,res,next) {
     let pageId = req.param('pageId');
@@ -19,6 +21,11 @@ router.get("/",function (req,res,next) {
                     })
         }
     })
+});
+router.get("/getImg",function (req,res,next) {
+    let imgId = req.param('imgId');
+    let read = fs.createReadStream(path.join(__dirname+'/../assets/movieImg',imgId));
+    read.pipe(res)
 });
 router.get("/search",function (req,res,next) {
     let searchKey = req.param('searchKey');
