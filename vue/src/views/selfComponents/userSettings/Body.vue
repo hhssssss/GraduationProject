@@ -176,7 +176,6 @@
           height: 60px;
           width: 60px;
           border-radius: 100%;
-          /*background-image: url("../../../assets/user.png");*/
           background-size: contain;
           margin-right: 100px;
           display: inline-block;
