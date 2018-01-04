@@ -62,26 +62,26 @@
                   <div class="controlSelfComment">
                     <div class="controlSelfComment1">
                       <div class="userImg" :style="{ 'background-image' : `url(${userProfilePicture})`}"></div>
-                      <input type="text" v-model="selfComment">
+                      <input type="text" v-model="selfComment[index]">
                     </div>
-                    <div class='button'>评论</div>
+                    <div class='button' @click="addComment(movie.ranking,index)">评论</div>
                   </div>
                 </div>
-                <div class="tip" v-if="false">
+                <div class="tip" v-if="!moviesComment[index]">
                   还没有人评论，快来评论吧！
                 </div>
-                <div class="othersComment" v-if="true">
-                  <div class="othersCommentItem">
-                    <div class="userImg" :style="{ 'background-image' : `url(${userProfilePicture})`}"></div>
+                <div class="othersComment" v-if="moviesComment[index]">
+                  <div class="othersCommentItem" v-for="(shortComment,index1) in movies[index].shortComments.comments" v-bind:key="shortComment.userId">
+                    <div class="userImg" :style="{ 'background-image' : `url(${shortComment.userImg})`}"></div>
                     <div class="mainContent">
                       <div class="top">
-                        <span class="userName">王二：</span>
-                        <span class="userComment">王二你好11111111111111111111111</span>
+                        <span class="userName">{{shortComment.userName}}：</span>
+                        <span class="userComment">{{shortComment.comment}}</span>
                         <div class="userControl">
-                          <div class="time">2018/1/1</div>
+                          <div class="time">{{shortComment.time}}</div>
                           <div class="reply">
-                            <div @click="reply(index)">回复</div>
-                            <div>赞&nbsp;&nbsp;5</div>
+                            <div @click="reply(index1)">回复</div>
+                            <div>赞&nbsp;&nbsp;{{shortComment.admireNumber||"0"}}</div>
                           </div>
                         </div>
                         <div class="replyUser" v-if="replyCommentFlag[index]">
@@ -90,23 +90,15 @@
                         </div>
                       </div>
                       <div class="bottom">
-                        <div class="replyItem">
-                          <span class="userName">王二：</span>
-                          <span class="userComment">王二你好11111111111111111111111</span>
+                        <div class="replyItem" v-for="(reply,index2) in shortComment.reply" v-bind:key="reply.userId">
+                          <span class="userName">{{reply.userName}}：</span>
+                          <span class="userComment">{{reply.comment}}</span>
                           <div class="userControl">
-                            <div class="time">2018/1/1</div>
-                            <div class="reply">赞&nbsp;&nbsp;5</div>
+                            <div class="time">{{reply.time}}</div>
+                            <div class="reply">赞&nbsp;&nbsp;{{reply.admireNumber||"0"}}</div>
                           </div>
                         </div>
-                        <div class="replyItem">
-                          <span class="userName">王二：</span>
-                          <span class="userComment">王二你好11111111111111111111111</span>
-                          <div class="userControl">
-                            <div class="time">2018/1/1</div>
-                            <div class="reply">赞&nbsp;&nbsp;2</div>
-                          </div>
-                        </div>
-                        <div class="totalTip">共2条回复</div>
+                        <div class="totalTip">共{{reply.length}}条回复</div>
                       </div>
                     </div>
                   </div>
@@ -143,25 +135,25 @@
             commentIsActive_click : [0,0,0,0,0,0,0,0,0,0],
             fontActive : 'font-active',
             fontNormal : 'font-normal',
-            selfComment : '',
+            selfComment : ['','','','','','','','','',''],
             replyCommentFlag : [0,0,0,0,0,0,0,0,0,0],
+            moviesComment : [0,0,0,0,0,0,0,0,0,0],
           }
       },
-      computed:{
-        bodyTipFlag(){
-          if(this.movies==''){
+      computed: {
+        bodyTipFlag() {
+          if (this.movies == '') {
             return true;
-          }else {
+          } else {
             return false;
           }
         },
-        userProfilePicture(){
+        userProfilePicture() {
           return this.$store.state.userProfilePicture
         },
-        loginFlag(){
+        loginFlag() {
           return this.$store.state.userName ? true : false;
-        }
-
+        },
       },
       mounted(){
         this.getMoviesList(this.pageId);
@@ -236,7 +228,39 @@
           this.$set(this.commentIsActive_click, index, !this.commentIsActive_click[index]);
           if(this.commentIsActive_click[index] == 0){
             this.$set(this.commentIsActive_hover, index, 0);
-          }
+          };
+          axios.get("/shortComments/two", {params:{movieId:this.movies[index].ranking}}).then((response) => {
+            let res = response.data;
+            if (res.status == '1') {
+              this.movies[index].shortComments = res.result;
+              if(res.result.length>0){
+                this.$set(this.moviesComment, index, 1);
+              }
+            } else {
+              this.movies[index].shortComments = '';
+            }
+          })
+        },
+        addComment(movieId,index){
+          let time = new Date();
+          axios.post("/shortComments/addComment",
+            {
+              movieId:movieId,
+              // userImg:this.$store.state.userProfilePicture,
+              userId:this.$store.state.userId,
+              userName:this.$store.state.userName,
+              comment:this.selfComment[index],
+              time:[time.getFullYear(),time.getMonth()+1,time.getDate()].join('-')+' '+[time.getHours(),time.getMinutes(),time.getSeconds()].join(':')
+            }).then((response) => {
+              let res = response.data;
+              if(res.status == 1)
+              {
+                this.selfComment[index] = '';
+              }
+              else {
+                console.log(res.message)
+              }
+          })
         },
         beforeEnter: function (el) {
           el.style.opacity = 0
