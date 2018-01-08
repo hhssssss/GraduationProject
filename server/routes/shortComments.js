@@ -22,15 +22,15 @@ router.get("/two",function (req,res,next) {
     })
 });
 router.post("/addComment",function (req,res,next) {
-    let comment = {
-        // userImg : req.body.userImg,
-        userId : req.body.userId,
-        userName : req.body.userName,
-        comment : req.body.comment,
-        time : req.body.time,
-        admireNumber : '0',
-        reply : []
-    }
+    // let comment = {
+    //     // userImg : req.body.userImg,
+    //     userId : req.body.userId,
+    //     userName : req.body.userName,
+    //     comment : req.body.comment,
+    //     time : req.body.time,
+    //     admireNumber : '0',
+    //     reply : []
+    // }
     // console.log(req.body)
     // model.shortComment.update({movieId:req.body.movieId},{$push:{comments:comment}},function(err,doc){
     //     if (err) {
@@ -47,6 +47,5 @@ router.post("/addComment",function (req,res,next) {
     //         })
     //     }
     //     });
-
 });
 module.exports = router;
