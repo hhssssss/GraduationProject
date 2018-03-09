@@ -34,7 +34,7 @@ module.exports = {
       '/movies':{
         target:'http://localhost:3000'
       },
-      '/shortComments':{
+      '/movieComments':{
         target:'http://localhost:3000'
       }
     },

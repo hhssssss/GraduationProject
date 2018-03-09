@@ -67,38 +67,38 @@
                     <div class='button' @click="addComment(movie.ranking,index)">评论</div>
                   </div>
                 </div>
-                <div class="tip" v-if="!moviesComment[index]">
+                <div class="tip" v-if="!moviesCommentFlag[index]">
                   还没有人评论，快来评论吧！
                 </div>
-                <div class="othersComment" v-if="moviesComment[index]">
-                  <div class="othersCommentItem" v-for="(shortComment,index1) in movies[index].shortComments.comments" v-bind:key="shortComment.userId">
-                    <div class="userImg" :style="{ 'background-image' : `url(${shortComment.userImg})`}"></div>
+                <div class="othersComment" v-if="moviesCommentFlag[index]">
+                  <div class="othersCommentItem" v-for="(movieComment,index1) in movies[index].movieComments" v-bind:key="movieComment.user.userName">
+                    <div class="userImg" :style="{ 'background-image' : `url(${movieComment.user.userProfilePicture ? 'data:image/png;base64,'+ movieComment.user.userProfilePicture : defaultUserImg})`}"></div>
                     <div class="mainContent">
                       <div class="top">
-                        <span class="userName">{{shortComment.userName}}：</span>
-                        <span class="userComment">{{shortComment.comment}}</span>
+                        <span class="userName">{{movieComment.user.userName}}：</span>
+                        <span class="userComment">{{movieComment.comment}}</span>
                         <div class="userControl">
-                          <div class="time">{{shortComment.time}}</div>
+                          <div class="time">{{movieComment.time}}</div>
                           <div class="reply">
-                            <div @click="reply(index1)">回复</div>
-                            <div>赞&nbsp;&nbsp;{{shortComment.admireNumber||"0"}}</div>
+                            <div @click="reply(index,index1)">回复</div>
+                            <div>赞&nbsp;&nbsp;{{movieComment.admireNumber||"0"}}</div>
                           </div>
                         </div>
-                        <div class="replyUser" v-if="replyCommentFlag[index]">
-                          <input type="text" >
-                          <div class='button'>回复</div>
+                        <div class="replyUser" v-if="replyCommentFlag[index][index1]">
+                          <input type="text" v-model="selfReplyComment[index][index1]">
+                          <div class='button' @click="addReply(movieComment._id,index,index1)">回复</div>
                         </div>
                       </div>
                       <div class="bottom">
-                        <div class="replyItem" v-for="(reply,index2) in shortComment.reply" v-bind:key="reply.userId">
-                          <span class="userName">{{reply.userName}}：</span>
+                        <div class="replyItem" v-for="(reply,index2) in movieComment.reply" v-bind:key="reply.userId">
+                          <span class="userName">{{reply.user.userName}}：</span>
                           <span class="userComment">{{reply.comment}}</span>
                           <div class="userControl">
                             <div class="time">{{reply.time}}</div>
-                            <div class="reply">赞&nbsp;&nbsp;{{reply.admireNumber||"0"}}</div>
+                            <div class="reply">赞&nbsp;&nbsp;{{reply.numberOfLike||"0"}}</div>
                           </div>
                         </div>
-                        <div class="totalTip">共{{reply.length}}条回复</div>
+                        <div class="totalTip">共{{movieComment.reply.length}}条回复</div>
                       </div>
                     </div>
                   </div>
@@ -118,10 +118,12 @@
     import collection_icon2 from '../../../assets/icon/collection_icon2.png'
     import comment_icon1 from '../../../assets/icon/comment_icon1.png'
     import comment_icon2 from '../../../assets/icon/comment_icon2.png'
+    import defaultUserImg from '../../../assets/user.png'
     export default {
       name:'body',
       data() {
           return {
+            defaultUserImg:defaultUserImg,
             movies : [],
             pageId : '0',
             pages : [1,2,3,4,5],
@@ -136,8 +138,9 @@
             fontActive : 'font-active',
             fontNormal : 'font-normal',
             selfComment : ['','','','','','','','','',''],
-            replyCommentFlag : [0,0,0,0,0,0,0,0,0,0],
-            moviesComment : [0,0,0,0,0,0,0,0,0,0],
+            selfReplyComment : [['','','','',''],['','','','',''],['','','','',''],['','','','',''],['','','','',''],['','','','',''],['','','','',''],['','','','',''],['','','','',''],['','','','','']],
+            replyCommentFlag : [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]],
+            moviesCommentFlag : [0,0,0,0,0,0,0,0,0,0],
           }
       },
       computed: {
@@ -229,12 +232,13 @@
           if(this.commentIsActive_click[index] == 0){
             this.$set(this.commentIsActive_hover, index, 0);
           };
-          axios.get("/shortComments/two", {params:{movieId:this.movies[index].ranking}}).then((response) => {
+          axios.get("/movieComments/five", {params:{movieId:this.movies[index].ranking}}).then((response) => {
             let res = response.data;
+            console.log(res);
             if (res.status == '1') {
-              this.movies[index].shortComments = res.result;
+              this.movies[index].movieComments = res.result;
               if(res.result.length>0){
-                this.$set(this.moviesComment, index, 1);
+                this.$set(this.moviesCommentFlag, index, 1);
               }
             } else {
               this.movies[index].shortComments = '';
@@ -242,15 +246,12 @@
           })
         },
         addComment(movieId,index){
-          let time = new Date();
-          axios.post("/shortComments/addComment",
+          axios.post("/movieComments/addComment",
             {
               movieId:movieId,
-              // userImg:this.$store.state.userProfilePicture,
               userId:this.$store.state.userId,
-              userName:this.$store.state.userName,
               comment:this.selfComment[index],
-              time:[time.getFullYear(),time.getMonth()+1,time.getDate()].join('-')+' '+[time.getHours(),time.getMinutes(),time.getSeconds()].join(':')
+              user_id:this.$store.state._id
             }).then((response) => {
               let res = response.data;
               if(res.status == 1)
@@ -279,8 +280,26 @@
               {complete: done,duration:400}
             )
         },
-        reply(index){
-          this.$set(this.replyCommentFlag, index, !this.replyCommentFlag[index]);
+        reply(index,index1){
+          this.$set(this.replyCommentFlag[index], index1, !this.replyCommentFlag[index][index1]);
+        },
+        addReply(movieCommentId,index,index1){
+          // console.log(movieCommentId,user_id)
+          axios.post("/movieComments/addReply",
+            {
+              comment_id:movieCommentId,
+              user_id:this.$store.state._id,
+              comment:this.selfReplyComment[index][index1]
+            }).then((response) => {
+            let res = response.data;
+            if(res.status == 1)
+            {
+              this.selfComment[index] = '';
+            }
+            else {
+              console.log(res.message)
+            }
+          })
         }
 
       }

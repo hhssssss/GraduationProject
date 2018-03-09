@@ -18,6 +18,7 @@ const store = new Vuex.Store({
     userId:'',
     userPwd:'',
     userProfilePicture:'',
+    _id:'',
   },
   mutations:{
     getUserInfo(state,content){
@@ -25,6 +26,7 @@ const store = new Vuex.Store({
       state.userId = content.id;
       state.userPwd = content.pwd;
       state.userProfilePicture = !content.pic?imgUrl:'data:image/png;base64,'+content.pic;
+      state._id = content._id;
     },
     updateUserInfo1(state,content){
       state.userName = content.name
@@ -35,6 +37,7 @@ const store = new Vuex.Store({
       state.userId = '';
       state.userPwd = '';
       state.userProfilePicture = '';
+      state._id = '';
     }
   }
 })
