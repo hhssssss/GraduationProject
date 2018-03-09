@@ -61,9 +61,9 @@ router.post("/addReply",function (req,res,next) {
         }
         else {
             model.movieComment.find({_id:req.body.comment_id},function(err,result){
-                result.reply.push(movieCommentReplyEntity._id);
-                result.save(function(err){
-                    console.log(err.message);
+                result[0].reply.push(movieCommentReplyEntity._id);
+                result[0].save(function(err){
+                    // console.log(err);
                 })
             })
             return  res.json({
