@@ -11,7 +11,7 @@ let MovieCommentReplySchema = new mongoose.Schema({
         default : new Date().toLocaleString()
     },
     numberOfLike : {
-        type : String,
+        type : Number,
         default : '0'
     },
     comment : String,

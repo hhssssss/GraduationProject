@@ -62,7 +62,7 @@
                   <div class="controlSelfComment">
                     <div class="controlSelfComment1">
                       <div class="userImg" :style="{ 'background-image' : `url(${userProfilePicture})`}"></div>
-                      <input type="text" v-model="selfComment[index]">
+                      <input type="text" v-model="selfComment[index]" @keyup.enter="addComment(movie.ranking,index)">
                     </div>
                     <div class='button' @click="addComment(movie.ranking,index)">评论</div>
                   </div>
@@ -81,21 +81,21 @@
                           <div class="time">{{movieComment.time}}</div>
                           <div class="reply">
                             <div @click="reply(index,index1)">回复</div>
-                            <div>赞&nbsp;&nbsp;{{movieComment.admireNumber||"0"}}</div>
+                            <div @click="addNumberOfLike_comment(index,index1)">赞&nbsp;&nbsp;{{movieComment.numberOfLike||"0"}}</div>
                           </div>
                         </div>
-                        <div class="replyUser" v-if="replyCommentFlag[index][index1]">
-                          <input type="text" v-model="selfReplyComment[index][index1]">
+                        <div class="replyUser" v-if="replyCommentFlag[index][index1]&&loginFlag">
+                          <input type="text" v-model="selfReplyComment[index][index1]" @keyup.enter="addReply(movieComment._id,index,index1)">
                           <div class='button' @click="addReply(movieComment._id,index,index1)">回复</div>
                         </div>
                       </div>
                       <div class="bottom">
-                        <div class="replyItem" v-for="(reply,index2) in movieComment.reply" v-bind:key="reply.userId">
+                        <div class="replyItem" v-for="(reply,index2) in movieComment.reply.slice(0,2)" v-bind:key="reply.userId">
                           <span class="userName">{{reply.user.userName}}：</span>
                           <span class="userComment">{{reply.comment}}</span>
                           <div class="userControl">
                             <div class="time">{{reply.time}}</div>
-                            <div class="reply">赞&nbsp;&nbsp;{{reply.numberOfLike||"0"}}</div>
+                            <div class="reply" @click="addNumberOfLike_commentReply(index,index1,index2)">赞&nbsp;&nbsp;{{reply.numberOfLike||"0"}}</div>
                           </div>
                         </div>
                         <div class="totalTip">共{{movieComment.reply.length}}条回复</div>
@@ -232,9 +232,12 @@
           if(this.commentIsActive_click[index] == 0){
             this.$set(this.commentIsActive_hover, index, 0);
           };
+          this.getMovieComment(index);
+        },
+        getMovieComment(index){
           axios.get("/movieComments/five", {params:{movieId:this.movies[index].ranking}}).then((response) => {
             let res = response.data;
-            console.log(res);
+            // console.log(res);
             if (res.status == '1') {
               this.movies[index].movieComments = res.result;
               if(res.result.length>0){
@@ -246,22 +249,29 @@
           })
         },
         addComment(movieId,index){
-          axios.post("/movieComments/addComment",
-            {
-              movieId:movieId,
-              userId:this.$store.state.userId,
-              comment:this.selfComment[index],
-              user_id:this.$store.state._id
-            }).then((response) => {
+          if(this.selfComment[index]===""){
+            return console.log("评论内容不能为空");
+          }
+          else {
+            axios.post("/movieComments/addComment",
+              {
+                movieId:movieId,
+                userId:this.$store.state.userId,
+                comment:this.selfComment[index],
+                user_id:this.$store.state._id
+              }).then((response) => {
               let res = response.data;
               if(res.status == 1)
               {
-                this.selfComment[index] = '';
+                console.log('添加评论成功');
+                this.getMovieComment(index);
+                this.$set(this.selfComment, index, '');
               }
               else {
                 console.log(res.message)
               }
-          })
+            })
+          }
         },
         beforeEnter: function (el) {
           el.style.opacity = 0
@@ -284,24 +294,56 @@
           this.$set(this.replyCommentFlag[index], index1, !this.replyCommentFlag[index][index1]);
         },
         addReply(movieCommentId,index,index1){
-          // console.log(movieCommentId,user_id)
-          axios.post("/movieComments/addReply",
-            {
-              comment_id:movieCommentId,
-              user_id:this.$store.state._id,
-              comment:this.selfReplyComment[index][index1]
-            }).then((response) => {
+          if(this.selfReplyComment[index][index1]===""){
+            return console.log("评论内容不能为空");
+          }
+          else {
+            axios.post("/movieComments/addReply",
+              {
+                comment_id: movieCommentId,
+                user_id: this.$store.state._id,
+                comment: this.selfReplyComment[index][index1]
+              }).then((response) => {
+              let res = response.data;
+              if (res.status == 1) {
+                console.log('添加评论成功');
+                this.getMovieComment(index);
+                this.$set(this.selfReplyComment[index], index1, '');
+              }
+              else {
+                console.log(res.message)
+              }
+            })
+          }
+        },
+        addNumberOfLike_comment(index,index1){
+          let content = this.movies[index];
+          content.movieComments[index1].numberOfLike = content.movieComments[index1].numberOfLike + 1;
+          this.$set(this.movies, index, content);
+          axios.get("/movieComments/addNumberOfLike_comment", {params:{_id:this.movies[index].movieComments[index1]._id}}).then((response) => {
             let res = response.data;
-            if(res.status == 1)
-            {
-              this.selfComment[index] = '';
+            if (res.status == 1) {
+              console.log('点赞成功');
             }
             else {
               console.log(res.message)
             }
           })
-        }
-
+        },
+        addNumberOfLike_commentReply(index,index1,index2){
+          let content = this.movies[index];
+          content.movieComments[index1].reply[index2].numberOfLike = content.movieComments[index1].reply[index2].numberOfLike + 1;
+          this.$set(this.movies, index, content);
+          axios.get("/movieComments/addNumberOfLike_commentReply", {params:{_id:this.movies[index].movieComments[index1].reply[index2]._id}}).then((response) => {
+            let res = response.data;
+            if (res.status == 1) {
+              console.log('点赞成功');
+            }
+            else {
+              console.log(res.message)
+            }
+          })
+        },
       }
     }
 </script>
@@ -537,6 +579,7 @@
             display: flex;
             justify-content: flex-start;
             width: 100%;
+            margin-top: 5px;
             .userImg{
               height: 35px;
               width: 35px;
