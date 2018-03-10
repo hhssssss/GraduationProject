@@ -130,4 +130,37 @@ router.get("/getUserInfo",function (req,res,next) {
         }
     });
 });
+router.get("/addCollections",function (req,res,next) {
+    let movie_id = req.param('movie_id');
+    let user_id = req.param('user_id');
+    model.user.find({_id:user_id},function (err,doc) {
+        if(err){
+            return  res.json({
+                status:'0',
+                msg:err.message
+            })
+        }else{
+            let i = doc[0].collections.indexOf(movie_id);
+            if(i > -1){
+                doc[0].collections.splice(i,1);
+            }
+            else {
+                doc[0].collections.push(movie_id);
+            }
+            doc[0].save(function (err) {
+                if(err){
+                    return  res.json({
+                        status:'0',
+                        msg:err.message
+                    })
+                }else {
+                    return  res.json({
+                        status:'1',
+                        message:'操作成功',
+                    })
+                }
+            })
+        }
+    })
+});
 module.exports = router;

@@ -48,10 +48,10 @@ export default {
     loginHide(){
       this.loginShowFlag = !this.loginShowFlag;
     },
-    loginSuccess(id,pwd,name,pic,_id){
+    loginSuccess(id,pwd,name,pic,_id,collections){
       this.loginShowFlag = !this.loginShowFlag;
       let content = {
-        id,pwd,name,pic,_id
+        id,pwd,name,pic,_id,collections
       }
       this.$store.commit('getUserInfo',content);
     },

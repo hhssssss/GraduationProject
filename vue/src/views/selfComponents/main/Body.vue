@@ -50,8 +50,8 @@
               <p>语种：{{movie.language||'未知'}}</p>
             </div>
             <div class="control">
-              <div class="control-item" :class="[collectionIsActive_hover[index] || collectionIsActive_click[index] ? fontActive :  fontNormal]" @mouseenter="collectionEnter(index)" @mouseleave="collectionLeave(index)" @click="collectionClick(index)">
-                <img :src="[collectionIsActive_hover[index] || collectionIsActive_click[index] ? collection_icon2 : collection_icon1]" alt="">&nbsp;&nbsp;收藏
+              <div class="control-item" :class="[collectionIsActive_hover[index] || collectionsFlag[index] ? fontActive :  fontNormal]" @mouseenter="collectionEnter(index)" @mouseleave="collectionLeave(index)" @click="collectionClick(index)">
+                <img :src="[collectionIsActive_hover[index] || collectionsFlag[index]? collection_icon2 : collection_icon1]" alt="">&nbsp;&nbsp;收藏
               </div>
               <div class="control-item" :class="[commentIsActive_hover[index] || commentIsActive_click[index] ? fontActive :  fontNormal]" @mouseenter="commentEnter(index)" @mouseleave="commentLeave(index)" @click="commentClick(index)">
                 <img :src="[commentIsActive_hover[index] || commentIsActive_click[index] ? comment_icon2 : comment_icon1]" alt="">&nbsp;&nbsp;评论
@@ -132,7 +132,6 @@
             comment_icon1 : comment_icon1,
             comment_icon2 : comment_icon2,
             collectionIsActive_hover : [0,0,0,0,0,0,0,0,0,0],
-            collectionIsActive_click : [0,0,0,0,0,0,0,0,0,0],
             commentIsActive_hover : [0,0,0,0,0,0,0,0,0,0],
             commentIsActive_click : [0,0,0,0,0,0,0,0,0,0],
             fontActive : 'font-active',
@@ -157,6 +156,17 @@
         loginFlag() {
           return this.$store.state.userName ? true : false;
         },
+        collectionsFlag(){
+          let flag = [0,0,0,0,0,0,0,0,0,0];
+          for(let i = flag.length; i--;){
+            if(this.$store.state.collections.indexOf(this.movies[i]._id)>=0){
+              flag[i] = 1;
+            }else {
+              flag[i] = 0;
+            }
+          }
+          return flag;
+        }
       },
       mounted(){
         this.getMoviesList(this.pageId);
@@ -222,9 +232,28 @@
           this.$set(this.commentIsActive_hover, index, 0);
         },
         collectionClick(index){
-          this.$set(this.collectionIsActive_click, index, !this.collectionIsActive_click[index]);
-          if(this.collectionIsActive_click[index] == 0){
-            this.$set(this.collectionIsActive_hover, index, 0);
+          if(!this.$store.state.userName){
+            return console.log("收藏需要登陆");
+          }
+          else{
+            let i = this.$store.state.collections.indexOf(this.movies[index]._id);
+            if(i > -1){
+              this.$store.commit('pullCollections',i)
+            }else {
+              this.$store.commit('pushCollections',this.movies[index]._id)
+            }
+            axios.get("/users/addCollections", {
+              params:{
+                movie_id : this.movies[index]._id ,
+                user_id : this.$store.state._id
+              }}).then((response) => {
+              let res = response.data;
+              if (res.status == '1') {
+                //收藏成功
+              } else {
+                console.log("收藏失败")
+              }
+            })
           }
         },
         commentClick(index){
@@ -244,7 +273,7 @@
                 this.$set(this.moviesCommentFlag, index, 1);
               }
             } else {
-              this.movies[index].shortComments = '';
+              console.log("获取评论失败")
             }
           })
         },
@@ -344,6 +373,7 @@
             }
           })
         },
+
       }
     }
 </script>

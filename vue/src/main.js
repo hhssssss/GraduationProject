@@ -14,11 +14,12 @@ Vue.config.productionTip = false
 
 const store = new Vuex.Store({
   state:{
-    userName:'',
-    userId:'',
-    userPwd:'',
-    userProfilePicture:'',
-    _id:'',
+    userName : '',
+    userId : '',
+    userPwd : '',
+    userProfilePicture : '',
+    _id : '',
+    collections : []
   },
   mutations:{
     getUserInfo(state,content){
@@ -27,6 +28,7 @@ const store = new Vuex.Store({
       state.userPwd = content.pwd;
       state.userProfilePicture = !content.pic?imgUrl:'data:image/png;base64,'+content.pic;
       state._id = content._id;
+      state.collections = content.collections;
     },
     updateUserInfo1(state,content){
       state.userName = content.name
@@ -38,6 +40,15 @@ const store = new Vuex.Store({
       state.userPwd = '';
       state.userProfilePicture = '';
       state._id = '';
+      state.collections = []
+    },
+    pushCollections(state,id){
+      state.collections.push(id);
+      console.log("收藏成功");
+    },
+    pullCollections(state,index){
+      state.collections.splice(index,1);
+      console.log("取消收藏");
     }
   }
 })

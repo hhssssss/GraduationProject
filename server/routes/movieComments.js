@@ -63,10 +63,17 @@ router.post("/addReply",function (req,res,next) {
             model.movieComment.find({_id:req.body.comment_id},function(err,result){
                 result[0].reply.push(movieCommentReplyEntity._id);
                 result[0].save(function(err){
-                    return  res.json({
-                        status:1,
-                        message:'添加成功'
-                    })
+                    if(err){
+                        return  res.json({
+                            status:'0',
+                            msg:err.message
+                        })
+                    }else {
+                        return  res.json({
+                            status:'1',
+                            message:'添加成功',
+                        })
+                    }
                 })
             })
         }
@@ -83,10 +90,17 @@ router.get("/addNumberOfLike_comment",function (req,res,next) {
         }else{
             doc[0].numberOfLike += 1;
             doc[0].save(function (err) {
-                return  res.json({
-                    status:'1',
-                    message:'点赞成功',
-                })
+                if(err){
+                    return  res.json({
+                        status:'0',
+                        msg:err.message
+                    })
+                }else {
+                    return  res.json({
+                        status:'1',
+                        message:'点赞成功',
+                    })
+                }
             })
         }
     })
@@ -102,10 +116,17 @@ router.get("/addNumberOfLike_commentReply",function (req,res,next) {
         }else{
             doc[0].numberOfLike += 1;
             doc[0].save(function (err) {
-                return  res.json({
-                    status:'1',
-                    message:'点赞成功',
-                })
+                if(err){
+                    return  res.json({
+                        status:'0',
+                        msg:err.message
+                    })
+                }else {
+                    return  res.json({
+                        status:'1',
+                        message:'点赞成功',
+                    })
+                }
             })
         }
     })

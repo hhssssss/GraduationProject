@@ -11,6 +11,7 @@ let UserSchema = new mongoose.Schema({
     userSelfIntroduction : String,
     userLikeTypes : String,
     userProfilePicture : String,
+    collections : [String]
 });
 
 module.exports = UserSchema;

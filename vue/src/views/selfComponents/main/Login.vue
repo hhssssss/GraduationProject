@@ -100,12 +100,12 @@
             userPwd:this.userPwd
           }).then((response) => {
             let res = response.data;
-            console.log(res);
+            // console.log(res);
             if (res.status == '1'){
               this.loginSuccess = true;
               setTimeout(() => {
                 this.loginSuccess = false;
-                this.$emit('loginSuccess',this.userId,this.userPwd,res.result[0].userName,res.result[0].userProfilePicture,res.result[0]._id)
+                this.$emit('loginSuccess',this.userId , this.userPwd , res.result[0].userName , res.result[0].userProfilePicture , res.result[0]._id , res.result[0].collections)
               },1000)
             }else{
               this.loginFail = true;
