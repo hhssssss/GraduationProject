@@ -3,15 +3,20 @@
       <div class="container">
         <img src="../assets/logo.png" alt="" class="logo" draggable="false">
         <div class="control">
-          <div class="search">
-            <input type="text" placeholder="Search for..." v-model="searchKey" @keyup.enter="search">
-            <div class="search-button" @click="search" >Go!</div>
+          <!--<div class="search">-->
+            <!--<input type="text" placeholder="Search for..." v-model="searchKey" @keyup.enter="search">-->
+            <!--<div class="search-button" @click="search" >Go!</div>-->
+          <!--</div>-->
+          <div class="navigation">
+            <router-link to="/"><div class="first">电影</div></router-link>
+            <router-link to="/filmReview"><div class="second">影评</div></router-link>
           </div>
           <div  class='button' @click="loginShow" v-if="loginFlag">登录</div>
           <div class="user" v-else @click="userFunctionShow" :style="{ 'background-image' : `url(${userProfilePicture})`}"></div>
           <transition name="slide-fade">
             <div class="user-function" v-show="userFunctionFlag">
               <router-link to="/user/settings"><div class="user-function-item" @click="userFunctionShow">个人信息设置</div></router-link>
+              <router-link to="/film/addReview"><div class="user-function-item" @click="userFunctionShow">我要写影评</div></router-link>
               <div class="user-function-item" @click="loginOut">登出</div>
             </div>
           </transition>
@@ -142,51 +147,75 @@
     flex-grow: 1;
     height: 100%;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
+    position: relative;
   }
-  div.search{
-    width: 300px;
+  div .navigation{
+    width: 500px;
     height: 40px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .first,.second{
+      color: #08aba6;
+      height: 30px;
+      line-height: 30px;
+      width: 100px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      &:hover{
+        color: #ffffff;
+      }
+    }
+    .first{
+      border-right: 2px solid #08aba6;
+    }
   }
-  .search input{
-    height: 100%;
-    width: 80%;
-    float: left;
-    outline: none;
-    border: none;
-    border-right: 1px solid #08aba6;
-    color: #08aba6;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-    transition: all 0.3s ease-in-out;
-  }
-  .search input::-webkit-input-placeholder{
-    color: #dcdcdc;
-  }
-  .search input:hover{
-    border-color: #08aba6;
-    position: relative;
-    box-shadow: 0 0 10px 0px #08aba6 ;
-  }
-  .search input:focus{
-    position: relative;
-    box-shadow: 0 0 10px 0px #08aba6 ;
-  }
-  .search-button{
-    height: 100%;
-    line-height: 40px;
-    text-align: center;
-    width: 20%;
-    background-color: #08aba6;
-    color: #fff;
-    float: left;
-    transition: all 0.3s ease-in-out;
-    cursor: pointer;
-  }
-  .search-button:hover{
-    background-color: #fff;
-    color: #08aba6;
-  }
+  /*div.search{*/
+    /*width: 300px;*/
+    /*height: 40px;*/
+  /*}*/
+  /*.search input{*/
+    /*height: 100%;*/
+    /*width: 80%;*/
+    /*float: left;*/
+    /*outline: none;*/
+    /*border: none;*/
+    /*border-right: 1px solid #08aba6;*/
+    /*color: #08aba6;*/
+    /*box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);*/
+    /*transition: all 0.3s ease-in-out;*/
+  /*}*/
+  /*.search input::-webkit-input-placeholder{*/
+    /*color: #dcdcdc;*/
+  /*}*/
+  /*.search input:hover{*/
+    /*border-color: #08aba6;*/
+    /*position: relative;*/
+    /*box-shadow: 0 0 10px 0px #08aba6 ;*/
+  /*}*/
+  /*.search input:focus{*/
+    /*position: relative;*/
+    /*box-shadow: 0 0 10px 0px #08aba6 ;*/
+  /*}*/
+  /*.search-button{*/
+    /*height: 100%;*/
+    /*line-height: 40px;*/
+    /*text-align: center;*/
+    /*width: 20%;*/
+    /*background-color: #08aba6;*/
+    /*color: #fff;*/
+    /*float: left;*/
+    /*transition: all 0.3s ease-in-out;*/
+    /*cursor: pointer;*/
+  /*}*/
+  /*.search-button:hover{*/
+    /*background-color: #fff;*/
+    /*color: #08aba6;*/
+  /*}*/
   div.title{
     height: 40px;
     line-height: 40px;
@@ -219,13 +248,14 @@
     border-radius: 100%;
     background-size: contain;
     cursor: pointer;
-    margin-left: 100px;
+    /*margin-left: 100px;*/
   }
   .user-function{
     width: 200px;
     background-color: #fff;
     position: absolute;
     top: 100%;
+    right: 0;
     padding: 20px 0;
     color: #333;
     border-radius: 5px;
