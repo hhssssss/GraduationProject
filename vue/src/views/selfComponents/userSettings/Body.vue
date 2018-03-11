@@ -177,6 +177,8 @@
           width: 60px;
           border-radius: 100%;
           background-size: contain;
+          background-repeat: no-repeat;
+          background-position: center;
           margin-right: 100px;
           display: inline-block;
         }

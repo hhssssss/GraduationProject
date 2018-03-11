@@ -7,14 +7,14 @@
       appear-to-class="custom-appear-to-class"
       appear-active-class="custom-appear-active-class"
     >
-      <div class="body-main" v-if="!bodyTipFlag">
+      <div class="body-main" v-if="nextFlag">
         <div class="body-main-title">撰写影评</div>
         <div class="body-main-item">
           <div class="left">
             题目
           </div>
           <div class="right">
-            <input type="text" placeholder="影评的题目" >
+            <input type="text" placeholder="影评的题目" v-model="filmReviewName">
           </div>
         </div>
         <div class="body-main-item">
@@ -22,7 +22,7 @@
             标签
           </div>
           <div class="right">
-            <input type="text" placeholder="影评的相关标签" >
+            <input type="text" placeholder="影评的相关标签"  v-model="filmReviewLabel">
           </div>
         </div>
         <div class="body-main-item">
@@ -30,35 +30,83 @@
             封面图片
           </div>
           <div class="right" style="padding: 0">
-            <div class="profile-picture" :style="{ 'background-image' : `url(${userProfilePicture})`}"></div>
+            <div class="profile-picture" :style="{ 'background-image' : `url(${filmReview})`}"></div>
             <label class="button">
-              <input type="file" name="profile-picture" id="profile-picture" accept="image/gif,image/jpeg,image/jpg,image/png" @change="changeImage($event)" ref="profilePicture">上传头像
+              <input type="file" name="profile-picture" id="profile-picture" accept="image/gif,image/jpeg,image/jpg,image/png" @change="changeImage($event)" ref="profilePicture">上传图片
             </label>
           </div>
         </div>
+        <div class="body-main-bottom">
+          <div class="button" @click="clearAll">清空</div>
+          <div class="button" @click="next">下一步</div>
+        </div>
       </div>
     </transition>
+    <div class="body-main" v-if="!nextFlag">
+      <div class="body-main-title">撰写影评</div>
+      <div class="body-main-content">
+          <textarea v-model="filmReviewContent">
+
+          </textarea>
+      </div>
+      <div class="body-main-bottom">
+        <div class="button" @click="pre">上一步</div>
+        <div class="button" @click="addFilmReview">完成</div>
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script>
   import axios from 'axios';
+  import filmReview from '../../../assets/icon/filmReview.png'
   export default {
     name: "body",
     data() {
       return {
-        bodyTipFlag:0,
+        filmReviewLabel : '',
+        filmReviewName : '',
+        filmReview : filmReview,
+        nextFlag : 0,
+        filmReviewContent : ''
+
       }
     },
     mounted() {
 
     },
     methods: {
+      changeImage(e) {
+        var file = e.target.files[0];
+        var reader = new FileReader();
+        var that = this;
+        reader.readAsDataURL(file);
+        reader.onload = function () {
+          that.filmReview = this.result
+        }
+      },
+      clearAll(){
+
+      },
+      next(){
+        this.nextFlag = !this.nextFlag;
+      },
+      pre(){
+        this.nextFlag = !this.nextFlag;
+      },
+      addFilmReview(){
+
+      }
     }
   }
 </script>
 
 <style scoped lang="less">
+  @font-face {
+    font-family: zhFont;
+    src: url("../../../assets/font/beian.ttf");
+  }
   #body{
     background-color: #08aba6;
     margin-bottom: -60px;
@@ -99,10 +147,11 @@
         display: flex;
         align-items: center;
         .profile-picture{
-          height: 60px;
-          width: 60px;
-          border-radius: 100%;
+          height: 200px;
+          width: 100px;
           background-size: contain;
+          background-repeat: no-repeat;
+          background-position: center;
           margin-right: 100px;
           display: inline-block;
         }
@@ -125,30 +174,64 @@
             color: #dcdcdc;
           }
         }
-        input[type='radio']{
-          display: none;
-        }
-        .label-sex{
-          margin-right: 15px;
-          line-height: 1;
-        }
-        .radioInput{
-          background-color:#fff;
-          border:1px solid rgba(0,0,0,0.15);
-          border-radius:100%;
-          display:inline-block;
-          height:16px;
-          margin-right:15px;
-          margin-top:-1px;
-          vertical-align:middle;
-          width:16px;
-          line-height:1;
-          padding: 2px;
-        }
-        input[type='radio']:checked + .radioInput{
-          background-color:#08aba6;
-          background-clip: content-box;
-        }
+      }
+    }
+    .body-main-content{
+      position: relative;
+      textarea{
+        font-family: zhFont;
+        font-weight: bold;
+        height: 500px;
+        width: 100%;
+        outline: none;
+        resize: none;
+        padding: 20px 20px;
+        font-size: 24px;
+        line-height: 30px;
+        background-color: #f4f39e;
+        border-bottom-left-radius: 20px 300px;
+        border-bottom-right-radius: 400px 20px;
+        border-top-right-radius: 5px 100px;
+        box-shadow: 0 2px 10px 1px rgba(0, 0, 0, 0.2);
+        text-shadow: 0 1px 0 #F6EF97;
+      }
+      &:after{
+        width: 180px;
+        height: 30px;
+        content: " ";
+        margin-left: -90px;
+        border: 1px solid rgba(200, 200, 200, .8);
+        background: rgba(254, 254, 254, .6);
+        -moz-box-shadow: 0px 0 3px rgba(0, 0, 0, 0.1);
+        -webkit-box-shadow: 0px 0 3px rgba(0, 0, 0, 0.1);
+        box-shadow: 0px 0 3px rgba(0, 0, 0, 0.1);
+        -moz-transform: rotate(-5deg);
+        -webkit-transform: rotate(-5deg);
+        -o-transform: rotate(-5deg);
+        transform: rotate(-5deg);
+        position: absolute;
+        left: 50%;
+        top: -15px;
+      }
+    }
+    .body-main-bottom{
+      margin-top: 50px;
+      display: flex;
+      justify-content: space-around;
+    }
+    .button{
+      height: 40px;
+      width: 140px;
+      background-color: #08aba6;
+      color: white;
+      text-align: center;
+      line-height: 40px;
+      transition: all 0.3s ease-in-out;
+      cursor: pointer;
+      border: 1px solid #08aba6;
+      &:hover{
+        background-color: #fff;
+        color: #08aba6;
       }
     }
   }
