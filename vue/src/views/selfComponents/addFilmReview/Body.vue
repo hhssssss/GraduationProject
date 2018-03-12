@@ -7,7 +7,7 @@
       appear-to-class="custom-appear-to-class"
       appear-active-class="custom-appear-active-class"
     >
-      <div class="body-main" v-if="nextFlag">
+      <div class="body-main" v-show="!nextFlag">
         <div class="body-main-title">撰写影评</div>
         <div class="body-main-item">
           <div class="left">
@@ -30,9 +30,9 @@
             封面图片
           </div>
           <div class="right" style="padding: 0">
-            <div class="profile-picture" :style="{ 'background-image' : `url(${filmReview})`}"></div>
+            <div class="profile-picture" :style="{ 'background-image' : `url(${filmReviewImg})`}"></div>
             <label class="button">
-              <input type="file" name="profile-picture" id="profile-picture" accept="image/gif,image/jpeg,image/jpg,image/png" @change="changeImage($event)" ref="profilePicture">上传图片
+              <input type="file" name="film-reviewImg" id="film-reviewImg" accept="image/gif,image/jpeg,image/jpg,image/png" @change="changeImage($event)" ref="filmReviewImg">上传图片
             </label>
           </div>
         </div>
@@ -42,7 +42,7 @@
         </div>
       </div>
     </transition>
-    <div class="body-main" v-if="!nextFlag">
+    <div class="body-main" v-show="nextFlag">
       <div class="body-main-title">撰写影评</div>
       <div class="body-main-content">
           <textarea v-model="filmReviewContent">
@@ -60,14 +60,14 @@
 
 <script>
   import axios from 'axios';
-  import filmReview from '../../../assets/icon/filmReview.png'
+  import filmReviewImg from '../../../assets/icon/filmReview.png'
   export default {
     name: "body",
     data() {
       return {
         filmReviewLabel : '',
         filmReviewName : '',
-        filmReview : filmReview,
+        filmReviewImg : filmReviewImg,
         nextFlag : 0,
         filmReviewContent : ''
 
@@ -83,7 +83,7 @@
         var that = this;
         reader.readAsDataURL(file);
         reader.onload = function () {
-          that.filmReview = this.result
+          that.filmReviewImg = this.result
         }
       },
       clearAll(){
@@ -96,7 +96,24 @@
         this.nextFlag = !this.nextFlag;
       },
       addFilmReview(){
-
+        var reviewData = new FormData();
+        console.log(this.$refs.filmReviewImg.files[0])
+        reviewData.append('filmReviewImg', this.$refs.filmReviewImg.files[0] ? this.$refs.filmReviewImg.files[0] : '');
+        reviewData.append('filmReviewImgFlag', this.$refs.filmReviewImg.files[0] ? '1' : '0');
+        reviewData.append('filmReviewName', this.filmReviewName);
+        reviewData.append('filmReviewLabel', this.filmReviewLabel);
+        reviewData.append('filmReviewContent', this.filmReviewContent);
+        reviewData.append('user_id', this.$store.state._id);
+        axios.post('/filmReviews/addFilmReview', reviewData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        }).then((response) => {
+          let res = response.data;
+          if(res.status=="1"){
+            console.log("添加影评成功");
+          }
+        })
       }
     }
   }

@@ -36,6 +36,9 @@ module.exports = {
       },
       '/movieComments':{
         target:'http://localhost:3000'
+      },
+      '/filmReviews':{
+        target:'http://localhost:3000'
       }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"

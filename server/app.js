@@ -9,6 +9,7 @@ var shortComments = require('./routes/movieComments');
 var users = require('./routes/users');
 var movies = require('./routes/movies');
 var mvoieComments = require('./routes/movieComments');
+var filmReviews = require('./routes/filmReviews');
 
 var app = express();
 
@@ -28,6 +29,7 @@ app.use('/shortComments', shortComments);
 app.use('/users', users);
 app.use('/movies', movies);
 app.use('/movieComments', mvoieComments);
+app.use('/filmReviews', filmReviews);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

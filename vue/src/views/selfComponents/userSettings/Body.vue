@@ -102,7 +102,8 @@
           }
         },
         saveChanges() {
-          var infoData = new FormData();
+          console.log(this.$refs)
+          let infoData = new FormData();
           infoData.append('profilePicture', this.$refs.profilePicture.files[0] ? this.$refs.profilePicture.files[0] : '');
           infoData.append('profilePictureFlag', this.$refs.profilePicture.files[0] ? '1' : '0');
           infoData.append('userName', this.userName);
