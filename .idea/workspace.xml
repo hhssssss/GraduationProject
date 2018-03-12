@@ -3,6 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="610ab571-4b51-44d0-81e9-a639b46ee109" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/server/routes/filmReviews.js" afterPath="$PROJECT_DIR$/server/routes/filmReviews.js" />
+      <change beforePath="$PROJECT_DIR$/vue/src/views/AddFilmReview.vue" afterPath="$PROJECT_DIR$/vue/src/views/AddFilmReview.vue" />
+      <change beforePath="$PROJECT_DIR$/vue/src/views/FilmReview.vue" afterPath="$PROJECT_DIR$/vue/src/views/FilmReview.vue" />
+      <change beforePath="$PROJECT_DIR$/vue/src/views/selfComponents/addFilmReview/Body.vue" afterPath="$PROJECT_DIR$/vue/src/views/selfComponents/addFilmReview/Body.vue" />
       <change beforePath="$PROJECT_DIR$/vue/src/views/selfComponents/filmReview/Body.vue" afterPath="$PROJECT_DIR$/vue/src/views/selfComponents/filmReview/Body.vue" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -17,102 +21,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
-      <file leaf-file-name="Body.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vue/src/views/selfComponents/main/Body.vue">
+      <file leaf-file-name="FilmReview.vue" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/vue/src/views/FilmReview.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="10" lean-forward="true" selection-start-line="0" selection-start-column="10" selection-end-line="0" selection-end-column="10" />
+            <state relative-caret-position="120">
+              <caret line="5" column="47" lean-forward="true" selection-start-line="5" selection-start-column="47" selection-end-line="5" selection-end-column="47" />
               <folding>
-                <element signature="n#div#1;n#div#0;n#template#0;n#!!top" expanded="false" />
-                <element signature="n#div#1;n#div#0;n#div#0;n#transition-group#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="false" />
-                <element signature="n#div#1;n#div#3;n#div#0;n#div#0;n#transition-group#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="false" />
-                <element signature="e#7875#8003#0" expanded="false" />
-                <element signature="e#8034#8099#0" expanded="false" />
-                <element signature="e#8121#8192#0" expanded="false" />
-                <element signature="e#8219#8517#0" expanded="false" />
-                <element signature="e#8542#8592#0" expanded="false" />
-                <element signature="e#8641#8924#0" expanded="false" />
-                <element signature="e#8944#9322#0" expanded="false" />
-                <element signature="e#9339#9722#0" expanded="false" />
-                <element signature="e#9749#9906#0" expanded="false" />
-                <element signature="e#9938#10011#0" expanded="false" />
-                <element signature="e#10043#10116#0" expanded="false" />
-                <element signature="e#10145#10215#0" expanded="false" />
-                <element signature="e#10244#10314#0" expanded="false" />
-                <element signature="e#11183#11453#0" expanded="false" />
-                <element signature="e#11485#11975#0" expanded="false" />
-                <element signature="e#12010#12771#0" expanded="false" />
-                <element signature="e#12054#12111#0" expanded="false" />
-                <element signature="e#12808#12850#0" expanded="false" />
-                <element signature="e#12887#13043#0" expanded="false" />
-                <element signature="e#13080#13217#0" expanded="false" />
-                <element signature="e#13246#13355#0" expanded="false" />
-                <element signature="e#13402#14151#0" expanded="false" />
-                <element signature="e#14198#14756#0" expanded="false" />
-                <element signature="e#14815#15420#0" expanded="false" />
-                <element signature="e#15671#15792#0" expanded="false" />
-                <element signature="e#15859#16283#0" expanded="false" />
-                <element signature="e#16680#17093#0" expanded="false" />
-                <element signature="e#17105#18294#0" expanded="false" />
-                <element signature="e#18309#19052#0" expanded="false" />
-                <element signature="e#19347#20890#0" expanded="false" />
-                <element signature="e#20913#21056#0" expanded="false" />
-                <element signature="e#21710#21763#0" expanded="false" />
-                <element signature="e#21792#22633#0" expanded="false" />
-                <element signature="e#23963#24853#0" expanded="false" />
-                <element signature="e#24099#24665#0" expanded="false" />
+                <element signature="e#434#480#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Body.vue" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/vue/src/views/selfComponents/filmReview/Body.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="384">
-              <caret line="28" column="64" lean-forward="true" selection-start-line="28" selection-start-column="64" selection-end-line="28" selection-end-column="64" />
-              <folding>
-                <element signature="n#div#2;n#div#0;n#div#0;n#transition#0;n#div#0;n#template#0;n#!!top" expanded="false" />
-                <element signature="e#1480#1590#0" expanded="false" />
-                <element signature="e#1602#1723#0" expanded="false" />
-                <element signature="e#2153#3230#0" expanded="false" />
-                <element signature="e#3244#3831#0" expanded="false" />
-                <element signature="e#5664#5771#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Header.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vue/src/components/Header.vue">
+      <file leaf-file-name="Main.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/vue/src/views/Main.vue">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="48">
-              <caret line="229" column="2" lean-forward="false" selection-start-line="229" selection-start-column="2" selection-end-line="243" selection-end-column="3" />
+              <caret line="2" column="38" lean-forward="false" selection-start-line="2" selection-start-column="16" selection-end-line="2" selection-end-column="38" />
               <folding>
-                <element signature="n#script#0;n#!!top" expanded="false" />
-                <element signature="e#3347#3496#0" expanded="false" />
-                <element signature="e#3510#3590#0" expanded="false" />
-                <element signature="e#3593#3766#0" expanded="false" />
-                <element signature="e#3780#3861#0" expanded="false" />
-                <element signature="e#3864#4038#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Body.vue" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/vue/src/views/selfComponents/addFilmReview/Body.vue">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="122" column="2" lean-forward="true" selection-start-line="122" selection-start-column="2" selection-end-line="125" selection-end-column="3" />
-              <folding>
-                <element signature="n#div#2;n#div#0;n#transition#0;n#div#0;n#template#0;n#!!top" expanded="false" />
-                <element signature="e#1954#1980#0" expanded="true" />
-                <element signature="e#3790#3900#0" expanded="false" />
-                <element signature="e#3912#4033#0" expanded="false" />
-                <element signature="e#4261#4343#0" expanded="false" />
-                <element signature="e#4363#5393#0" expanded="false" />
-                <element signature="e#6582#6671#0" expanded="false" />
+                <element signature="e#478#520#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -143,6 +70,7 @@
       <find>reply</find>
       <find>收藏</find>
       <find>collectionIsActive_click</find>
+      <find>/filmReview</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -151,7 +79,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/server/models/movie.js" />
         <option value="$PROJECT_DIR$/vue/src/components/Login.vue" />
         <option value="$PROJECT_DIR$/vue/src/views/ShowMongodbData.vue" />
         <option value="$PROJECT_DIR$/vue/build/webpack.base.conf.js" />
@@ -191,17 +118,18 @@
         <option value="$PROJECT_DIR$/vue/src/views/selfComponents/main/Login.vue" />
         <option value="$PROJECT_DIR$/vue/src/views/FileReview.vue" />
         <option value="$PROJECT_DIR$/vue/src/views/selfComponents/fileReview/Body.vue" />
-        <option value="$PROJECT_DIR$/vue/src/views/FilmReview.vue" />
         <option value="$PROJECT_DIR$/vue/src/components/Header.vue" />
-        <option value="$PROJECT_DIR$/vue/src/router/index.js" />
-        <option value="$PROJECT_DIR$/vue/src/views/AddFilmReview.vue" />
         <option value="$PROJECT_DIR$/server/db/schema/FilmReview.js" />
         <option value="$PROJECT_DIR$/vue/src/views/selfComponents/userSettings/Body.vue" />
         <option value="$PROJECT_DIR$/server/routes/filmReview.js" />
         <option value="$PROJECT_DIR$/server/app.js" />
-        <option value="$PROJECT_DIR$/vue/src/views/selfComponents/addFilmReview/Body.vue" />
         <option value="$PROJECT_DIR$/vue/config/index.js" />
+        <option value="$PROJECT_DIR$/server/routes/filmReviews.js" />
+        <option value="$PROJECT_DIR$/vue/src/router/index.js" />
+        <option value="$PROJECT_DIR$/vue/src/views/AddFilmReview.vue" />
+        <option value="$PROJECT_DIR$/vue/src/views/selfComponents/addFilmReview/Body.vue" />
         <option value="$PROJECT_DIR$/vue/src/views/selfComponents/filmReview/Body.vue" />
+        <option value="$PROJECT_DIR$/vue/src/views/FilmReview.vue" />
       </list>
     </option>
   </component>
@@ -265,19 +193,13 @@
             <path>
               <item name="GraduationProject" type="b2602c69:ProjectViewProjectNode" />
               <item name="GraduationProject" type="462c0819:PsiDirectoryNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="db" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GraduationProject" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GraduationProject" type="462c0819:PsiDirectoryNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="routes" type="462c0819:PsiDirectoryNode" />
+              <item name="vue" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="GraduationProject" type="b2602c69:ProjectViewProjectNode" />
               <item name="GraduationProject" type="462c0819:PsiDirectoryNode" />
               <item name="vue" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="GraduationProject" type="b2602c69:ProjectViewProjectNode" />
@@ -290,7 +212,7 @@
               <item name="GraduationProject" type="462c0819:PsiDirectoryNode" />
               <item name="vue" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="router" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="GraduationProject" type="b2602c69:ProjectViewProjectNode" />
@@ -306,33 +228,6 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="views" type="462c0819:PsiDirectoryNode" />
               <item name="selfComponents" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GraduationProject" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GraduationProject" type="462c0819:PsiDirectoryNode" />
-              <item name="vue" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="selfComponents" type="462c0819:PsiDirectoryNode" />
-              <item name="addFilmReview" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GraduationProject" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GraduationProject" type="462c0819:PsiDirectoryNode" />
-              <item name="vue" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="selfComponents" type="462c0819:PsiDirectoryNode" />
-              <item name="filmReview" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GraduationProject" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GraduationProject" type="462c0819:PsiDirectoryNode" />
-              <item name="vue" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="selfComponents" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -455,25 +350,25 @@
       <workItem from="1520658393579" duration="10441000" />
       <workItem from="1520681961331" duration="5539000" />
       <workItem from="1520753773673" duration="11851000" />
-      <workItem from="1520827029015" duration="14421000" />
+      <workItem from="1520827029015" duration="20606000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="337402000" />
+    <option name="totallyTimeSpent" value="343587000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24523304" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24788135" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23803967" sideWeight="0.50211865" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32672113" sideWeight="0.49788135" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21586931" sideWeight="0.49788135" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -520,7 +415,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/vue/src/views/Hello.vue" />
     <entry file="file://$PROJECT_DIR$/vue/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="192">
@@ -601,44 +495,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/routes/movieComments.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="132" column="3" lean-forward="false" selection-start-line="132" selection-start-column="3" selection-end-line="132" selection-end-column="3" />
-          <folding>
-            <element signature="e#151#715#0" expanded="false" />
-            <element signature="e#768#1349#0" expanded="false" />
-            <element signature="e#1400#2500#0" expanded="false" />
-            <element signature="e#2565#3275#0" expanded="false" />
-            <element signature="e#3345#4060#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vue/src/views/Main.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="55" column="43" lean-forward="false" selection-start-line="55" selection-start-column="43" selection-end-line="55" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vue/src/views/selfComponents/main/Login.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="103" column="32" lean-forward="true" selection-start-line="103" selection-start-column="32" selection-end-line="103" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vue/src/App.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="9" column="13" lean-forward="true" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vue/src/components/Footer.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="336">
@@ -654,33 +510,6 @@
           <folding>
             <element signature="e#154#200#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vue/src/views/FilmReview.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="30" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-          <folding>
-            <element signature="n#script#0;n#!!top" expanded="false" />
-            <element signature="e#142#188#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vue/src/views/AddFilmReview.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="11" column="50" lean-forward="false" selection-start-line="11" selection-start-column="50" selection-end-line="11" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vue/src/router/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="5" column="49" lean-forward="false" selection-start-line="5" selection-start-column="36" selection-end-line="5" selection-end-column="49" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -778,45 +607,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vue/config/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="34" column="38" lean-forward="true" selection-start-line="34" selection-start-column="38" selection-end-line="34" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/routes/filmReviews.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="80" column="0" lean-forward="true" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
-          <folding>
-            <element signature="e#259#2750#0" expanded="false" />
-            <element signature="e#2798#2947#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/db/schema/filmReview.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="9" column="45" lean-forward="false" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/routes/movies.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="28" selection-end-column="3" />
-          <folding>
-            <element signature="e#203#702#0" expanded="false" />
-            <element signature="e#750#894#0" expanded="false" />
-            <element signature="e#942#1940#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vue/src/views/selfComponents/userSettings/Body.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
@@ -830,20 +620,63 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/server/routes/movies.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="23" selection-end-column="3" />
+          <folding>
+            <element signature="e#203#702#0" expanded="false" />
+            <element signature="e#750#894#0" expanded="false" />
+            <element signature="e#942#1940#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/routes/movieComments.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="141">
+          <caret line="6" column="167" lean-forward="false" selection-start-line="6" selection-start-column="159" selection-end-line="6" selection-end-column="167" />
+          <folding>
+            <element signature="e#768#1349#0" expanded="false" />
+            <element signature="e#1400#2500#0" expanded="false" />
+            <element signature="e#2565#3275#0" expanded="false" />
+            <element signature="e#3345#4060#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/db/schema/filmReview.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="11" column="10" lean-forward="false" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/routes/filmReviews.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="80" column="38" lean-forward="false" selection-start-line="80" selection-start-column="38" selection-end-line="80" selection-end-column="38" />
+          <folding>
+            <element signature="e#259#2750#0" expanded="false" />
+            <element signature="e#2798#2947#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/vue/src/views/selfComponents/main/Body.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="10" lean-forward="true" selection-start-line="0" selection-start-column="10" selection-end-line="0" selection-end-column="10" />
+        <state relative-caret-position="268">
+          <caret line="35" column="98" lean-forward="false" selection-start-line="35" selection-start-column="15" selection-end-line="35" selection-end-column="98" />
           <folding>
-            <element signature="n#div#1;n#div#0;n#template#0;n#!!top" expanded="false" />
             <element signature="n#div#1;n#div#0;n#div#0;n#transition-group#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="false" />
             <element signature="n#div#1;n#div#3;n#div#0;n#div#0;n#transition-group#0;n#div#1;n#div#0;n#template#0;n#!!top" expanded="false" />
+            <element signature="e#6316#6342#0" expanded="true" />
             <element signature="e#7875#8003#0" expanded="false" />
             <element signature="e#8034#8099#0" expanded="false" />
             <element signature="e#8121#8192#0" expanded="false" />
             <element signature="e#8219#8517#0" expanded="false" />
             <element signature="e#8542#8592#0" expanded="false" />
-            <element signature="e#8641#8924#0" expanded="false" />
             <element signature="e#8944#9322#0" expanded="false" />
             <element signature="e#9339#9722#0" expanded="false" />
             <element signature="e#9749#9906#0" expanded="false" />
@@ -877,12 +710,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/vue/src/views/selfComponents/main/Login.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="185">
+          <caret line="26" column="44" lean-forward="false" selection-start-line="26" selection-start-column="33" selection-end-line="26" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vue/src/assets/js/scrollIt.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2412">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/vue/src/components/Header.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="48">
-          <caret line="229" column="2" lean-forward="false" selection-start-line="229" selection-start-column="2" selection-end-line="243" selection-end-column="3" />
+        <state relative-caret-position="-1680">
+          <caret line="11" column="40" lean-forward="false" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="40" />
           <folding>
-            <element signature="n#script#0;n#!!top" expanded="false" />
             <element signature="e#3347#3496#0" expanded="false" />
             <element signature="e#3510#3590#0" expanded="false" />
             <element signature="e#3593#3766#0" expanded="false" />
@@ -892,33 +740,82 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/vue/src/App.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="9" column="13" lean-forward="true" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vue/src/views/AddFilmReview.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="312">
+          <caret line="13" column="23" lean-forward="false" selection-start-line="13" selection-start-column="10" selection-end-line="13" selection-end-column="23" />
+          <folding>
+            <element signature="e#145#191#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/vue/src/views/selfComponents/addFilmReview/Body.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="122" column="2" lean-forward="true" selection-start-line="122" selection-start-column="2" selection-end-line="125" selection-end-column="3" />
+        <state relative-caret-position="-1128">
+          <caret line="68" column="28" lean-forward="true" selection-start-line="68" selection-start-column="28" selection-end-line="68" selection-end-column="28" />
           <folding>
             <element signature="n#div#2;n#div#0;n#transition#0;n#div#0;n#template#0;n#!!top" expanded="false" />
             <element signature="e#1954#1980#0" expanded="true" />
-            <element signature="e#3790#3900#0" expanded="false" />
-            <element signature="e#3912#4033#0" expanded="false" />
-            <element signature="e#4261#4343#0" expanded="false" />
-            <element signature="e#4363#5393#0" expanded="false" />
-            <element signature="e#6582#6671#0" expanded="false" />
+            <element signature="e#3789#3899#0" expanded="false" />
+            <element signature="e#3911#4032#0" expanded="false" />
+            <element signature="e#4260#4342#0" expanded="false" />
+            <element signature="e#4362#5392#0" expanded="false" />
+            <element signature="e#6581#6670#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/vue/src/views/selfComponents/filmReview/Body.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="28" column="64" lean-forward="true" selection-start-line="28" selection-start-column="64" selection-end-line="28" selection-end-column="64" />
+        <state relative-caret-position="188">
+          <caret line="18" column="78" lean-forward="false" selection-start-line="18" selection-start-column="67" selection-end-line="18" selection-end-column="78" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vue/config/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="36" column="21" lean-forward="false" selection-start-line="36" selection-start-column="8" selection-end-line="36" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vue/src/router/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="401">
+          <caret line="26" column="14" lean-forward="false" selection-start-line="26" selection-start-column="14" selection-end-line="26" selection-end-column="14" />
           <folding>
-            <element signature="n#div#2;n#div#0;n#div#0;n#transition#0;n#div#0;n#template#0;n#!!top" expanded="false" />
-            <element signature="e#1480#1590#0" expanded="false" />
-            <element signature="e#1602#1723#0" expanded="false" />
-            <element signature="e#2153#3230#0" expanded="false" />
-            <element signature="e#3244#3831#0" expanded="false" />
-            <element signature="e#5664#5771#0" expanded="false" />
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vue/src/views/Main.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="48">
+          <caret line="2" column="38" lean-forward="false" selection-start-line="2" selection-start-column="16" selection-end-line="2" selection-end-column="38" />
+          <folding>
+            <element signature="e#478#520#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vue/src/views/FilmReview.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="5" column="47" lean-forward="true" selection-start-line="5" selection-start-column="47" selection-end-line="5" selection-end-column="47" />
+          <folding>
+            <element signature="e#434#480#0" expanded="true" />
           </folding>
         </state>
       </provider>

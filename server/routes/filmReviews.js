@@ -76,5 +76,21 @@ router.get("/getImg",function (req,res,next) {
     let read = fs.createReadStream(path.join(__dirname+'/../upload/filmReviewImg',imgId));
     read.pipe(res)
 });
-
+router.get("/getFilmReviews",function (req,res,next) {
+    let filmReviewsQuery = model.filmReview.find({});
+    filmReviewsQuery.limit(4).populate({path:'author',select:'userName'}).exec(function (err,doc) {
+        if(err){
+            return  res.json({
+                status:'0',
+                msg:err.message
+            })
+        }else{
+            return  res.json({
+                status:'1',
+                message:doc.length,
+                result:doc
+            })
+        }
+    })
+});
 module.exports = router;

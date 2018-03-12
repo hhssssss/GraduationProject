@@ -11,7 +11,7 @@
   import Footer from '../components/Footer.vue';
   import Body from './selfComponents/addFilmReview/Body';
   export default {
-    name:'filmReview',
+    name:'addFilmReview',
     data() {
       return {}
     },

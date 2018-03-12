@@ -14,19 +14,22 @@
           <div class="search-button" @click="search" >Go!</div>
           </div>
           <div class="main">
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item"></div>
+            <div class="item" v-for="(filmReview,index) in filmReviews"  v-bind:key="filmReview._id" @click="select(index)">
+              <div class="title">{{filmReview.title}}</div>
+              <div class="img" :style="{ 'background-image' : `url(/filmReviews/getImg?imgId=${filmReview.img})`}"></div>
+            </div>
           </div>
           <div class="change">
-            <div  class='button'>换一批</div>
+            <div  class='button' @click="change">换一批</div>
           </div>
         </div>
         <div class="right">
           <div class="main">
             <div class="content">
-              空荡荡的什么也没有！空荡荡的什么也没有！空荡荡的什么也没有！空荡荡的什么也没有！空荡荡的什么也没有！
+              <div class="title">{{filmReviewName}}</div>
+              <div class="author">作者：{{filmReviewAuthor}}</div>
+              {{filmReviewContent}}
+              <div class="reviewLabel">标签：{{filmReviewLabel}}</div>
             </div>
           </div>
         </div>
@@ -42,13 +45,46 @@
     name: "body",
     data() {
       return {
-        bodyTipFlag:0,
+        bodyTipFlag : 0,
+        searchKey : '',
+        filmReviews : '',
+        filmReviewLabel : '',
+        filmReviewName : '',
+        filmReviewContent : '',
+        filmReviewAuthor : '',
       }
     },
     mounted() {
-
+      axios.get("/filmReviews/getFilmReviews").then((response) => {
+        let res = response.data;
+        if (res.status == '1') {
+          this.filmReviews = res.result;
+          if(this.filmReviews.length == 0){
+            this.bodyTipFlag = 1;
+            return;
+          }
+          this.filmReviewName = this.filmReviews[0].title;
+          this.filmReviewAuthor = this.filmReviews[0].author.userName;
+          this.filmReviewContent = this.filmReviews[0].content;
+          this.filmReviewLabel = this.filmReviews[0].label;
+        } else {
+          this.filmReviews = [];
+        }
+      })
     },
     methods: {
+      search(){
+
+      },
+      change(){
+
+      },
+      select(index){
+        this.filmReviewName = this.filmReviews[index].title;
+        this.filmReviewAuthor = this.filmReviews[index].author.userName;
+        this.filmReviewContent = this.filmReviews[index].content;
+        this.filmReviewLabel = this.filmReviews[index].label;
+      }
     }
   }
 </script>
@@ -169,6 +205,23 @@
           &:hover{
             box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.2);
           }
+          .title{
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            font-family: zhFont;
+            font-size: 20px;
+            font-weight: bold;
+            color: #fff;
+          }
+          .img{
+            height: 210px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            border-bottom-left-radius: 6px;
+            border-bottom-right-radius: 6px;
+          }
         }
       }
     }
@@ -176,11 +229,13 @@
       width: 70%;
       min-height: 500px;
       height: 100%;
-      padding-left: 40px;
+      padding-left: 20px;
       .main{
         position: relative;
         margin-top: 50px;
+        margin-bottom: 50px;
         .content{
+          position: relative;
           font-family: zhFont;
           font-weight: bold;
           min-height: 500px;
@@ -214,6 +269,19 @@
           position: absolute;
           left: 50%;
           top: -15px;
+        }
+        .title{
+          text-align: center;
+          font-size: 28px;
+        }
+        .author{
+          text-align: center;
+          font-size: 20px;
+        }
+        .reviewLabel{
+          font-size: 18px;
+          position: absolute;
+          bottom: 18px;
         }
       }
     }
