@@ -32,6 +32,79 @@
               <div class="reviewLabel">标签：{{filmReviewLabel}}</div>
             </div>
           </div>
+          <div class="bottom">
+            <div class="control">
+              <div class="control-left" :class="[collectionIsActive_hover[index] || collectionsFlag[index] ? fontActiveRed :  fontNormal]" @mouseenter="collectionEnter(index)" @mouseleave="collectionLeave(index)" @click="collectionClick(index)">
+                <div class="control-icon">
+                  <img :src="[collectionIsActive_hover[index] || collectionsFlag[index]? collection_icon2 : collection_icon1]" alt="">
+                </div>
+                <div class="control-title">
+                  <div class="control-title-top">收藏</div>
+                  <div class="control-title-bottom">12</div>
+                </div>
+              </div>
+              <div class="control-right" :class="[coinIsActive_hover[index] || coinsFlag[index] ? fontActiveYellow :  fontNormal]" @mouseenter="coinEnter(index)" @mouseleave="coinLeave(index)" @click="coinClick(index)">
+                <div class="control-icon">
+                  <img :src="[coinIsActive_hover[index] || coinsFlag[index]? coin_icon2 : coin_icon1]" alt="">
+                </div>
+                <div class="control-title">
+                  <div class="control-title-top">投币</div>
+                  <div class="control-title-bottom">44</div>
+                </div>
+              </div>
+            </div>
+            <div class="addComment">
+              <div class="controlSelfComment">
+                <div class="controlSelfComment1">
+                  <div class="userImg"></div>
+                  <input type="text">
+                </div>
+                <div class='button'>评论</div>
+              </div>
+            </div>
+            <div class="comments">
+              <div class="userImg"></div>
+              <div class="comment-news">
+                <div class="comment-userName">大熊：</div>
+                <div class="comment-content">231231232312312323123123231231232312312323123123231231232312312323123123231231232312312323123123</div>
+                <div class="comment-time">2018/3/16</div>
+              </div>
+              <div class="like">
+                <div class="likeImg">
+                  <img src="../../../assets/icon/collection_icon1.png" alt="">
+                </div>
+                <div class="likeNumber">99</div>
+              </div>
+            </div>
+            <div class="comments">
+              <div class="userImg"></div>
+              <div class="comment-news">
+                <div class="comment-userName">大熊：</div>
+                <div class="comment-content">3123231231232312312323123123</div>
+                <div class="comment-time">2018/3/16</div>
+              </div>
+              <div class="like">
+                <div class="likeImg">
+                  <img src="../../../assets/icon/collection_icon1.png" alt="">
+                </div>
+                <div class="likeNumber">99</div>
+              </div>
+            </div>
+            <div class="comments">
+              <div class="userImg"></div>
+              <div class="comment-news">
+                <div class="comment-userName">大熊：</div>
+                <div class="comment-content">3123231231232312312323123123</div>
+                <div class="comment-time">2018/3/16</div>
+              </div>
+              <div class="like">
+                <div class="likeImg">
+                  <img src="../../../assets/icon/collection_icon1.png" alt="">
+                </div>
+                <div class="likeNumber">99</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="body-tip" v-if="bodyTipFlag">空荡荡的什么也没有！</div>
@@ -41,6 +114,10 @@
 
 <script>
   import axios from 'axios';
+  import collection_icon1 from '../../../assets/icon/collection_icon1.png';
+  import collection_icon2 from '../../../assets/icon/collection_icon2.png';
+  import coin_icon1 from '../../../assets/icon/coin_icon1.png';
+  import coin_icon2 from '../../../assets/icon/coin_icon2.png';
   export default {
     name: "body",
     data() {
@@ -52,6 +129,23 @@
         filmReviewName : '',
         filmReviewContent : '',
         filmReviewAuthor : '',
+        collectionIsActive_hover : [0,0,0,0],
+        coinIsActive_hover : [0,0,0,0],
+        coin_icon1,
+        coin_icon2,
+        collection_icon1,
+        collection_icon2,
+        fontActiveRed : 'font-active-red',
+        fontActiveYellow : 'font-active-yellow',
+        fontNormal : 'font-normal',
+      }
+    },
+    computed:{
+      collectionsFlag(){
+        return [0,0,0,0]
+      },
+      coinsFlag(){
+        return [0,0,0,0]
       }
     },
     mounted() {
@@ -84,7 +178,21 @@
         this.filmReviewAuthor = this.filmReviews[index].author.userName;
         this.filmReviewContent = this.filmReviews[index].content;
         this.filmReviewLabel = this.filmReviews[index].label;
-      }
+      },
+      collectionEnter(index){
+        this.$set(this.collectionIsActive_hover, index, 1);
+      },
+      collectionLeave(index){
+        this.$set(this.collectionIsActive_hover, index, 0);
+      },
+      collectionClick(index){},
+      coinEnter(index){
+        this.$set(this.coinIsActive_hover, index, 1);
+      },
+      coinLeave(index){
+        this.$set(this.coinIsActive_hover, index, 0);
+      },
+      coinClick(index){},
     }
   }
 </script>
@@ -282,6 +390,156 @@
           font-size: 18px;
           position: absolute;
           bottom: 18px;
+        }
+      }
+      .bottom{
+        margin-bottom: 50px;
+        .control{
+          height: 80px;
+          margin-bottom: 10px;
+          display: flex;
+          .control-left{
+            border-right: 1px solid #08aba6;
+            flex-grow: 1;
+            height: 100%;
+            display: flex;
+          }
+          .control-right{
+            flex-grow: 1;
+            height: 100%;
+            display: flex;
+          }
+          .control-icon{
+            height: 100%;
+            flex-grow: 1;
+            text-align: right;
+            padding-right: 5px;
+            img{
+              margin-top: 20px;
+              height: 40px;
+            }
+          }
+          .control-title{
+            height: 100%;
+            flex-grow: 1;
+            padding-left: 10px;
+            .control-title-top{
+              height: 43px;
+              font-size: 20px;
+              display: table-cell;
+              vertical-align: bottom;
+            }
+            .control-title-bottom{
+              font-size: 16px;
+            }
+          }
+          .font-active-red{
+            color: #d81e06;
+          }
+          .font-active-yellow{
+            color: #f4ea2a;
+          }
+          .font-normal{
+            color: #808080;
+          }
+        }
+        .addComment{
+          background: #f2f2f5;
+          padding: 0 20px;
+          .controlSelfComment{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+            .controlSelfComment1{
+              display: flex;
+              justify-content: flex-start;
+              align-items: center;
+              .userImg{
+                height: 50px;
+                width: 50px;
+                background-size: contain;
+                float: left;
+                background-image: url("../../../assets/user.png");
+              }
+              input{
+                height: 40px;
+                width: 400px;
+                outline: none;
+                border: none;
+                color: #08aba6;
+                box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+                padding: 0 10px;
+                margin-left: 20px;
+                float: left;
+                &:hover{
+                  border:1px solid #08aba6;
+                }
+                &:focus{
+                  border:1px solid #08aba6;
+                }
+              }
+            }
+            .button{
+              height: 40px;
+              width: 100px;
+              background-color: #08aba6;
+              color: white;
+              text-align: center;
+              line-height: 40px;
+              transition: all 0.3s ease-in-out;
+              cursor: pointer;
+              border: 1px solid #08aba6;
+              &:hover{
+                background-color: #fff;
+                color: #08aba6;
+              }
+            }
+          }
+        }
+        .comments{
+          margin-top: 10px;
+          background: #f2f2f5;
+          padding: 10px 20px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          .userImg{
+            height: 50px;
+            width: 50px;
+            background-size: contain;
+            float: left;
+            background-image: url("../../../assets/user.png");
+          }
+          .comment-news{
+            width: 450px;
+            .comment-userName{
+              color: #515151;
+              font-size: 16px;
+            }
+            .comment-content{
+              font-size: 18px;
+              word-break: break-all;
+            }
+            .comment-time{
+              color: #808080;
+              font-size: 14px;
+            }
+          }
+          .like{
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            .likeImg{
+              height: 30px;
+              img{
+                height: 30px;
+              }
+            }
+            .likeNumber{
+              color: #808080;
+            }
+          }
         }
       }
     }

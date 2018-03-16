@@ -104,7 +104,7 @@
         reviewData.append('filmReviewLabel', this.filmReviewLabel);
         reviewData.append('filmReviewContent', this.filmReviewContent);
         reviewData.append('user_id', this.$store.state._id);
-        axios.post('/filmReview/addFilmReview', reviewData, {
+        axios.post('/filmReviews/addFilmReview', reviewData, {
           headers: {
             "Content-Type": "multipart/form-data"
           }
