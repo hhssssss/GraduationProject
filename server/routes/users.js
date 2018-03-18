@@ -163,4 +163,37 @@ router.get("/addCollections",function (req,res,next) {
         }
     })
 });
+router.get("/addFilmReviewCollections",function (req,res,next) {
+    let filmReview_id = req.param('filmReview_id');
+    let user_id = req.param('user_id');
+    model.user.find({_id:user_id},function (err,doc) {
+        if(err){
+            return  res.json({
+                status:'0',
+                msg:err.message
+            })
+        }else{
+            let i = doc[0].filmReviewCollections.indexOf(filmReview_id);
+            if(i > -1){
+                doc[0].filmReviewCollections.splice(i,1);
+            }
+            else {
+                doc[0].filmReviewCollections.push(filmReview_id);
+            }
+            doc[0].save(function (err) {
+                if(err){
+                    return  res.json({
+                        status:'0',
+                        msg:err.message
+                    })
+                }else {
+                    return  res.json({
+                        status:'1',
+                        message:'操作成功',
+                    })
+                }
+            })
+        }
+    })
+});
 module.exports = router;

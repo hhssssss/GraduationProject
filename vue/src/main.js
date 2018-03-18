@@ -19,7 +19,8 @@ const store = new Vuex.Store({
     userPwd : '',
     userProfilePicture : '',
     _id : '',
-    collections : []
+    collections : [],
+    filmReviewCollections : []
   },
   mutations:{
     getUserInfo(state,content){
@@ -29,6 +30,7 @@ const store = new Vuex.Store({
       state.userProfilePicture = !content.pic?imgUrl:'data:image/png;base64,'+content.pic;
       state._id = content._id;
       state.collections = content.collections;
+      state.filmReviewCollections = content.filmReviewCollections;
     },
     updateUserInfo1(state,content){
       state.userName = content.name
@@ -40,7 +42,8 @@ const store = new Vuex.Store({
       state.userPwd = '';
       state.userProfilePicture = '';
       state._id = '';
-      state.collections = []
+      state.collections = [],
+      state.filmReviewCollections = []
     },
     pushCollections(state,id){
       state.collections.push(id);
@@ -49,7 +52,15 @@ const store = new Vuex.Store({
     pullCollections(state,index){
       state.collections.splice(index,1);
       console.log("取消收藏");
-    }
+    },
+    pushFilmReviewCollections(state,id){
+      state.filmReviewCollections.push(id);
+      console.log("收藏成功");
+    },
+    pullFilmReviewCollections(state,index){
+      state.filmReviewCollections.splice(index,1);
+      console.log("取消收藏");
+    },
   }
 })
 router.beforeEach((to, from, next) => {

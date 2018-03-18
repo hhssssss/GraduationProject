@@ -25,27 +25,27 @@
         </div>
         <div class="right">
           <div class="main">
-            <div class="content">
-              <div class="title">{{filmReviewName}}</div>
-              <div class="author">作者：{{filmReviewAuthor}}</div>
-              {{filmReviewContent}}
-              <div class="reviewLabel">标签：{{filmReviewLabel}}</div>
+            <div class="content" v-if="filmReviews[filmReviewsIndex]">
+              <div class="title" >{{filmReviews[filmReviewsIndex].title||''}}</div>
+              <div class="author">作者：{{filmReviews[filmReviewsIndex].author.userName||''}}</div>
+              {{filmReviews[filmReviewsIndex].content||''}}
+              <div class="reviewLabel">标签：{{filmReviews[filmReviewsIndex].label||''}}</div>
             </div>
           </div>
           <div class="bottom">
             <div class="control">
-              <div class="control-left" :class="[collectionIsActive_hover[index] || collectionsFlag[index] ? fontActiveRed :  fontNormal]" @mouseenter="collectionEnter(index)" @mouseleave="collectionLeave(index)" @click="collectionClick(index)">
+              <div class="control-left" :class="[collectionIsActive_hover || collectionsFlag[filmReviewsIndex] ? fontActiveRed :  fontNormal]" @mouseenter="collectionEnter" @mouseleave="collectionLeave" @click="collectionClick">
                 <div class="control-icon">
-                  <img :src="[collectionIsActive_hover[index] || collectionsFlag[index]? collection_icon2 : collection_icon1]" alt="">
+                  <img :src="[collectionIsActive_hover || collectionsFlag[filmReviewsIndex]? collection_icon2 : collection_icon1]" alt="">
                 </div>
                 <div class="control-title">
                   <div class="control-title-top">收藏</div>
                   <div class="control-title-bottom">12</div>
                 </div>
               </div>
-              <div class="control-right" :class="[coinIsActive_hover[index] || coinsFlag[index] ? fontActiveYellow :  fontNormal]" @mouseenter="coinEnter(index)" @mouseleave="coinLeave(index)" @click="coinClick(index)">
+              <div class="control-right" :class="[coinIsActive_hover || coinsFlag ? fontActiveYellow :  fontNormal]" @mouseenter="coinEnter" @mouseleave="coinLeave" @click="coinClick">
                 <div class="control-icon">
-                  <img :src="[coinIsActive_hover[index] || coinsFlag[index]? coin_icon2 : coin_icon1]" alt="">
+                  <img :src="[coinIsActive_hover || coinsFlag? coin_icon2 : coin_icon1]" alt="">
                 </div>
                 <div class="control-title">
                   <div class="control-title-top">投币</div>
@@ -124,13 +124,10 @@
       return {
         bodyTipFlag : 0,
         searchKey : '',
-        filmReviews : '',
-        filmReviewLabel : '',
-        filmReviewName : '',
-        filmReviewContent : '',
-        filmReviewAuthor : '',
-        collectionIsActive_hover : [0,0,0,0],
-        coinIsActive_hover : [0,0,0,0],
+        filmReviews : [],
+        filmReviewsIndex : 0,
+        collectionIsActive_hover : 0,
+        coinIsActive_hover : 0,
         coin_icon1,
         coin_icon2,
         collection_icon1,
@@ -142,10 +139,21 @@
     },
     computed:{
       collectionsFlag(){
-        return [0,0,0,0]
+        let flag = [0,0,0,0];
+        if(this.filmReviews[this.filmReviewsIndex]&&this.$store.state.filmReviewCollections)
+        {
+          for(let i = flag.length; i--;){
+            if(this.$store.state.filmReviewCollections.indexOf(this.filmReviews[i]._id)>=0){
+              flag[i] = 1;
+            }else {
+              flag[i] = 0;
+            }
+          }
+        }
+        return flag;
       },
       coinsFlag(){
-        return [0,0,0,0]
+        return 0
       }
     },
     mounted() {
@@ -157,10 +165,6 @@
             this.bodyTipFlag = 1;
             return;
           }
-          this.filmReviewName = this.filmReviews[0].title;
-          this.filmReviewAuthor = this.filmReviews[0].author.userName;
-          this.filmReviewContent = this.filmReviews[0].content;
-          this.filmReviewLabel = this.filmReviews[0].label;
         } else {
           this.filmReviews = [];
         }
@@ -168,31 +172,66 @@
     },
     methods: {
       search(){
-
+        axios.get("/filmReviews/searchFilmReviews", {params:{searchKey:this.searchKey}}).then((response) => {
+          let res = response.data;
+          if (res.status == '1') {
+            this.filmReviews = res.result;
+          } else {
+            this.filmReviews = [];
+          }
+        })
       },
       change(){
-
+        axios.get("/filmReviews/getRandomFilmReviews").then((response) => {
+          let res = response.data;
+          if (res.status == '1') {
+            this.filmReviews = res.result;
+          } else {
+            this.filmReviews = [];
+          }
+        })
       },
       select(index){
-        this.filmReviewName = this.filmReviews[index].title;
-        this.filmReviewAuthor = this.filmReviews[index].author.userName;
-        this.filmReviewContent = this.filmReviews[index].content;
-        this.filmReviewLabel = this.filmReviews[index].label;
+        this.filmReviewsIndex = index;
       },
-      collectionEnter(index){
-        this.$set(this.collectionIsActive_hover, index, 1);
+      collectionEnter(){
+        this.collectionIsActive_hover = 1;
       },
-      collectionLeave(index){
-        this.$set(this.collectionIsActive_hover, index, 0);
+      collectionLeave(){
+        this.collectionIsActive_hover = 0;
       },
-      collectionClick(index){},
-      coinEnter(index){
-        this.$set(this.coinIsActive_hover, index, 1);
+      collectionClick(){
+        if(!this.$store.state.userName){
+          return console.log("收藏需要登陆");
+        }
+        else{
+          let i = this.$store.state.filmReviewCollections.indexOf(this.filmReviews[this.filmReviewsIndex]._id);
+          if(i > -1){
+            this.$store.commit('pullFilmReviewCollections',i)
+          }else {
+            this.$store.commit('pushFilmReviewCollections',this.filmReviews[this.filmReviewsIndex]._id)
+          }
+          axios.get("/users/addFilmReviewCollections", {
+            params:{
+              filmReview_id : this.filmReviews[this.filmReviewsIndex]._id ,
+              user_id : this.$store.state._id
+            }}).then((response) => {
+            let res = response.data;
+            if (res.status == '1') {
+              //收藏成功
+            } else {
+              console.log("收藏失败")
+            }
+          })
+        }
       },
-      coinLeave(index){
-        this.$set(this.coinIsActive_hover, index, 0);
+      coinEnter(){
+        this.coinIsActive_hover = 1;
       },
-      coinClick(index){},
+      coinLeave(){
+        this.coinIsActive_hover = 0;
+      },
+      coinClick(){},
     }
   }
 </script>

@@ -16,7 +16,7 @@
 <script>
 import Header from '../components/Header';
 import Body from './selfComponents/main/Body';
-import Login from './selfComponents/main/Login';
+import Login from '../components/Login';
 import Footer from '../components/Footer';
 import ReturnTop from './selfComponents/main/ReturnTop';
 export default {
@@ -48,10 +48,10 @@ export default {
     loginHide(){
       this.loginShowFlag = !this.loginShowFlag;
     },
-    loginSuccess(id,pwd,name,pic,_id,collections){
+    loginSuccess(id,pwd,name,pic,_id,collections,filmReviewCollections){
       this.loginShowFlag = !this.loginShowFlag;
       let content = {
-        id,pwd,name,pic,_id,collections
+        id,pwd,name,pic,_id,collections,filmReviewCollections
       }
       this.$store.commit('getUserInfo',content);
     },

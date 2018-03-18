@@ -105,7 +105,7 @@
               this.loginSuccess = true;
               setTimeout(() => {
                 this.loginSuccess = false;
-                this.$emit('loginSuccess',this.userId , this.userPwd , res.result[0].userName , res.result[0].userProfilePicture , res.result[0]._id , res.result[0].collections)
+                this.$emit('loginSuccess',this.userId , this.userPwd , res.result[0].userName , res.result[0].userProfilePicture , res.result[0]._id , res.result[0].collections,res.result[0].filmReviewCollections)
               },1000)
             }else{
               this.loginFail = true;
@@ -158,7 +158,7 @@
     top: 15px;
     width: 24px;
     height: 24px;
-    background:url("../../../assets/cancel.png") center no-repeat;
+    background:url("../assets/cancel.png") center no-repeat;
     background-size: 24px auto;
     cursor: pointer;
   }
@@ -209,12 +209,12 @@
   }
 
   .login-input-box .icon.icon-user{
-    background: url("../../../assets/man.png") center no-repeat;
+    background: url("../assets/man.png") center no-repeat;
     background-size: 24px auto;
   }
 
   .login-input-box .icon.icon-password{
-    background: url("../../../assets/pwd.png") center no-repeat;
+    background: url("../assets/pwd.png") center no-repeat;
     background-size: 24px auto;
   }
   .login-button-box{

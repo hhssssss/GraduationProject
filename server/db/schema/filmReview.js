@@ -12,7 +12,8 @@ let MovieSchema = new mongoose.Schema({
     author : {
         type: mongoose.Schema.ObjectId,
         ref: 'user'
-    }
+    },
+    random : Number
 });
 
 module.exports = MovieSchema;

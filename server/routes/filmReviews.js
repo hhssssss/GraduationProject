@@ -38,6 +38,7 @@ router.post("/addFilmReview",function (req,res,next) {
                         img:fullName,
                         content:fields.filmReviewContent,
                         author:fields.user_id,
+                        random:Math.random(),
                     }
                 }else {
                     return  res.json({
@@ -52,6 +53,7 @@ router.post("/addFilmReview",function (req,res,next) {
                     img:'',
                     content:fields.filmReviewContent,
                     author:fields.user_id,
+                    random:Math.random(),
                 }
             }
             filmReviewEntity = new filmReivew(reviewInfo);
@@ -90,6 +92,62 @@ router.get("/getFilmReviews",function (req,res,next) {
                 message:doc.length,
                 result:doc
             })
+        }
+    })
+});
+router.get("/searchFilmReviews",function (req,res,next) {
+    let searchKey = req.param('searchKey');
+    model.filmReview.find({$or:[
+            {title:new RegExp(".*" + searchKey + ".*","gim")},
+            {label:new RegExp(".*" + searchKey + ".*","gim")}]},null,{limit:4},function (err,doc) {
+        if(err){
+            return  res.json({
+                status:'0',
+                message:err.message
+            })
+        }
+        else{
+            return  res.json({
+                status: '1',
+                message: doc.length,
+                result:doc,
+            })
+        }
+    })
+});
+router.get("/getRandomFilmReviews",function (req,res,next) {
+    let random = Math.random();
+    model.filmReview.find({random : { $gte : random }},null,{limit:4},function (err,doc1) {
+        if(err){
+            return  res.json({
+                status:'0',
+                message:err.message
+            })
+        }
+        else{
+            if(doc1.length !== 0)
+            {
+                return  res.json({
+                    status: '1',
+                    message: doc1.length,
+                    result:doc1,
+                })
+            }else if(doc1.length === 0){
+                model.filmReview.find({random : { $lte : random }},null,{limit:4},function (err,doc2) {
+                    if(err){
+                        return  res.json({
+                            status:'0',
+                            message:err.message
+                        })
+                    }else {
+                        return  res.json({
+                            status: '1',
+                            message: doc2.length,
+                            result:doc2,
+                        })
+                    }
+                });
+            }
         }
     })
 });

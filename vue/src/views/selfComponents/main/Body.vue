@@ -158,11 +158,13 @@
         },
         collectionsFlag(){
           let flag = [0,0,0,0,0,0,0,0,0,0];
-          for(let i = flag.length; i--;){
-            if(this.$store.state.collections.indexOf(this.movies[i]._id)>=0){
-              flag[i] = 1;
-            }else {
-              flag[i] = 0;
+          if(this.movies[0]&&this.$store.state.collections) {
+            for (let i = flag.length; i--;) {
+              if (this.$store.state.collections.indexOf(this.movies[i]._id) >= 0) {
+                flag[i] = 1;
+              } else {
+                flag[i] = 0;
+              }
             }
           }
           return flag;

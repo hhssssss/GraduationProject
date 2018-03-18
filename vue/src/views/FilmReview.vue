@@ -16,7 +16,7 @@
   import Header from '../components/Header.vue';
   import Footer from '../components/Footer.vue';
   import Body from './selfComponents/filmReview/Body';
-  import Login from './selfComponents/main/Login';
+  import Login from '../components/Login';
   export default {
     name:'filmReview',
     data() {
@@ -45,10 +45,10 @@
       loginHide(){
         this.loginShowFlag = !this.loginShowFlag;
       },
-      loginSuccess(id,pwd,name,pic,_id,collections){
+      loginSuccess(id,pwd,name,pic,_id,collections,filmReviewCollections){
         this.loginShowFlag = !this.loginShowFlag;
         let content = {
-          id,pwd,name,pic,_id,collections
+          id,pwd,name,pic,_id,collections,filmReviewCollections
         }
         this.$store.commit('getUserInfo',content);
       },
