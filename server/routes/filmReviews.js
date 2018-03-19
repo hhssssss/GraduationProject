@@ -190,4 +190,38 @@ router.get("/getComments",function (req,res,next) {
         }
     })
 });
+router.get("/addNumberOfLike_comment",function (req,res,next) {
+    let comment_id = req.param('comment_id');
+    let user_id = req.param('user_id');
+    model.filmReviewComment.find({_id:comment_id},function (err,doc) {
+        if(err){
+            return  res.json({
+                status:'0',
+                msg:err.message
+            })
+        }else{
+            let i = doc[0].numberOfLike.indexOf(user_id);
+            if(i > -1){
+                doc[0].numberOfLike.splice(i,1);
+            }
+            else {
+                doc[0].numberOfLike.push(user_id);
+            }
+            doc[0].save(function (err) {
+                if(err){
+                    return  res.json({
+                        status:'0',
+                        msg:err.message,
+                    })
+                }else {
+                    return  res.json({
+                        status:'1',
+                        message:'操作成功',
+                        result:doc[0].numberOfLike.length,
+                    })
+                }
+            })
+        }
+    })
+});
 module.exports = router;

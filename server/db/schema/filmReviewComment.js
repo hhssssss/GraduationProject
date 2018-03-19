@@ -10,10 +10,7 @@ let FilmReviewCommentSchema = new mongoose.Schema({
         type : String,
         default : new Date().toLocaleString()
     },
-    numberOfLike : {
-        type : Number,
-        default : '0'
-    },
+    numberOfLike : [String],
     comment : String,
 });
 

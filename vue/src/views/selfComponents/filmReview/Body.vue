@@ -73,11 +73,11 @@
                   <div class="comment-content">{{filmReviewComment.comment}}</div>
                   <div class="comment-time">{{filmReviewComment.time}}</div>
                 </div>
-                <div class="like">
+                <div class="like" @click="addNumberOfLike_comment(index)">
                   <div class="likeImg">
                     <img src="../../../assets/icon/collection_icon1.png" alt="">
                   </div>
-                  <div class="likeNumber">{{filmReviewComment.numberOfLike}}</div>
+                  <div class="likeNumber">{{filmReviewComment.numberOfLike.length}}</div>
                 </div>
               </div>
             </template>
@@ -260,6 +260,27 @@
             console.log("获取评论失败")
           }
         })
+      },
+      addNumberOfLike_comment(index){
+        if(!this.$store.state.userName){
+          return console.log("点赞需要登陆");
+        }
+        else{
+          axios.get("/filmReviews/addNumberOfLike_comment", {
+            params:{
+              comment_id : this.filmReviewComments[index]._id ,
+              user_id : this.$store.state._id
+            }}).then((response) => {
+            let res = response.data;
+            if (res.status == '1') {
+              //点赞成功
+              this.getComment();
+              console.log(res.result);
+            } else {
+              console.log("收藏失败")
+            }
+          })
+        }
       },
     }
   }
