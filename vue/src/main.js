@@ -8,7 +8,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.min.js'
 var Velocity = require("../node_modules/velocity-animate/velocity");
 require("../node_modules/velocity-animate/velocity.ui.js");
-import imgUrl from './assets/user.png'
 Vue.use(Vuex);
 Vue.config.productionTip = false
 
@@ -27,7 +26,7 @@ const store = new Vuex.Store({
       state.userName = content.name
       state.userId = content.id;
       state.userPwd = content.pwd;
-      state.userProfilePicture = !content.pic?imgUrl:'data:image/png;base64,'+content.pic;
+      state.userProfilePicture = content.pic;
       state._id = content._id;
       state.collections = content.collections;
       state.filmReviewCollections = content.filmReviewCollections;

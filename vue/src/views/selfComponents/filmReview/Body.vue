@@ -7,7 +7,7 @@
       appear-to-class="custom-appear-to-class"
       appear-active-class="custom-appear-active-class"
     >
-      <div class="body-main" v-if="!bodyTipFlag">
+      <div class="body-main" v-if="filmReviews.length">
         <div class="left">
           <div class="search">
           <input type="text" placeholder="Search for..." v-model="searchKey" @keyup.enter="search">
@@ -54,60 +54,44 @@
               </div>
             </div>
             <div class="addComment">
-              <div class="controlSelfComment">
+              <div class="controlSelfComment" v-if="loginFlag">
                 <div class="controlSelfComment1">
-                  <div class="userImg"></div>
-                  <input type="text">
+                  <div class="userImg" :style="{ 'background-image' : `url(/users/getImg?imgId=${userProfilePicture})`}"></div>
+                  <input type="text" v-model="selfComment" @keyup.enter="addComment">
                 </div>
-                <div class='button'>评论</div>
+                <div class='button' @click="addComment">评论</div>
+              </div>
+              <div class="controlSelfComment" v-if="!loginFlag">
+                <span class="tip">评论需要登陆！</span>
               </div>
             </div>
-            <div class="comments">
-              <div class="userImg"></div>
-              <div class="comment-news">
-                <div class="comment-userName">大熊：</div>
-                <div class="comment-content">231231232312312323123123231231232312312323123123231231232312312323123123231231232312312323123123</div>
-                <div class="comment-time">2018/3/16</div>
-              </div>
-              <div class="like">
-                <div class="likeImg">
-                  <img src="../../../assets/icon/collection_icon1.png" alt="">
+            <template v-if="filmReviewComments.length"  v-for="(filmReviewComment,index) in filmReviewComments">
+              <div class="comments">
+                <div class="userImg" :style="{ 'background-image' : `url(/users/getImg?imgId=${filmReviewComment.user.userProfilePicture})`}"></div>
+                <div class="comment-news">
+                  <div class="comment-userName">{{filmReviewComment.user.userName}}：</div>
+                  <div class="comment-content">{{filmReviewComment.comment}}</div>
+                  <div class="comment-time">{{filmReviewComment.time}}</div>
                 </div>
-                <div class="likeNumber">99</div>
-              </div>
-            </div>
-            <div class="comments">
-              <div class="userImg"></div>
-              <div class="comment-news">
-                <div class="comment-userName">大熊：</div>
-                <div class="comment-content">3123231231232312312323123123</div>
-                <div class="comment-time">2018/3/16</div>
-              </div>
-              <div class="like">
-                <div class="likeImg">
-                  <img src="../../../assets/icon/collection_icon1.png" alt="">
+                <div class="like">
+                  <div class="likeImg">
+                    <img src="../../../assets/icon/collection_icon1.png" alt="">
+                  </div>
+                  <div class="likeNumber">{{filmReviewComment.numberOfLike}}</div>
                 </div>
-                <div class="likeNumber">99</div>
               </div>
-            </div>
-            <div class="comments">
-              <div class="userImg"></div>
-              <div class="comment-news">
-                <div class="comment-userName">大熊：</div>
-                <div class="comment-content">3123231231232312312323123123</div>
-                <div class="comment-time">2018/3/16</div>
+            </template>
+            <template v-if="!filmReviewComments.length">
+              <div class="comments">
+               <div class="tip">
+                 还没有人评论，快来评论吧！
+               </div>
               </div>
-              <div class="like">
-                <div class="likeImg">
-                  <img src="../../../assets/icon/collection_icon1.png" alt="">
-                </div>
-                <div class="likeNumber">99</div>
-              </div>
-            </div>
+            </template>
           </div>
         </div>
       </div>
-      <div class="body-tip" v-if="bodyTipFlag">空荡荡的什么也没有！</div>
+      <div class="body-tip" v-if="!filmReviews.length">空荡荡的什么也没有！</div>
     </transition>
   </div>
 </template>
@@ -122,7 +106,6 @@
     name: "body",
     data() {
       return {
-        bodyTipFlag : 0,
         searchKey : '',
         filmReviews : [],
         filmReviewsIndex : 0,
@@ -135,14 +118,16 @@
         fontActiveRed : 'font-active-red',
         fontActiveYellow : 'font-active-yellow',
         fontNormal : 'font-normal',
+        selfComment : '',
+        filmReviewComments : '',
       }
     },
     computed:{
       collectionsFlag(){
-        let flag = [0,0,0,0];
-        if(this.filmReviews[this.filmReviewsIndex]&&this.$store.state.filmReviewCollections)
+        let flag = [];
+        if(this.filmReviews.length && this.$store.state.filmReviewCollections)
         {
-          for(let i = flag.length; i--;){
+          for(let i = this.filmReviews.length; i--;){
             if(this.$store.state.filmReviewCollections.indexOf(this.filmReviews[i]._id)>=0){
               flag[i] = 1;
             }else {
@@ -152,8 +137,21 @@
         }
         return flag;
       },
+      userProfilePicture() {
+        return this.$store.state.userProfilePicture;
+      },
       coinsFlag(){
         return 0
+      },
+      loginFlag() {
+        return this.$store.state.userName ? true : false;
+      },
+    },
+    watch: {
+      filmReviews: function () {
+        if(this.filmReviews.length){
+          this.getComment();
+        }
       }
     },
     mounted() {
@@ -161,14 +159,10 @@
         let res = response.data;
         if (res.status == '1') {
           this.filmReviews = res.result;
-          if(this.filmReviews.length == 0){
-            this.bodyTipFlag = 1;
-            return;
-          }
         } else {
           this.filmReviews = [];
         }
-      })
+      });
     },
     methods: {
       search(){
@@ -193,6 +187,7 @@
       },
       select(index){
         this.filmReviewsIndex = index;
+        this.getComment();
       },
       collectionEnter(){
         this.collectionIsActive_hover = 1;
@@ -232,6 +227,40 @@
         this.coinIsActive_hover = 0;
       },
       coinClick(){},
+      addComment(){
+        if(this.selfComment === ""){
+          return console.log("评论内容不能为空");
+        }
+        else {
+          axios.post("/filmReviews/addComment",
+            {
+              filmReview_id : this.filmReviews[this.filmReviewsIndex]._id,
+              comment:this.selfComment,
+              user_id:this.$store.state._id
+            }).then((response) => {
+            let res = response.data;
+            if(res.status == 1)
+            {
+              console.log('添加评论成功');
+              this.getComment();
+              this.selfComment = '';
+            }
+            else {
+              console.log(res.message)
+            }
+          })
+        }
+      },
+      getComment(){
+        axios.get("/filmReviews/getComments", {params : {filmReview_id : this.filmReviews[this.filmReviewsIndex]._id}}).then((response) => {
+          let res = response.data;
+          if (res.status == '1') {
+            this.filmReviewComments = res.result;
+          } else {
+            console.log("获取评论失败")
+          }
+        })
+      },
     }
   }
 </script>
@@ -442,11 +471,13 @@
             flex-grow: 1;
             height: 100%;
             display: flex;
+            cursor: pointer;
           }
           .control-right{
             flex-grow: 1;
             height: 100%;
             display: flex;
+            cursor: pointer;
           }
           .control-icon{
             height: 100%;
@@ -490,6 +521,15 @@
             justify-content: space-between;
             align-items: center;
             height: 70px;
+            .tip{
+              height: 100%;
+              width: 100%;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              font-size: 20px;
+              color: #08aba6;
+            }
             .controlSelfComment1{
               display: flex;
               justify-content: flex-start;
@@ -543,6 +583,15 @@
           display: flex;
           justify-content: space-between;
           align-items: center;
+          .tip{
+            color: #08aba6;
+            text-align: center;
+            height: 200px;
+            width: 100%;
+            font-size: 20px;
+            line-height: 200px;
+            text-align: center;
+          }
           .userImg{
             height: 50px;
             width: 50px;
@@ -569,6 +618,7 @@
             width: 50px;
             height: 50px;
             text-align: center;
+            cursor: pointer;
             .likeImg{
               height: 30px;
               img{

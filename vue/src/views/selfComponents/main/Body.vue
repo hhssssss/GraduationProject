@@ -61,7 +61,7 @@
                 <div class="selfComment" v-if="loginFlag">
                   <div class="controlSelfComment">
                     <div class="controlSelfComment1">
-                      <div class="userImg" :style="{ 'background-image' : `url(${userProfilePicture})`}"></div>
+                      <div class="userImg" :style="{ 'background-image' : `url(/users/getImg?imgId=${userProfilePicture})`}"></div>
                       <input type="text" v-model="selfComment[index]" @keyup.enter="addComment(movie.ranking,index)">
                     </div>
                     <div class='button' @click="addComment(movie.ranking,index)">评论</div>
@@ -72,7 +72,7 @@
                 </div>
                 <div class="othersComment" v-if="moviesCommentFlag[index]">
                   <div class="othersCommentItem" v-for="(movieComment,index1) in movies[index].movieComments" v-bind:key="movieComment.user.userName">
-                    <div class="userImg" :style="{ 'background-image' : `url(${movieComment.user.userProfilePicture ? 'data:image/png;base64,'+ movieComment.user.userProfilePicture : defaultUserImg})`}"></div>
+                    <div class="userImg" :style="{ 'background-image' : `url(/users/getImg?imgId=${movieComment.user.userProfilePicture})`}"></div>
                     <div class="mainContent">
                       <div class="top">
                         <span class="userName">{{movieComment.user.userName}}：</span>
@@ -118,12 +118,10 @@
     import collection_icon2 from '../../../assets/icon/collection_icon2.png'
     import comment_icon1 from '../../../assets/icon/comment_icon1.png'
     import comment_icon2 from '../../../assets/icon/comment_icon2.png'
-    import defaultUserImg from '../../../assets/user.png'
     export default {
       name:'body',
       data() {
           return {
-            defaultUserImg:defaultUserImg,
             movies : [],
             pageId : '0',
             pages : [1,2,3,4,5],
@@ -151,7 +149,7 @@
           }
         },
         userProfilePicture() {
-          return this.$store.state.userProfilePicture
+          return this.$store.state.userProfilePicture;
         },
         loginFlag() {
           return this.$store.state.userName ? true : false;

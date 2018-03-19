@@ -10,7 +10,10 @@ let UserSchema = new mongoose.Schema({
     userGender : String,
     userSelfIntroduction : String,
     userLikeTypes : String,
-    userProfilePicture : String,
+    userProfilePicture : {
+        type : String,
+        default : 'defaultUserImg.png'
+    },
     collections : [String],
     filmReviewCollections : [String]
 });

@@ -12,7 +12,7 @@
             <router-link to="/filmReview"><div class="second">影评</div></router-link>
           </div>
           <div  class='button' @click="loginShow" v-if="loginFlag">登录</div>
-          <div class="user" v-else @click="userFunctionShow" :style="{ 'background-image' : `url(${userProfilePicture})`}"></div>
+          <div class="user" v-else @click="userFunctionShow" :style="{ 'background-image' : `url(/users/getImg?imgId=${userProfilePicture})`}"></div>
           <transition name="slide-fade">
             <div class="user-function" v-show="userFunctionFlag">
               <router-link to="/user/settings"><div class="user-function-item" @click="userFunctionShow">个人信息设置</div></router-link>

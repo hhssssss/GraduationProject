@@ -3,7 +3,10 @@ const mongoose = require('mongoose');
 let MovieSchema = new mongoose.Schema({
     title : String,
     label : String,
-    img : String,
+    img : {
+        type : String,
+        default : 'defaultFilmReviewImg.png'
+    },
     content : String,
     time : {
         type : String,

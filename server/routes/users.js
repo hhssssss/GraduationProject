@@ -11,10 +11,6 @@ router.post("/register",function (req,res,next) {
         userName:req.body.userId,
         userId:req.body.userId,
         userPwd:req.body.userPwd,
-        userGender:'',
-        userSelfIntroduction:'',
-        userLikeTypes:'',
-        userProfilePicture:'',
     };
     let userEntity = new user(content);
     user.find({userId:req.body.userId},function(err,doc){
@@ -66,48 +62,109 @@ router.post("/login",function (req,res,next) {
         }
     });
 });
+router.get("/getImg",function (req,res,next) {
+    let imgId = req.param('imgId');
+    let read = fs.createReadStream(path.join(__dirname+'/../upload/userImg',imgId));
+    read.pipe(res)
+});
 router.post("/settings",function (req,res,next) {
     let form = new formidable.IncomingForm();
     form.encoding = 'utf-8';
-    form.uploadDir = path.join(__dirname + "/../upload");
+    form.uploadDir = path.join(__dirname + "/../upload/userImg");
     form.keepExtensions = true;//保留后缀
     form.maxFieldsSize = 2 * 1024 * 1024;
-    form.parse(req, function (err, fields, files){
-        let imageBuf,imageBufBase64,userInfo;
-        if(fields.profilePictureFlag=='1'){
-            imageBuf = fs.readFileSync(files.profilePicture.path);
-            imageBufBase64 = imageBuf.toString("base64");
-            userInfo = {
-                userName:fields.userName,
-                userGender:fields.userGender,
-                userLikeTypes:fields.userLikeTypes,
-                userSelfIntroduction:fields.userSelfIntroduction,
-                userProfilePicture:imageBufBase64,
-            }
-        }else{
-            userInfo = {
-                userName:fields.userName,
-                userGender:fields.userGender,
-                userLikeTypes:fields.userLikeTypes,
-                userSelfIntroduction:fields.userSelfIntroduction,
-            }
+    form.parse(req,function (err, fields, files) {
+        if(err){
+            return console.log(err);
         }
-
-        model.user.update({userId:fields.userId}, userInfo, function(err, doc){
-            if (err) {
-                return  res.json({
-                            status:0,
-                            message:'修改失败'
-                        })
+        else{
+            let userInfo;
+            if(fields.profilePictureFlag=='1'){
+                let filesName = files.profilePicture.name,
+                    filesType = files.profilePicture.type;
+                if(/.(gif|jpg|jpeg|bmp|png)$/.exec(filesName)){  // 检测文件格式是否为gif,jpg,jpeg,bmp,png
+                    let suffixName,
+                        fullName,
+                        newPath,
+                        oldPath;
+                    suffixName = /\w{1,4}$/.exec(filesType)[0]; // 获取后缀名
+                    fullName = fields.user_id + '_' + new Date().getTime() + "." + suffixName;
+                    newPath = path.join(form.uploadDir , `/${fullName}`);
+                    oldPath = files.profilePicture.path;
+                    fs.renameSync(oldPath, newPath);
+                    userInfo = {
+                        userName:fields.userName,
+                        userGender:fields.userGender,
+                        userLikeTypes:fields.userLikeTypes,
+                        userSelfIntroduction:fields.userSelfIntroduction,
+                        userProfilePicture:fullName,
+                    }
+                }else {
+                    return  res.json({
+                        status:0,
+                        message:'文件不是图片类型'
+                    })
+                }
+            }else {
+                userInfo = {
+                    userName:fields.userName,
+                    userGender:fields.userGender,
+                    userLikeTypes:fields.userLikeTypes,
+                    userSelfIntroduction:fields.userSelfIntroduction,
+                }
             }
-            else {
-                return  res.json({
-                            status:1,
-                            message:'修改成功'
-                        })
-            }
-        })
-    })
+            model.user.update({userId:fields.userId}, userInfo, function(err, doc){
+                if (err) {
+                    return  res.json({
+                        status:0,
+                        message:'修改失败'
+                    })
+                }
+                else {
+                    return  res.json({
+                        status:1,
+                        message:'修改成功'
+                    })
+                }
+            })
+        }
+    });
+    // form.parse(req, function (err, fields, files){
+    //     let imageBuf,imageBufBase64,userInfo;
+    //     if(fields.profilePictureFlag=='1'){
+    //         imageBuf = fs.readFileSync(files.profilePicture.path);
+    //         imageBufBase64 = imageBuf.toString("base64");
+    //         userInfo = {
+    //             userName:fields.userName,
+    //             userGender:fields.userGender,
+    //             userLikeTypes:fields.userLikeTypes,
+    //             userSelfIntroduction:fields.userSelfIntroduction,
+    //             userProfilePicture:imageBufBase64,
+    //         }
+    //     }else{
+    //         userInfo = {
+    //             userName:fields.userName,
+    //             userGender:fields.userGender,
+    //             userLikeTypes:fields.userLikeTypes,
+    //             userSelfIntroduction:fields.userSelfIntroduction,
+    //         }
+    //     }
+    //
+    //     model.user.update({userId:fields.userId}, userInfo, function(err, doc){
+    //         if (err) {
+    //             return  res.json({
+    //                 status:0,
+    //                 message:'修改失败'
+    //             })
+    //         }
+    //         else {
+    //             return  res.json({
+    //                 status:1,
+    //                 message:'修改成功'
+    //             })
+    //         }
+    //     })
+    // });
 });
 router.get("/getUserInfo",function (req,res,next) {
     model.user.find({userId:req.param("userId")},function(err,doc){

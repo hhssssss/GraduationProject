@@ -78,18 +78,7 @@
         }
       },
       mounted() {
-        axios.get('/users/getUserInfo', {params: {userId: this.$store.state.userId}}).then((response) => {
-          let res = response.data;
-          if (res.status == '1') {
-            this.userProfilePicture = !res.result[0].userProfilePicture ? this.$store.state.userProfilePicture : 'data:image/png;base64,' + res.result[0].userProfilePicture;
-            this.userName = res.result[0].userName;
-            this.userGender = res.result[0].userGender;
-            this.userSelfIntroduction = res.result[0].userSelfIntroduction;
-            this.userLikeTypes = res.result[0].userLikeTypes;
-          } else {
-            console.log(res)
-          }
-        })
+        this.getUserInfo();
       },
       methods: {
         changeImage(e) {
@@ -102,7 +91,6 @@
           }
         },
         saveChanges() {
-          console.log(this.$refs)
           let infoData = new FormData();
           infoData.append('profilePicture', this.$refs.profilePicture.files[0] ? this.$refs.profilePicture.files[0] : '');
           infoData.append('profilePictureFlag', this.$refs.profilePicture.files[0] ? '1' : '0');
@@ -110,7 +98,8 @@
           infoData.append('userLikeTypes', this.userLikeTypes);
           infoData.append('userSelfIntroduction', this.userSelfIntroduction);
           infoData.append('userGender', this.userGender);
-          infoData.append('userId', this.$store.state.userId)
+          infoData.append('userId', this.$store.state.userId);
+          infoData.append('user_id', this.$store.state._id);
           axios.post('/users/settings', infoData, {
             headers: {
               "Content-Type": "multipart/form-data"
@@ -118,11 +107,32 @@
           }).then((response) => {
             let res = response.data;
             if(res.status=="1"){
-              let content = {
-                name:this.userName,
-                pic:this.userProfilePicture
-              }
-              this.$store.commit('updateUserInfo1',content);
+              axios.get('/users/getUserInfo', {params: {userId: this.$store.state.userId}}).then((response) => {
+                let res = response.data;
+                if (res.status == '1') {
+                  let content = {
+                    name:res.result[0].userName,
+                    pic:res.result[0].userProfilePicture
+                  }
+                  this.$store.commit('updateUserInfo1',content);
+                } else {
+                  console.log(res)
+                }
+              })
+            }
+          })
+        },
+        getUserInfo(){
+          axios.get('/users/getUserInfo', {params: {userId: this.$store.state.userId}}).then((response) => {
+            let res = response.data;
+            if (res.status == '1') {
+              this.userProfilePicture = `/users/getImg?imgId=${res.result[0].userProfilePicture}`;
+              this.userName = res.result[0].userName;
+              this.userGender = res.result[0].userGender;
+              this.userSelfIntroduction = res.result[0].userSelfIntroduction;
+              this.userLikeTypes = res.result[0].userLikeTypes;
+            } else {
+              console.log(res)
             }
           })
         },

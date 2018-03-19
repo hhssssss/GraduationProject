@@ -50,7 +50,6 @@ router.post("/addFilmReview",function (req,res,next) {
                 reviewInfo = {
                     title:fields.filmReviewName,
                     label:fields.filmReviewLabel,
-                    img:'',
                     content:fields.filmReviewContent,
                     author:fields.user_id,
                     random:Math.random(),
@@ -79,8 +78,7 @@ router.get("/getImg",function (req,res,next) {
     read.pipe(res)
 });
 router.get("/getFilmReviews",function (req,res,next) {
-    let filmReviewsQuery = model.filmReview.find({});
-    filmReviewsQuery.limit(4).populate({path:'author',select:'userName'}).exec(function (err,doc) {
+    model.filmReview.find({}).limit(4).populate({path:'author',select:'userName'}).exec(function (err,doc) {
         if(err){
             return  res.json({
                 status:'0',
@@ -148,6 +146,47 @@ router.get("/getRandomFilmReviews",function (req,res,next) {
                     }
                 });
             }
+        }
+    })
+});
+router.post("/addComment",function (req,res,next) {
+    let filmReviewComment = model.filmReviewComment;
+    let comment = {
+        filmReview_id : req.body.filmReview_id,
+        comment : req.body.comment,
+        user : req.body.user_id
+    }
+    let filmReviewCommentEntity = new filmReviewComment(comment);
+    filmReviewCommentEntity.save(function(err){
+        if (err) {
+            return  res.json({
+                status:0,
+                message:'添加失败'
+            })
+        }
+        else {
+            return  res.json({
+                status:1,
+                message:'添加成功'
+            })
+        }
+    });
+});
+router.get("/getComments",function (req,res,next) {
+    let filmReview_id = req.param('filmReview_id');
+    model.filmReviewComment.find({filmReview_id:filmReview_id}).limit(5).populate({path:'user',select:'userName userId userProfilePicture'}).exec(function (err,doc) {
+        if(err){
+            return  res.json({
+                status:'0',
+                msg:err.message
+            })
+        }else{
+            return  res.json({
+
+                status:'1',
+                message:doc.length,
+                result:doc
+            })
         }
     })
 });
