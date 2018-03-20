@@ -80,25 +80,32 @@ router.post("/addReply",function (req,res,next) {
     });
 });
 router.get("/addNumberOfLike_comment",function (req,res,next) {
-    let movieComment_id = req.param('_id');
-    model.movieComment.find({_id:movieComment_id},function (err,doc) {
+    let movieComment_id = req.param('movieComment_id');
+    let user_id = req.param('user_id');
+    model.movieComment.findById(movieComment_id,function (err,doc) {
         if(err){
             return  res.json({
                 status:'0',
                 msg:err.message
             })
         }else{
-            doc[0].numberOfLike += 1;
-            doc[0].save(function (err) {
+            let i = doc.numberOfLike.indexOf(user_id);
+            if(i > -1){
+                doc.numberOfLike.splice(i,1);
+            }
+            else {
+                doc.numberOfLike.push(user_id);
+            }
+            doc.save(function (err) {
                 if(err){
                     return  res.json({
                         status:'0',
-                        msg:err.message
+                        msg:err.message,
                     })
                 }else {
                     return  res.json({
                         status:'1',
-                        message:'点赞成功',
+                        message:'操作成功',
                     })
                 }
             })
@@ -106,25 +113,32 @@ router.get("/addNumberOfLike_comment",function (req,res,next) {
     })
 });
 router.get("/addNumberOfLike_commentReply",function (req,res,next) {
-    let movieComment_id = req.param('_id');
-    model.movieCommentReply.find({_id:movieComment_id},function (err,doc) {
+    let movieCommentReply_id = req.param('movieCommentReply_id');
+    let user_id = req.param('user_id');
+    model.movieCommentReply.find({_id:movieCommentReply_id},function (err,doc) {
         if(err){
             return  res.json({
                 status:'0',
                 msg:err.message
             })
         }else{
-            doc[0].numberOfLike += 1;
+            let i = doc[0].numberOfLike.indexOf(user_id);
+            if(i > -1){
+                doc[0].numberOfLike.splice(i,1);
+            }
+            else {
+                doc[0].numberOfLike.push(user_id);
+            }
             doc[0].save(function (err) {
                 if(err){
                     return  res.json({
                         status:'0',
-                        msg:err.message
+                        msg:err.message,
                     })
                 }else {
                     return  res.json({
                         status:'1',
-                        message:'点赞成功',
+                        message:'操作成功',
                     })
                 }
             })

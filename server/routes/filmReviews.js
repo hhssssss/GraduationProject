@@ -93,6 +93,23 @@ router.get("/getFilmReviews",function (req,res,next) {
         }
     })
 });
+router.get("/getOneFilmReview",function (req,res,next) {
+    let filmReview_id = req.param('filmReview_id');
+    model.filmReview.findById(filmReview_id,function (err,doc) {
+        if(err){
+            return  res.json({
+                status:'0',
+                msg:err.message
+            })
+        }else{
+            return  res.json({
+                status:'1',
+                message:doc.length,
+                result:doc
+            })
+        }
+    })
+});
 router.get("/searchFilmReviews",function (req,res,next) {
     let searchKey = req.param('searchKey');
     model.filmReview.find({$or:[

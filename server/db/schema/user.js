@@ -14,8 +14,14 @@ let UserSchema = new mongoose.Schema({
         type : String,
         default : 'defaultUserImg.png'
     },
-    collections : [String],
-    filmReviewCollections : [String]
+    collections : [{
+        type: mongoose.Schema.ObjectId,
+        ref: 'movie'
+    }],
+    filmReviewCollections : [{
+        type: mongoose.Schema.ObjectId,
+        ref: 'filmReview'
+    }]
 });
 
 module.exports = UserSchema;

@@ -81,7 +81,7 @@
                           <div class="time">{{movieComment.time}}</div>
                           <div class="reply">
                             <div @click="reply(index,index1)">回复</div>
-                            <div @click="addNumberOfLike_comment(index,index1)">赞&nbsp;&nbsp;{{movieComment.numberOfLike||"0"}}</div>
+                            <div @click="addNumberOfLike_comment(index,index1)">赞&nbsp;&nbsp;{{movieComment.numberOfLike.length}}</div>
                           </div>
                         </div>
                         <div class="replyUser" v-if="replyCommentFlag[index][index1]&&loginFlag">
@@ -91,11 +91,11 @@
                       </div>
                       <div class="bottom">
                         <div class="replyItem" v-for="(reply,index2) in movieComment.reply.slice(0,2)" v-bind:key="reply.userId">
-                          <span class="userName">{{reply.user.userName}}：</span>
+                          <span class="userName" v-if="">{{reply.user.userName}}：</span>
                           <span class="userComment">{{reply.comment}}</span>
                           <div class="userControl">
                             <div class="time">{{reply.time}}</div>
-                            <div class="reply" @click="addNumberOfLike_commentReply(index,index1,index2)">赞&nbsp;&nbsp;{{reply.numberOfLike||"0"}}</div>
+                            <div class="reply" @click="addNumberOfLike_commentReply(index,index1,index2)">赞&nbsp;&nbsp;{{reply.numberOfLike.length}}</div>
                           </div>
                         </div>
                         <div class="totalTip">共{{movieComment.reply.length}}条回复</div>
@@ -266,7 +266,6 @@
         getMovieComment(index){
           axios.get("/movieComments/five", {params:{movieId:this.movies[index].ranking}}).then((response) => {
             let res = response.data;
-            // console.log(res);
             if (res.status == '1') {
               this.movies[index].movieComments = res.result;
               if(res.result.length>0){
@@ -346,32 +345,44 @@
           }
         },
         addNumberOfLike_comment(index,index1){
-          let content = this.movies[index];
-          content.movieComments[index1].numberOfLike = content.movieComments[index1].numberOfLike + 1;
-          this.$set(this.movies, index, content);
-          axios.get("/movieComments/addNumberOfLike_comment", {params:{_id:this.movies[index].movieComments[index1]._id}}).then((response) => {
-            let res = response.data;
-            if (res.status == 1) {
-              console.log('点赞成功');
-            }
-            else {
-              console.log(res.message)
-            }
-          })
+          if(!this.$store.state.userName){
+            return console.log("点赞需要登陆");
+          }else{
+            axios.get("/movieComments/addNumberOfLike_comment", {
+              params:{
+                movieComment_id:this.movies[index].movieComments[index1]._id,
+                user_id : this.$store.state._id
+              }}).then((response) => {
+              let res = response.data;
+              if (res.status == 1) {
+                console.log('点赞成功');
+                this.getMovieComment(index);
+              }
+              else {
+                console.log(res.message)
+              }
+            })
+          }
         },
         addNumberOfLike_commentReply(index,index1,index2){
-          let content = this.movies[index];
-          content.movieComments[index1].reply[index2].numberOfLike = content.movieComments[index1].reply[index2].numberOfLike + 1;
-          this.$set(this.movies, index, content);
-          axios.get("/movieComments/addNumberOfLike_commentReply", {params:{_id:this.movies[index].movieComments[index1].reply[index2]._id}}).then((response) => {
-            let res = response.data;
-            if (res.status == 1) {
-              console.log('点赞成功');
-            }
-            else {
-              console.log(res.message)
-            }
-          })
+          if(!this.$store.state.userName){
+            return console.log("点赞需要登陆");
+          }else{
+            axios.get("/movieComments/addNumberOfLike_commentReply", {
+              params:{
+                movieCommentReply_id:this.movies[index].movieComments[index1].reply[index2]._id,
+                user_id : this.$store.state._id
+              }}).then((response) => {
+              let res = response.data;
+              if (res.status == 1) {
+                console.log('点赞成功');
+                this.getMovieComment(index);
+              }
+              else {
+                console.log(res.message)
+              }
+            })
+          }
         },
 
       }

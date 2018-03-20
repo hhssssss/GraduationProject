@@ -27,7 +27,7 @@
           <div class="main">
             <div class="content" v-if="filmReviews[filmReviewsIndex]">
               <div class="title" >{{filmReviews[filmReviewsIndex].title||''}}</div>
-              <div class="author">作者：{{filmReviews[filmReviewsIndex].author.userName||''}}</div>
+              <div class="author" v-if="filmReviews[filmReviewsIndex].author">作者：{{filmReviews[filmReviewsIndex].author.userName||''}}</div>
               {{filmReviews[filmReviewsIndex].content||''}}
               <div class="reviewLabel">标签：{{filmReviews[filmReviewsIndex].label||''}}</div>
             </div>
@@ -40,7 +40,7 @@
                 </div>
                 <div class="control-title">
                   <div class="control-title-top">收藏</div>
-                  <div class="control-title-bottom">12</div>
+                  <div class="control-title-bottom">{{filmReviews[filmReviewsIndex].collected.length}}</div>
                 </div>
               </div>
               <div class="control-right" :class="[coinIsActive_hover || coinsFlag ? fontActiveYellow :  fontNormal]" @mouseenter="coinEnter" @mouseleave="coinLeave" @click="coinClick">
@@ -75,7 +75,7 @@
                 </div>
                 <div class="like" @click="addNumberOfLike_comment(index)">
                   <div class="likeImg">
-                    <img src="../../../assets/icon/collection_icon1.png" alt="">
+                    <img :src="[likeFlag[index]? collection_icon2 : collection_icon1]" alt="">
                   </div>
                   <div class="likeNumber">{{filmReviewComment.numberOfLike.length}}</div>
                 </div>
@@ -146,6 +146,20 @@
       loginFlag() {
         return this.$store.state.userName ? true : false;
       },
+      likeFlag(){
+        let flag = [];
+        if(this.filmReviewComments.length && this.$store.state._id)
+        {
+          for(let i = this.filmReviewComments.length; i--;){
+            if(this.filmReviewComments[i].numberOfLike.indexOf(this.$store.state._id)>=0){
+              flag[i] = 1;
+            }else {
+              flag[i] = 0;
+            }
+          }
+        }
+        return flag;
+      },
     },
     watch: {
       filmReviews: function () {
@@ -214,11 +228,22 @@
             let res = response.data;
             if (res.status == '1') {
               //收藏成功
+              this.getOneFilmReview();
             } else {
               console.log("收藏失败")
             }
           })
         }
+      },
+      getOneFilmReview(){
+        axios.get("/filmReviews/getOneFilmReview", {params : {filmReview_id : this.filmReviews[this.filmReviewsIndex]._id}}).then((response) => {
+          let res = response.data;
+          if (res.status == '1') {
+            this.filmReviews[this.filmReviewsIndex] = res.result;
+          } else {
+            console.log("获取一条影评内容失败")
+          }
+        })
       },
       coinEnter(){
         this.coinIsActive_hover = 1;
@@ -275,9 +300,8 @@
             if (res.status == '1') {
               //点赞成功
               this.getComment();
-              console.log(res.result);
             } else {
-              console.log("收藏失败")
+              console.log("点赞失败")
             }
           })
         }
