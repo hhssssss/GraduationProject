@@ -21,7 +21,12 @@ let UserSchema = new mongoose.Schema({
     filmReviewCollections : [{
         type: mongoose.Schema.ObjectId,
         ref: 'filmReview'
-    }]
+    }],
+    signIn : [String],
+    coins :{
+        type : Number,
+        default : 0,
+    }
 });
 
 module.exports = UserSchema;

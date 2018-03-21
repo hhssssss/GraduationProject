@@ -19,7 +19,9 @@ const store = new Vuex.Store({
     userProfilePicture : '',
     _id : '',
     collections : [],
-    filmReviewCollections : []
+    filmReviewCollections : [],
+    signIn : [],
+    coins : 0,
   },
   mutations:{
     getUserInfo(state,content){
@@ -30,9 +32,11 @@ const store = new Vuex.Store({
       state._id = content._id;
       state.collections = content.collections;
       state.filmReviewCollections = content.filmReviewCollections;
+      state.signIn = content.signIn;
+      state.coins = content.coins;
     },
     updateUserInfo1(state,content){
-      state.userName = content.name
+      state.userName = content.name;
       state.userProfilePicture = content.pic;
     },
     loginOut(state){
@@ -41,8 +45,9 @@ const store = new Vuex.Store({
       state.userPwd = '';
       state.userProfilePicture = '';
       state._id = '';
-      state.collections = [],
-      state.filmReviewCollections = []
+      state.collections = [];
+      state.filmReviewCollections = [];
+      state.signIn = [];
     },
     pushCollections(state,id){
       state.collections.push(id);
@@ -59,6 +64,15 @@ const store = new Vuex.Store({
     pullFilmReviewCollections(state,index){
       state.filmReviewCollections.splice(index,1);
       console.log("取消收藏");
+    },
+    pushSignIn(state,id){
+      state.signIn.push(id);
+      state.coins += 3;
+      console.log("签到成功,获得3个硬币");
+    },
+    reward(state){
+      state.coins -= 1;
+      console.log("投币成功");
     },
   }
 })

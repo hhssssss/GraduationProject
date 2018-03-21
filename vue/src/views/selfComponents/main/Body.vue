@@ -391,6 +391,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
   #body{
+    min-width: 1024px;
     background-color: #08aba6;
     margin-bottom: -60px;
     min-height: 100%;

@@ -9,6 +9,7 @@
                 v-bind:css="false">
       <login v-show="loginShowFlag" @loginHide="loginHide" @loginSuccess="loginSuccess"></login>
     </transition>
+    <returnTop></returnTop>
   </div>
 </template>
 
@@ -17,6 +18,7 @@
   import Footer from '../components/Footer.vue';
   import Body from './selfComponents/filmReview/Body';
   import Login from '../components/Login';
+  import ReturnTop from '../components/ReturnTop';
   export default {
     name:'filmReview',
     data() {
@@ -37,6 +39,7 @@
       elFooter:Footer,
       elBody:Body,
       login:Login,
+      returnTop:ReturnTop
     },
     methods:{
       loginShow(){
@@ -45,10 +48,10 @@
       loginHide(){
         this.loginShowFlag = !this.loginShowFlag;
       },
-      loginSuccess(id,pwd,name,pic,_id,collections,filmReviewCollections){
+      loginSuccess(id,pwd,name,pic,_id,collections,filmReviewCollections,signIn,coins){
         this.loginShowFlag = !this.loginShowFlag;
         let content = {
-          id,pwd,name,pic,_id,collections,filmReviewCollections
+          id,pwd,name,pic,_id,collections,filmReviewCollections,signIn,coins
         }
         this.$store.commit('getUserInfo',content);
       },

@@ -20,6 +20,7 @@
     user-select: none;
     font-size: 14px;
     width: 100%;
+    min-width: 1024px;
     height: 60px;
     background-color: #1c1c1c;
     text-align: center;

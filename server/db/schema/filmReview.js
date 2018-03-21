@@ -20,7 +20,11 @@ let filmReviewSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'user'
     }],
-    random : Number
+    random : Number,
+    coins : {
+        type : Number,
+        default : 0,
+    }
 });
 
 module.exports = filmReviewSchema;

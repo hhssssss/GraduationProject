@@ -49,7 +49,7 @@
                 </div>
                 <div class="control-title">
                   <div class="control-title-top">投币</div>
-                  <div class="control-title-bottom">44</div>
+                  <div class="control-title-bottom">{{filmReviews[filmReviewsIndex].coins}}</div>
                 </div>
               </div>
             </div>
@@ -251,7 +251,28 @@
       coinLeave(){
         this.coinIsActive_hover = 0;
       },
-      coinClick(){},
+      coinClick(){
+        if(!this.$store.state.userName){
+          return console.log("投币需要登陆");
+        }else if(this.$store.state.coins<=0){
+          return console.log("你的硬币不足1个，无法投币")
+        } else{
+          axios.get("/users/reward", {
+            params:{
+              filmReview_id : this.filmReviews[this.filmReviewsIndex]._id ,
+              user_id : this.$store.state._id
+            }}).then((response) => {
+            let res = response.data;
+            if (res.status == '1') {
+              //投币成功
+              this.$store.commit('reward');
+              this.getOneFilmReview();
+            } else {
+              console.log("投币失败")
+            }
+          })
+        }
+      },
       addComment(){
         if(this.selfComment === ""){
           return console.log("评论内容不能为空");
@@ -319,6 +340,7 @@
     background-color: #08aba6;
     margin-bottom: -60px;
     min-height: 100%;
+    min-width: 1024px;
     padding-bottom: 60px;
   }
   .body-top{

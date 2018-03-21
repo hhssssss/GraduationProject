@@ -5,14 +5,14 @@
                   v-on:leave="leave"
                   v-bind:css="false">
         <div class="main" @click="backToTop" v-show="show">
-          <img src="../../../assets/return_top.png" alt="返回顶部" draggable="false">
+          <img src="../assets/return_top.png" alt="返回顶部" draggable="false">
         </div>
       </transition>
     </div>
 </template>
 
 <script>
-  import { scrollIt } from '../../../assets/js/scrollIt';
+  import { scrollIt } from '../assets/js/scrollIt';
     export default {
       name:'returnTop',
       data() {

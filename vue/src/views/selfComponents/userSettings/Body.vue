@@ -149,6 +149,7 @@
     margin-bottom: -60px;
     min-height: 100%;
     padding-bottom: 60px;
+    min-width: 1024px;
   }
   .body-top{
     height: 140px;

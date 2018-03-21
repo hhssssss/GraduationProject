@@ -105,7 +105,18 @@
               this.loginSuccess = true;
               setTimeout(() => {
                 this.loginSuccess = false;
-                this.$emit('loginSuccess',this.userId , this.userPwd , res.result[0].userName , res.result[0].userProfilePicture , res.result[0]._id , res.result[0].collections,res.result[0].filmReviewCollections)
+                this.$emit(
+                  'loginSuccess',
+                  this.userId ,
+                  this.userPwd ,
+                  res.result[0].userName ,
+                  res.result[0].userProfilePicture ,
+                  res.result[0]._id ,
+                  res.result[0].collections,
+                  res.result[0].filmReviewCollections,
+                  res.result[0].signIn,
+                  res.result[0].coins,
+                )
               },1000)
             }else{
               this.loginFail = true;

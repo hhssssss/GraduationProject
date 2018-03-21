@@ -269,4 +269,98 @@ router.get("/addFilmReviewCollections",function (req,res,next) {
         }
     })
 });
+router.get("/signIn",function (req,res,next) {
+    let date = req.param('date');
+    let user_id = req.param('user_id');
+    model.user.find({_id:user_id},function (err,doc) {
+        if(err){
+            return res.json({
+                status:'0',
+                message:err.message
+            })
+        }else {
+            let i = doc[0].signIn.indexOf(date);
+            if(i > -1){
+                return res.json({
+                    status:'1',
+                    message:"你已经签到过了",
+                })
+            }
+            else {
+                doc[0].signIn.push(date);
+                doc[0].coins += 3;
+            }
+            doc[0].save(function (err) {
+                if(err){
+                    return  res.json({
+                        status:'0',
+                        msg:err.message,
+                    })
+                }else {
+                    return  res.json({
+                        status:'1',
+                        message:'操作成功',
+                    })
+                }
+            })
+        }
+
+    })
+});
+router.get("/reward",function (req,res,next) {
+    let filmReview_id = req.param('filmReview_id');
+    let user_id = req.param('user_id');
+    model.user.findById(user_id,function (err,doc) {
+        if(err){
+            return res.json({
+                status:'0',
+                message:err.message
+            })
+        }else {
+            let i = doc.coins;
+            if(i <= 0){
+                return res.json({
+                    status:'1',
+                    message:"你已经没有硬币了",
+                })
+            }
+            else {
+                doc.coins -= 1;
+                doc.save(function (err) {
+                    if(err){
+                        return  res.json({
+                            status:'0',
+                            msg:err.message,
+                        })
+                    }else {
+                        model.filmReview.findById(filmReview_id,function (err,doc1) {
+                            if(err){
+                                return res.json({
+                                    status:'0',
+                                    message:err.message
+                                })
+                            }else {
+                                doc1.coins += 1;
+                                doc1.save(function (err) {
+                                    if(err){
+                                        return  res.json({
+                                            status:'0',
+                                            msg:err.message,
+                                        })
+                                    }else {
+                                        return  res.json({
+                                            status:'1',
+                                            message:'操作成功',
+                                        })
+                                    }
+                                })
+                            }
+                        })
+                    }
+                })
+            }
+        }
+
+    })
+});
 module.exports = router;
