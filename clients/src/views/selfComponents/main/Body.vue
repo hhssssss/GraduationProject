@@ -35,11 +35,11 @@
         >
           <div v-for="(movie,index) in movies" class="body-mid-content" v-bind:key="movie.ranking">
             <div class="item" :index="index">
-            <div class="pic">
+            <div class="pic" @click="selectMovie(index)">
               <div>{{movie.ranking}}.</div>
               <img :src='`/movies/getImg?imgId=${movie.image}`' :alt=movie.CnName draggable="false">
             </div>
-            <div class="info">
+            <div class="info" @click="selectMovie(index)">
               <p>{{movie.title}}</p>
               <p>又名：{{movie.alias||'未知'}}</p>
               <div class="grade">{{movie.grade||'未知'}}</div>
@@ -384,7 +384,9 @@
             })
           }
         },
-
+        selectMovie(index){
+          this.$router.push({name:"OneMovie",params:{film_id:this.movies[index]._id}})
+        },
       }
     }
 </script>

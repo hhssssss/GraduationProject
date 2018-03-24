@@ -112,6 +112,7 @@
           let res = response.data;
           if(res.status=="1"){
             console.log("添加影评成功");
+            this.$router.replace({name:"OneFilmReview",params:{filmReview_id:res.result}})
           }
         })
       }

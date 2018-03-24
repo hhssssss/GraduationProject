@@ -22,6 +22,23 @@ router.get("/",function (req,res,next) {
         }
     })
 });
+router.get("/getOneMovie",function (req,res,next) {
+    let movie_id = req.param('movie_id');
+    model.movie.findById(movie_id,function (err,doc) {
+        if(err){
+            return  res.json({
+                status:'0',
+                msg:err.message
+            })
+        }else{
+            return  res.json({
+                status:'1',
+                message:doc.length,
+                result:doc
+            })
+        }
+    });
+});
 router.get("/getImg",function (req,res,next) {
     let imgId = req.param('imgId');
     let read = fs.createReadStream(path.join(__dirname+'/../assets/movieImg',imgId));

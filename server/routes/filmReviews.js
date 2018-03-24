@@ -65,7 +65,8 @@ router.post("/addFilmReview",function (req,res,next) {
                 }else {
                     return  res.json({
                         status:1,
-                        message:'添加成功'
+                        message:'添加成功',
+                        result:filmReviewEntity._id,
                     })
                 }
             })
@@ -95,7 +96,7 @@ router.get("/getFilmReviews",function (req,res,next) {
 });
 router.get("/getOneFilmReview",function (req,res,next) {
     let filmReview_id = req.param('filmReview_id');
-    model.filmReview.findById(filmReview_id,function (err,doc) {
+    model.filmReview.findById(filmReview_id).populate({path:'author',select:'userName'}).exec(function (err,doc) {
         if(err){
             return  res.json({
                 status:'0',
