@@ -14,6 +14,10 @@ let MovieCommentReplySchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'user'
     }],
+    numberOfLikeLength :{
+        type: Number,
+        default: 0
+    },
     comment : String,
 });
 

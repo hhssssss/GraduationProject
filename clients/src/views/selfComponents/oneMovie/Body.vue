@@ -13,7 +13,7 @@
       >
         <div class="body-mid-content">
           <div class="item">
-            <div class="pic">
+            <div class="pic" v-if="movie.image">
               <div>{{movie.ranking}}.</div>
               <img :src='`/movies/getImg?imgId=${movie.image}`' :alt=movie.CnName draggable="false">
             </div>
@@ -35,7 +35,7 @@
                 <img :src="[commentIsActive_hover || commentIsActive_click ? comment_icon2 : comment_icon1]" alt="">&nbsp;&nbsp;评论
               </div>
             </div>
-            <div class="comment" v-if="commentIsActive_click">
+            <div class="comment" >
               <div class="selfComment" v-if="loginFlag">
                 <div class="controlSelfComment">
                   <div class="controlSelfComment1">
@@ -45,11 +45,11 @@
                   <div class='button' @click="addComment(movie.ranking)">评论</div>
                 </div>
               </div>
-              <div class="tip" v-if="!moviesCommentFlag">
+              <div class="tip" v-if="!movieComments.length">
                 还没有人评论，快来评论吧！
               </div>
-              <div class="othersComment" v-if="moviesCommentFlag">
-                <div class="othersCommentItem" v-for="(movieComment,index) in movie.movieComments" v-bind:key="movieComment.user.userName">
+              <div class="othersComment" v-if="movieComments.length">
+                <div class="othersCommentItem" v-for="(movieComment,index) in movieComments" v-bind:key="movieComment.user._id">
                   <div class="userImg" :style="{ 'background-image' : `url(/users/getImg?imgId=${movieComment.user.userProfilePicture})`}"></div>
                   <div class="mainContent">
                     <div class="top">
@@ -81,6 +81,10 @@
                   </div>
                 </div>
               </div>
+              <div class="moreComment" v-if="movieComments.length" @click="getMoreComment">
+                点击加载更多
+                <img src="../../../assets/more.png" alt="">
+              </div>
             </div>
           </div>
         </div>
@@ -101,6 +105,7 @@
     data() {
       return {
         movie : '',
+        movieComments : [],
         collection_icon1 : collection_icon1,
         collection_icon2 : collection_icon2,
         comment_icon1 : comment_icon1,
@@ -111,9 +116,8 @@
         fontActive : 'font-active',
         fontNormal : 'font-normal',
         selfComment : '',
-        selfReplyComment : ['','','','',''],
-        replyCommentFlag : [0,0,0,0,0],
-        moviesCommentFlag : 0,
+        selfReplyComment : [],
+        replyCommentFlag : [],
       }
     },
     props: ['film_id'],
@@ -141,7 +145,7 @@
           }
         }
         return flag;
-      }
+      },
     },
     mounted(){
       this.getMovie(this.film_id);
@@ -149,7 +153,7 @@
     watch: {
       movie: function () {
         if(this.movie){
-          this.getMovieComment();
+          this.getMovieCommentByIndex(0);
         }
       }
     },
@@ -207,18 +211,36 @@
           this.commentIsActive_hover = 0;
         };
       },
-      getMovieComment(){
-        axios.get("/movieComments/five", {params:{movieId:this.movie.ranking}}).then((response) => {
+      getMovieCommentByIndex(index){
+        axios.get("/movieComments/getMovieCommentsByIndex", {params:{movieId:this.movie.ranking,index:index}}).then((response) => {
           let res = response.data;
           if (res.status == '1') {
-            this.movie.movieComments = res.result;
+            this.movieComments = this.movieComments.concat(res.result);
             if(res.result.length>0){
-              this.moviesCommentFlag = 1;
+              console.log("获取评论成功");
             }
           } else {
-            console.log("获取评论失败")
+            console.log("获取评论失败");
           }
         })
+      },
+      getMovieCommentByLength(length){
+        axios.get("/movieComments/getMovieCommentsByLength", {params:{movieId:this.movie.ranking,length:length}}).then((response) => {
+          let res = response.data;
+          if (res.status == '1') {
+            this.movieComments = res.result;
+            if(res.result.length>0){
+              console.log("获取评论成功");
+            }
+          } else {
+            console.log("获取评论失败");
+          }
+        })
+      },
+      getMoreComment(){
+        if(this.movieComments){
+          this.getMovieCommentByIndex(this.movieComments.length);
+        }
       },
       addComment(movieId){
         if(this.selfComment ===""){
@@ -236,7 +258,17 @@
             if(res.status == 1)
             {
               console.log('添加评论成功');
-              this.getMovieComment();
+              this.movieComments.unshift({
+                user:{
+                  userName:this.$store.state.userName,
+                  userProfilePicture:this.userProfilePicture,
+                },
+                time:'30秒前',
+                comment: this.selfComment,
+                numberOfLike:[],
+                reply:[],
+                _id:res.result
+              });
               this.selfComment = '';
             }
             else {
@@ -263,6 +295,9 @@
         )
       },
       reply(index){
+        if(!this.$store.state.userName){
+          return console.log("评论需要登陆");
+        }
         this.$set(this.replyCommentFlag, index, !this.replyCommentFlag[index]);
       },
       addReply(movieCommentId,index){
@@ -279,7 +314,8 @@
             let res = response.data;
             if (res.status == 1) {
               console.log('添加评论成功');
-              this.getMovieComment;
+              this.$set(this.replyCommentFlag, index, !this.replyCommentFlag[index]);
+              this.getMovieCommentByLength(this.movieComments.length);
               this.$set(this.selfReplyComment, index, '');
             }
             else {
@@ -294,13 +330,13 @@
         }else{
           axios.get("/movieComments/addNumberOfLike_comment", {
             params:{
-              movieComment_id:this.movie.movieComments[index]._id,
+              movieComment_id:this.movieComments[index]._id,
               user_id : this.$store.state._id
             }}).then((response) => {
             let res = response.data;
             if (res.status == 1) {
               console.log('点赞成功');
-              this.getMovieComment();
+              this.getMovieCommentByLength(this.movieComments.length);
             }
             else {
               console.log(res.message)
@@ -314,13 +350,13 @@
         }else{
           axios.get("/movieComments/addNumberOfLike_commentReply", {
             params:{
-              movieCommentReply_id:this.movie.movieComments[index].reply[index1]._id,
+              movieCommentReply_id:this.movieComments[index].reply[index1]._id,
               user_id : this.$store.state._id
             }}).then((response) => {
             let res = response.data;
             if (res.status == 1) {
               console.log('点赞成功');
-              this.getMovieComment();
+              this.getMovieCommentByLength(this.movieComments.length);
             }
             else {
               console.log(res.message)
@@ -473,6 +509,8 @@
         border-top: 1px solid #dfdfdf;
         margin: 12px -12px -12px -12px;
         background-color: #f2f2f5;
+        border-bottom-right-radius: 6px;
+        border-bottom-left-radius: 6px;
         .selfComment{
           margin: 0 12px;
           border-bottom: 1px solid #dfdfdf;
@@ -656,6 +694,18 @@
                 }
               }
             }
+          }
+        }
+        .moreComment{
+          border-top: 1px solid #08aba6;
+          color: #08aba6;
+          height: 50px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 16px;
+          img{
+            height: 22px;
           }
         }
       }

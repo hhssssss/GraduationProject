@@ -7,14 +7,15 @@ let MovieCommentSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'user'
     },
-    time : {
-        type : String,
-        default : new Date().toLocaleString()
-    },
+    time :String,
     numberOfLike :  [{
         type: mongoose.Schema.ObjectId,
         ref: 'user'
     }],
+    numberOfLikeLength :{
+        type: Number,
+        default: 0
+    },
     comment : String,
     reply : [{
         type: mongoose.Schema.ObjectId,
@@ -22,10 +23,10 @@ let MovieCommentSchema = new mongoose.Schema({
     }]
 });
 
-MovieCommentSchema.virtual('id').get(function () {
-    return this.movieId + '_' + this.userId + '_' + this.time;
-});
-
-MovieCommentSchema.set('toJSON',{getters: true, virtual: true});
+// MovieCommentSchema.virtual('numberOfLikeLength').get(function () {
+//     return this.numberOfLike.length;
+// });
+//
+// MovieCommentSchema.set('toJSON',{getters: true, virtual: true});
 
 module.exports = MovieCommentSchema;

@@ -129,15 +129,15 @@
             collection_icon2 : collection_icon2,
             comment_icon1 : comment_icon1,
             comment_icon2 : comment_icon2,
-            collectionIsActive_hover : [0,0,0,0,0,0,0,0,0,0],
-            commentIsActive_hover : [0,0,0,0,0,0,0,0,0,0],
-            commentIsActive_click : [0,0,0,0,0,0,0,0,0,0],
+            collectionIsActive_hover : [],
+            commentIsActive_hover : [],
+            commentIsActive_click : [],
             fontActive : 'font-active',
             fontNormal : 'font-normal',
-            selfComment : ['','','','','','','','','',''],
-            selfReplyComment : [['','','','',''],['','','','',''],['','','','',''],['','','','',''],['','','','',''],['','','','',''],['','','','',''],['','','','',''],['','','','',''],['','','','','']],
-            replyCommentFlag : [[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]],
-            moviesCommentFlag : [0,0,0,0,0,0,0,0,0,0],
+            selfComment : [],
+            selfReplyComment : [[],[],[],[],[],[],[],[],[],[]],
+            replyCommentFlag : [[],[],[],[],[],[],[],[],[],[]],
+            moviesCommentFlag : [],
           }
       },
       computed: {
@@ -264,7 +264,7 @@
           this.getMovieComment(index);
         },
         getMovieComment(index){
-          axios.get("/movieComments/five", {params:{movieId:this.movies[index].ranking}}).then((response) => {
+          axios.get("/movieComments/getMovieCommentsByLength", {params:{movieId:this.movies[index].ranking,length:5}}).then((response) => {
             let res = response.data;
             if (res.status == '1') {
               this.movies[index].movieComments = res.result;
@@ -292,7 +292,18 @@
               if(res.status == 1)
               {
                 console.log('添加评论成功');
-                this.getMovieComment(index);
+                this.movies[index].movieComments.unshift({
+                  user:{
+                    userName:this.$store.state.userName,
+                    userProfilePicture:this.userProfilePicture,
+                  },
+                  time:'30秒前',
+                  comment: this.selfComment[index],
+                  numberOfLike:[],
+                  reply:[],
+                  _id:res.result
+                });
+                this.$set(this.moviesCommentFlag, index, 1);
                 this.$set(this.selfComment, index, '');
               }
               else {
@@ -319,6 +330,9 @@
             )
         },
         reply(index,index1){
+          if(!this.$store.state.userName){
+            return console.log("评论需要登陆");
+          }
           this.$set(this.replyCommentFlag[index], index1, !this.replyCommentFlag[index][index1]);
         },
         addReply(movieCommentId,index,index1){
@@ -335,6 +349,7 @@
               let res = response.data;
               if (res.status == 1) {
                 console.log('添加评论成功');
+                this.$set(this.replyCommentFlag[index], index1, !this.replyCommentFlag[index][index1]);
                 this.getMovieComment(index);
                 this.$set(this.selfReplyComment[index], index1, '');
               }
@@ -553,6 +568,8 @@
         border-top: 1px solid #dfdfdf;
         margin: 12px -12px -12px -12px;
         background-color: #f2f2f5;
+        border-bottom-right-radius: 6px;
+        border-bottom-left-radius: 6px;
         .selfComment{
           margin: 0 12px;
           border-bottom: 1px solid #dfdfdf;

@@ -2,9 +2,29 @@ const express = require('express');
 const router = express.Router();
 const model = require('../db/index');
 
-router.get("/five",function (req,res,next) {
+router.get("/getMovieCommentsByIndex",function (req,res,next) {
     let movieId = req.param('movieId');
-    model.movieComment.find({movieId:movieId}).limit(5).populate({path:'user reply',select:'userName userId userProfilePicture comment time user numberOfLike',populate:{path:'user',select:'userName'}}).exec(function (err,doc) {
+    let index = parseInt(req.param('index'));
+    model.movieComment.find({movieId:movieId}).skip(index).limit(5).populate({path:'user reply',select:'userName userId userProfilePicture comment time user numberOfLike',options:{sort:{'numberOfLikeLength':-1}},populate:{path:'user',select:'userName'}}).sort({numberOfLikeLength: -1,time:-1}).exec(function (err,doc) {
+        if(err){
+            return  res.json({
+                status:'0',
+                msg:err.message
+            })
+        }else{
+            return  res.json({
+
+                status:'1',
+                message:doc.length,
+                result:doc
+            })
+        }
+    })
+});
+router.get("/getMovieCommentsByLength",function (req,res,next) {
+    let movieId = req.param('movieId');
+    let length = parseInt(req.param('length'));
+    model.movieComment.find({movieId:movieId}).populate({path:'user reply',select:'userName userId userProfilePicture comment time user numberOfLike',options:{sort:{'numberOfLikeLength':-1}},populate:{path:'user',select:'userName'}}).sort({numberOfLikeLength: -1,time:-1}).limit(length).exec(function (err,doc) {
         if(err){
             return  res.json({
                 status:'0',
@@ -26,7 +46,8 @@ router.post("/addComment",function (req,res,next) {
         movieId : req.body.movieId,
         userId : req.body.userId,
         comment : req.body.comment,
-        user : req.body.user_id
+        user : req.body.user_id,
+        time:new Date().toLocaleString()
     }
     let movieCommentEntity = new movieComment(comment);
     movieCommentEntity.save(function(err){
@@ -39,7 +60,8 @@ router.post("/addComment",function (req,res,next) {
         else {
             return  res.json({
                 status:1,
-                message:'添加成功'
+                message:'添加成功',
+                result:movieCommentEntity._id,
             })
         }
         });
@@ -92,9 +114,11 @@ router.get("/addNumberOfLike_comment",function (req,res,next) {
             let i = doc.numberOfLike.indexOf(user_id);
             if(i > -1){
                 doc.numberOfLike.splice(i,1);
+                doc.numberOfLikeLength -=1;
             }
             else {
                 doc.numberOfLike.push(user_id);
+                doc.numberOfLikeLength +=1;
             }
             doc.save(function (err) {
                 if(err){
@@ -125,9 +149,11 @@ router.get("/addNumberOfLike_commentReply",function (req,res,next) {
             let i = doc[0].numberOfLike.indexOf(user_id);
             if(i > -1){
                 doc[0].numberOfLike.splice(i,1);
+                doc[0].numberOfLikeLength -=1;
             }
             else {
                 doc[0].numberOfLike.push(user_id);
+                doc[0].numberOfLikeLength +=1;
             }
             doc[0].save(function (err) {
                 if(err){
