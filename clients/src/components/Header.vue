@@ -65,6 +65,9 @@
         beforeDestroy () {
           window.removeEventListener('scroll', this.menu)
         },
+        mounted(){
+          this.checkLogin()
+        },
         methods:{
           menu() {
             this.scroll = window.scrollY;
@@ -80,10 +83,34 @@
           loginShow(){
             this.$emit('loginShow')
           },
+          checkLogin(){
+            axios.get("/users/checkLogin").then((response)=>{
+              let res = response.data;
+              if (res.status == '1'){
+                let content = {
+                    id:res.result.userId ,
+                    pwd:res.result.userPwd ,
+                    name:res.result.userName ,
+                    pic:res.result.userProfilePicture ,
+                    _id:res.result._id ,
+                    collections:res.result.collections,
+                    filmReviewCollections:res.result.filmReviewCollections,
+                    signIn:res.result.signIn,
+                    coins:res.result.coins
+                }
+                this.$store.commit('getUserInfo',content);
+              }
+            })
+          },
           loginOut(){
-            this.$store.commit('loginOut');
-            this.userFunctionShow();
-            this.$router.push('/')
+            axios.post("/users/loginOut").then((response)=>{
+              let res = response.data;
+              if(res.status==1){
+                this.$store.commit('loginOut');
+                this.userFunctionShow();
+                this.$router.push('/')
+              }
+            })
           },
           signIn(){
             if(this.signInFlag){

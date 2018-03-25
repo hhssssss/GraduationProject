@@ -42,13 +42,18 @@ router.post("/register",function (req,res,next) {
     });
 });
 router.post("/login",function (req,res,next) {
-    model.user.find({userId:req.body.userId,userPwd:req.body.userPwd},function(err,doc){
+    model.user.findOne({userId:req.body.userId,userPwd:req.body.userPwd},function(err,doc){
         if(err){
             return  res.json({
                         status:'0',
-                        message:err.message
+                        message:'服务器错误',
+                        result:''
                     })
-        }else if(doc.length>0){
+        }else if(doc){
+            res.cookie('user_id',doc._id,{
+                path : '/',
+                maxAge : 1000*60*60
+            })
             return  res.json({
                         status:'1',
                         message:'登陆成功',
@@ -57,10 +62,47 @@ router.post("/login",function (req,res,next) {
         }else {
             return  res.json({
                         status:'0',
-                        message:'登陆失败'
+                        message:'登陆失败',
+                        result:''
                     })
         }
     });
+});
+router.post("/loginOut",function (req,res,next) {
+    res.cookie('user_id','',{
+        path : '/',
+        maxAge : -1
+    })
+    return  res.json({
+        status:'1',
+        message:'登出成功',
+        result:''
+    })
+});
+router.get("/checkLogin",function (req,res,next) {
+    if(req.cookies.user_id){
+        model.user.findById(req.cookies.user_id,function(err,doc){
+            if(err){
+                return  res.json({
+                    status:'0',
+                    message:'服务器错误',
+                    result:''
+                })
+            }else if(doc){
+                return  res.json({
+                    status:'1',
+                    message:'重复登陆成功',
+                    result:doc
+                })
+            }else {
+                return  res.json({
+                    status:'0',
+                    message:'重复登陆失败',
+                    result:''
+                })
+            }
+        });
+    }
 });
 router.get("/getImg",function (req,res,next) {
     let imgId = req.param('imgId');

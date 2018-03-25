@@ -100,7 +100,6 @@
             userPwd:this.userPwd
           }).then((response) => {
             let res = response.data;
-            // console.log(res);
             if (res.status == '1'){
               this.loginSuccess = true;
               setTimeout(() => {
@@ -109,13 +108,13 @@
                   'loginSuccess',
                   this.userId ,
                   this.userPwd ,
-                  res.result[0].userName ,
-                  res.result[0].userProfilePicture ,
-                  res.result[0]._id ,
-                  res.result[0].collections,
-                  res.result[0].filmReviewCollections,
-                  res.result[0].signIn,
-                  res.result[0].coins,
+                  res.result.userName ,
+                  res.result.userProfilePicture ,
+                  res.result._id ,
+                  res.result.collections,
+                  res.result.filmReviewCollections,
+                  res.result.signIn,
+                  res.result.coins,
                 )
               },1000)
             }else{
