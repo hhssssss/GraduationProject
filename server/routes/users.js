@@ -363,4 +363,76 @@ router.get("/reward",function (req,res,next) {
 
     })
 });
+router.get("/getFilmCollection",function (req,res,next) {
+    let user_id = req.param('user_id');
+    model.user.find({_id:user_id},{_id:1,collections:1}).populate({path:'collections',select:'name image _id',options:{limit:6}}).exec(function (err,doc) {
+        if(err){
+            return  res.json({
+                status:'0',
+                msg:err.message
+            })
+        }else{
+            return  res.json({
+                status:'1',
+                message:doc.length,
+                result:doc
+            })
+        }
+    })
+});
+router.get("/getFilmCollectionByIndex",function (req,res,next) {
+    let user_id = req.param('user_id');
+    let index = parseInt(req.param('index'));
+    model.user.find({_id:user_id},{_id:1,collections:1}).populate({path:'collections',select:'name image _id',options:{limit:6,skip:index}}).exec(function (err,doc) {
+        if(err){
+            return  res.json({
+                status:'0',
+                msg:err.message
+            })
+        }else{
+            return  res.json({
+
+                status:'1',
+                message:doc.length,
+                result:doc
+            })
+        }
+    })
+});
+router.get("/getFilmReviewCollection",function (req,res,next) {
+    let user_id = req.param('user_id');
+    model.user.find({_id:user_id},{_id:1,filmReviewCollections:1}).populate({path:'filmReviewCollections',select:'title img _id',options:{limit:6}}).exec(function (err,doc) {
+        if(err){
+            return  res.json({
+                status:'0',
+                msg:err.message
+            })
+        }else{
+            return  res.json({
+                status:'1',
+                message:doc.length,
+                result:doc
+            })
+        }
+    })
+});
+router.get("/getFilmReviewCollectionByIndex",function (req,res,next) {
+    let user_id = req.param('user_id');
+    let index = parseInt(req.param('index'));
+    model.user.find({_id:user_id},{_id:1,filmReviewCollections:1}).populate({path:'filmReviewCollections',select:'title img _id',options:{limit:6,skip:index}}).exec(function (err,doc) {
+        if(err){
+            return  res.json({
+                status:'0',
+                msg:err.message
+            })
+        }else{
+            return  res.json({
+
+                status:'1',
+                message:doc.length,
+                result:doc
+            })
+        }
+    })
+});
 module.exports = router;

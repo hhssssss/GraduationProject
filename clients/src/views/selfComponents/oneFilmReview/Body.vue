@@ -159,7 +159,6 @@
       }
     },
     mounted() {
-      console.log(this._id)
       axios.get("/filmReviews/getOneFilmReview", {params : {filmReview_id : this.filmReview_id}}).then((response) => {
         let res = response.data;
         if (res.status == '1') {

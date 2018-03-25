@@ -6,14 +6,15 @@ let FilmReviewCommentSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'user'
     },
-    time : {
-        type : String,
-        default : new Date().toLocaleString()
-    },
+    time : String,
     numberOfLike : [{
         type: mongoose.Schema.ObjectId,
         ref: 'user'
     }],
+    numberOfLikeLength :{
+        type: Number,
+        default: 0
+    },
     comment : String,
 });
 

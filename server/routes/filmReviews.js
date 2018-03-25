@@ -172,7 +172,8 @@ router.post("/addComment",function (req,res,next) {
     let comment = {
         filmReview_id : req.body.filmReview_id,
         comment : req.body.comment,
-        user : req.body.user_id
+        user : req.body.user_id,
+        time:new Date().toLocaleString()
     }
     let filmReviewCommentEntity = new filmReviewComment(comment);
     filmReviewCommentEntity.save(function(err){
@@ -192,7 +193,7 @@ router.post("/addComment",function (req,res,next) {
 });
 router.get("/getComments",function (req,res,next) {
     let filmReview_id = req.param('filmReview_id');
-    model.filmReviewComment.find({filmReview_id:filmReview_id}).limit(5).populate({path:'user',select:'userName userId userProfilePicture'}).exec(function (err,doc) {
+    model.filmReviewComment.find({filmReview_id:filmReview_id}).limit(5).populate({path:'user',select:'userName userId userProfilePicture'}).sort({numberOfLikeLength: -1,time:-1}).exec(function (err,doc) {
         if(err){
             return  res.json({
                 status:'0',
@@ -221,9 +222,11 @@ router.get("/addNumberOfLike_comment",function (req,res,next) {
             let i = doc[0].numberOfLike.indexOf(user_id);
             if(i > -1){
                 doc[0].numberOfLike.splice(i,1);
+                doc[0].numberOfLikeLength -= 1;
             }
             else {
                 doc[0].numberOfLike.push(user_id);
+                doc[0].numberOfLikeLength += 1;
             }
             doc[0].save(function (err) {
                 if(err){
@@ -238,6 +241,42 @@ router.get("/addNumberOfLike_comment",function (req,res,next) {
                         result:doc[0].numberOfLike.length,
                     })
                 }
+            })
+        }
+    })
+});
+router.get("/getMyFilmReviews",function (req,res,next) {
+    let user_id = req.param('user_id');
+    model.filmReview.find({author:user_id},{'title':1,'img':1,'_id':1},{limit:6},function (err,doc) {
+        if(err){
+            return  res.json({
+                status:'0',
+                msg:err.message
+            })
+        }else{
+            return  res.json({
+                status:'1',
+                message:doc.length,
+                result:doc
+            })
+        }
+    })
+});
+router.get("/getMyFilmReviewsByIndex",function (req,res,next) {
+    let user_id = req.param('user_id');
+    let index = parseInt(req.param('index'));
+    model.filmReview.find({author:user_id},{'title':1,'img':1,'_id':1},{limit:6,skip:index},function (err,doc) {
+        if(err){
+            return  res.json({
+                status:'0',
+                msg:err.message
+            })
+        }else{
+            return  res.json({
+
+                status:'1',
+                message:doc.length,
+                result:doc
             })
         }
     })

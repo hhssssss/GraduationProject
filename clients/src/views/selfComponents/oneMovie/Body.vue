@@ -3,9 +3,7 @@
     <div class="body-top"></div>
     <div class="body-mid">
       <transition
-        name="fade"
-        mode="in-out"
-        tag="div"
+        appear
         v-bind:css="false"
         v-on:before-enter="beforeEnter"
         v-on:enter="enter"
@@ -81,9 +79,12 @@
                   </div>
                 </div>
               </div>
-              <div class="moreComment" v-if="movieComments.length" @click="getMoreComment">
+              <div class="moreComment" v-if="movieComments.length&&moreFlag" @click="getMoreComment">
                 点击加载更多
                 <img src="../../../assets/more.png" alt="">
+              </div>
+              <div class="moreComment" v-if="movieComments.length&&!moreFlag">
+                没有更多了！
               </div>
             </div>
           </div>
@@ -106,6 +107,7 @@
       return {
         movie : '',
         movieComments : [],
+        moreFlag : 1,
         collection_icon1 : collection_icon1,
         collection_icon2 : collection_icon2,
         comment_icon1 : comment_icon1,
@@ -218,6 +220,8 @@
             this.movieComments = this.movieComments.concat(res.result);
             if(res.result.length>0){
               console.log("获取评论成功");
+            }else {
+              this.moreFlag = 0;
             }
           } else {
             console.log("获取评论失败");
@@ -383,7 +387,7 @@
   }
   .body-mid{
     width: 900px;
-    margin: 60px auto 0;
+    margin: 160px auto 0;
     .item{
       user-select: none;
       padding: 12px;

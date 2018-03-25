@@ -6,6 +6,9 @@ import FilmReview from '../views/FilmReview'
 import OneFilmReview from '../views/OneFilmReview'
 import OneMovie from '../views/OneMovie'
 import AddFilmReview from '../views/AddFilmReview'
+import MyFilmReview from '../views/MyFilmReview'
+import MyFilmCollection from '../views/MyFilmCollection'
+import MyFilmReviewCollection from '../views/MyFilmReviewCollection'
 
 Vue.use(Router)
 
@@ -46,6 +49,30 @@ export default new Router({
       path: '/film/addReview',
       name: 'AddFilmReview',
       component: AddFilmReview,
+      meta: {
+        requireAuth: true,
+      },
+    },
+    {
+      path: '/film/myFilmReview',
+      name: 'MyFilmReview',
+      component: MyFilmReview,
+      meta: {
+        requireAuth: true,
+      },
+    },
+    {
+      path: '/film/myFilmReviewCollection',
+      name: 'MyFilmReviewCollection',
+      component: MyFilmReviewCollection,
+      meta: {
+        requireAuth: true,
+      },
+    },
+    {
+      path: '/film/myFilmCollection',
+      name: 'MyFilmCollection',
+      component: MyFilmCollection,
       meta: {
         requireAuth: true,
       },

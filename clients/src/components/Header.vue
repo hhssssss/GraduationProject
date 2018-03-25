@@ -12,8 +12,11 @@
           <transition name="slide-fade">
             <div class="user-function" v-show="userFunctionFlag">
               <div class="user-function-item" @click="signIn">签到</div>
-              <router-link to="/user/settings"><div class="user-function-item" @click="userFunctionShow">个人信息设置</div></router-link>
               <router-link to="/film/addReview"><div class="user-function-item" @click="userFunctionShow">我要写影评</div></router-link>
+              <router-link to="/film/myFilmReview"><div class="user-function-item" @click="userFunctionShow">我写的影评</div></router-link>
+              <router-link to="/film/myFilmCollection"><div class="user-function-item" @click="userFunctionShow">收藏的电影</div></router-link>
+              <router-link to="/film/myFilmReviewCollection"><div class="user-function-item" @click="userFunctionShow">收藏的影评</div></router-link>
+              <router-link to="/user/settings"><div class="user-function-item" @click="userFunctionShow">个人信息设置</div></router-link>
               <div class="user-function-item" @click="loginOut">登出</div>
             </div>
           </transition>
