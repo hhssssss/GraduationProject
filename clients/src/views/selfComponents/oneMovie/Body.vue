@@ -184,7 +184,7 @@
       },
       collectionClick(){
         if(!this.$store.state.userName){
-          return console.log("收藏需要登陆");
+          return this.$emit('promptControl','你还没有登陆，无法收藏！');
         }
         else{
           let i = this.$store.state.collections.indexOf(this.movie._id);
@@ -247,8 +247,8 @@
         }
       },
       addComment(movieId){
-        if(this.selfComment ===""){
-          return console.log("评论内容不能为空");
+        if(!this.selfComment){
+          return this.$emit('promptControl','评论内容不能为空！');
         }
         else {
           axios.post("/movieComments/addComment",
@@ -300,13 +300,13 @@
       },
       reply(index){
         if(!this.$store.state.userName){
-          return console.log("评论需要登陆");
+          return this.$emit('promptControl','你还没有登陆，无法回复！');
         }
         this.$set(this.replyCommentFlag, index, !this.replyCommentFlag[index]);
       },
       addReply(movieCommentId,index){
-        if(this.selfReplyComment[index]===""){
-          return console.log("评论内容不能为空");
+        if(!this.selfReplyComment[index]){
+          return this.$emit('promptControl','回复内容不能为空！');
         }
         else {
           axios.post("/movieComments/addReply",
@@ -330,7 +330,7 @@
       },
       addNumberOfLike_comment(index){
         if(!this.$store.state.userName){
-          return console.log("点赞需要登陆");
+          return this.$emit('promptControl','你还没有登陆，无法点赞！');
         }else{
           axios.get("/movieComments/addNumberOfLike_comment", {
             params:{
@@ -350,7 +350,7 @@
       },
       addNumberOfLike_commentReply(index,index1){
         if(!this.$store.state.userName){
-          return console.log("点赞需要登陆");
+          return this.$emit('promptControl','你还没有登陆，无法点赞！');
         }else{
           axios.get("/movieComments/addNumberOfLike_commentReply", {
             params:{

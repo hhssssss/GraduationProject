@@ -1,13 +1,21 @@
 <template>
   <div id="filmReview">
     <elHeader @loginShow="loginShow"></elHeader>
-    <elBody></elBody>
+    <elBody @promptControl="promptControl"></elBody>
     <elFooter></elFooter>
     <transition v-on:before-enter="beforeEnter"
                 v-on:enter="enter"
                 v-on:leave="leave"
                 v-bind:css="false">
       <login v-show="loginShowFlag" @loginHide="loginHide" @loginSuccess="loginSuccess"></login>
+    </transition>
+    <transition v-on:before-enter="beforeEnter"
+                v-on:enter="enter"
+                v-on:leave="leave"
+                v-bind:css="false">
+      <prompt v-show="promptShowFlag" @promptControl="promptControl">
+        {{promptContent}}
+      </prompt>
     </transition>
     <returnTop></returnTop>
   </div>
@@ -18,12 +26,15 @@
   import Footer from '../components/Footer.vue';
   import Body from './selfComponents/filmReview/Body';
   import Login from '../components/Login';
+  import Prompt from '../components/Prompt';
   import ReturnTop from '../components/ReturnTop';
   export default {
     name:'filmReview',
     data() {
       return {
         loginShowFlag:false,
+        promptShowFlag:false,
+        promptContent:''
       }
     },
     computed:{
@@ -39,7 +50,8 @@
       elFooter:Footer,
       elBody:Body,
       login:Login,
-      returnTop:ReturnTop
+      returnTop:ReturnTop,
+      prompt:Prompt
     },
     methods:{
       loginShow(){
@@ -54,6 +66,10 @@
           id,pwd,name,pic,_id,collections,filmReviewCollections,signIn,coins
         }
         this.$store.commit('getUserInfo',content);
+      },
+      promptControl(content){
+        this.promptShowFlag = !this.promptShowFlag;
+        this.promptContent = content;
       },
       beforeEnter: function (el) {
         el.style.opacity = 0

@@ -211,7 +211,7 @@
       },
       collectionClick(){
         if(!this.$store.state.userName){
-          return console.log("收藏需要登陆");
+          return this.$emit('promptControl','你还没有登陆，无法收藏！');
         }
         else{
           let i = this.$store.state.filmReviewCollections.indexOf(this.filmReviews[this.filmReviewsIndex]._id);
@@ -253,9 +253,9 @@
       },
       coinClick(){
         if(!this.$store.state.userName){
-          return console.log("投币需要登陆");
+          return this.$emit('promptControl','你还没有登陆，无法投币！');
         }else if(this.$store.state.coins<=0){
-          return console.log("你的硬币不足1个，无法投币")
+          return this.$emit('promptControl','你的硬币已不足一枚！');
         } else{
           axios.get("/users/reward", {
             params:{
@@ -274,8 +274,8 @@
         }
       },
       addComment(){
-        if(this.selfComment === ""){
-          return console.log("评论内容不能为空");
+        if(!this.selfComment){
+          return this.$emit('promptControl','评论内容不能为空！');
         }
         else {
           axios.post("/filmReviews/addComment",
@@ -309,7 +309,7 @@
       },
       addNumberOfLike_comment(index){
         if(!this.$store.state.userName){
-          return console.log("点赞需要登陆");
+          return this.$emit('promptControl','你还没有登陆，无法点赞！');
         }
         else{
           axios.get("/filmReviews/addNumberOfLike_comment", {

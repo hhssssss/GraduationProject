@@ -233,7 +233,7 @@
         },
         collectionClick(index){
           if(!this.$store.state.userName){
-            return console.log("收藏需要登陆");
+            return this.$emit('promptControl','你还没有登陆，无法收藏！');
           }
           else{
             let i = this.$store.state.collections.indexOf(this.movies[index]._id);
@@ -277,8 +277,8 @@
           })
         },
         addComment(movieId,index){
-          if(this.selfComment[index]===""){
-            return console.log("评论内容不能为空");
+          if(!this.selfComment[index]){
+            return this.$emit('promptControl','评论内容不能为空！');
           }
           else {
             axios.post("/movieComments/addComment",
@@ -331,13 +331,13 @@
         },
         reply(index,index1){
           if(!this.$store.state.userName){
-            return console.log("评论需要登陆");
+            return this.$emit('promptControl','你还没有登陆，无法回复！');
           }
           this.$set(this.replyCommentFlag[index], index1, !this.replyCommentFlag[index][index1]);
         },
         addReply(movieCommentId,index,index1){
-          if(this.selfReplyComment[index][index1]===""){
-            return console.log("评论内容不能为空");
+          if(!this.selfReplyComment[index][index1]){
+            return this.$emit('promptControl','回复内容不能为空！');
           }
           else {
             axios.post("/movieComments/addReply",
@@ -361,7 +361,7 @@
         },
         addNumberOfLike_comment(index,index1){
           if(!this.$store.state.userName){
-            return console.log("点赞需要登陆");
+            return this.$emit('promptControl','你还没有登陆，无法点赞！');
           }else{
             axios.get("/movieComments/addNumberOfLike_comment", {
               params:{
@@ -381,7 +381,7 @@
         },
         addNumberOfLike_commentReply(index,index1,index2){
           if(!this.$store.state.userName){
-            return console.log("点赞需要登陆");
+            return this.$emit('promptControl','你还没有登陆，无法点赞！');
           }else{
             axios.get("/movieComments/addNumberOfLike_commentReply", {
               params:{

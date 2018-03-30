@@ -1,13 +1,21 @@
 <template>
     <div id="main">
       <elHeader @loginShow="loginShow"></elHeader>
-      <elBody></elBody>
+      <elBody @promptControl="promptControl"></elBody>
       <elFooter></elFooter>
       <transition v-on:before-enter="beforeEnter"
                   v-on:enter="enter"
                   v-on:leave="leave"
                   v-bind:css="false">
         <login v-show="loginShowFlag" @loginHide="loginHide" @loginSuccess="loginSuccess"></login>
+      </transition>
+      <transition v-on:before-enter="beforeEnter"
+                  v-on:enter="enter"
+                  v-on:leave="leave"
+                  v-bind:css="false">
+        <prompt v-show="promptShowFlag" @promptControl="promptControl">
+          {{promptContent}}
+        </prompt>
       </transition>
       <returnTop></returnTop>
     </div>
@@ -17,6 +25,7 @@
 import Header from '../components/Header';
 import Body from './selfComponents/main/Body';
 import Login from '../components/Login';
+import Prompt from '../components/Prompt';
 import Footer from '../components/Footer';
 import ReturnTop from '../components/ReturnTop';
 export default {
@@ -24,6 +33,8 @@ export default {
   data () {
     return {
       loginShowFlag:false,
+      promptShowFlag:false,
+      promptContent:''
     }
   },
   computed:{
@@ -39,7 +50,8 @@ export default {
     elBody:Body,
     elFooter:Footer,
     login:Login,
-    returnTop:ReturnTop
+    returnTop:ReturnTop,
+    prompt:Prompt
   },
   methods:{
     loginShow(){
@@ -54,6 +66,10 @@ export default {
         id,pwd,name,pic,_id,collections,filmReviewCollections,signIn,coins,
       }
       this.$store.commit('getUserInfo',content);
+    },
+    promptControl(content){
+      this.promptShowFlag = !this.promptShowFlag;
+      this.promptContent = content;
     },
     beforeEnter: function (el) {
       el.style.opacity = 0
