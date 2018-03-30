@@ -115,7 +115,7 @@ router.get("/searchFilmReviews",function (req,res,next) {
     let searchKey = req.param('searchKey');
     model.filmReview.find({$or:[
             {title:new RegExp(".*" + searchKey + ".*","gim")},
-            {label:new RegExp(".*" + searchKey + ".*","gim")}]},null,{limit:4},function (err,doc) {
+            {label:new RegExp(".*" + searchKey + ".*","gim")}]},null,{limit:4}).populate({path:'author',select:'userName'}).exec(function (err,doc) {
         if(err){
             return  res.json({
                 status:'0',
@@ -133,7 +133,7 @@ router.get("/searchFilmReviews",function (req,res,next) {
 });
 router.get("/getRandomFilmReviews",function (req,res,next) {
     let random = Math.random();
-    model.filmReview.find({random : { $gte : random }},null,{limit:4},function (err,doc1) {
+    model.filmReview.find({random : { $gte : random }},null,{limit:4}).populate({path:'author',select:'userName'}).exec(function (err,doc1) {
         if(err){
             return  res.json({
                 status:'0',

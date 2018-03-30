@@ -180,12 +180,16 @@
     },
     methods: {
       search(){
+        if(this.searchKey.trim() === '' || this.searchKey.trim() === null){
+          return this.$emit('promptControl','搜索框内容不能为空！');
+        }
         axios.get("/filmReviews/searchFilmReviews", {params:{searchKey:this.searchKey}}).then((response) => {
           let res = response.data;
           if (res.status == '1') {
+            if(!res.result.length) return this.$emit('promptControl','没有找到相应的内容！');
             this.filmReviews = res.result;
           } else {
-            this.filmReviews = [];
+            return this.$emit('promptControl','未知服务器错误！');
           }
         })
       },
@@ -227,10 +231,10 @@
             }}).then((response) => {
             let res = response.data;
             if (res.status == '1') {
-              //收藏成功
+              // this.$emit('promptControl','操作成功！');
               this.getOneFilmReview();
             } else {
-              console.log("收藏失败")
+              return this.$emit('promptControl','未知服务器错误！');
             }
           })
         }
@@ -255,7 +259,7 @@
         if(!this.$store.state.userName){
           return this.$emit('promptControl','你还没有登陆，无法投币！');
         }else if(this.$store.state.coins<=0){
-          return this.$emit('promptControl','你的硬币已不足一枚！');
+          return this.$emit('promptControl','你的硬币已不足一枚，无法投币！');
         } else{
           axios.get("/users/reward", {
             params:{

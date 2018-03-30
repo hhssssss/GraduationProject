@@ -177,7 +177,7 @@
       },
       collectionClick(){
         if(!this.$store.state.userName){
-          return console.log("收藏需要登陆");
+          return this.$emit('promptControl','你还没有登陆，无法收藏！');
         }
         else{
           let i = this.$store.state.filmReviewCollections.indexOf(this.filmReview._id);
@@ -196,7 +196,7 @@
               //收藏成功
               this.getOneFilmReview();
             } else {
-              console.log("收藏失败")
+              return this.$emit('promptControl','未知服务器错误！');
             }
           })
         }
@@ -207,7 +207,7 @@
           if (res.status == '1') {
             this.filmReview = res.result;
           } else {
-            console.log("获取一条影评内容失败")
+            return this.$emit('promptControl','未知服务器错误！');
           }
         })
       },
@@ -219,9 +219,9 @@
       },
       coinClick(){
         if(!this.$store.state.userName){
-          return console.log("投币需要登陆");
+          return this.$emit('promptControl','你还没有登陆，无法投币！');
         }else if(this.$store.state.coins<=0){
-          return console.log("你的硬币不足1个，无法投币")
+          return this.$emit('promptControl','你的硬币已不足一枚，无法投币！');
         } else{
           axios.get("/users/reward", {
             params:{
@@ -234,14 +234,14 @@
               this.$store.commit('reward');
               this.getOneFilmReview();
             } else {
-              console.log("投币失败")
+              return this.$emit('promptControl','未知服务器错误！');
             }
           })
         }
       },
       addComment(){
         if(this.selfComment === ""){
-          return console.log("评论内容不能为空");
+          return this.$emit('promptControl','评论内容不能为空！');
         }
         else {
           axios.post("/filmReviews/addComment",
@@ -253,12 +253,12 @@
             let res = response.data;
             if(res.status == 1)
             {
-              console.log('添加评论成功');
+              // 添加评论成功
               this.getComment();
               this.selfComment = '';
             }
             else {
-              console.log(res.message)
+              return this.$emit('promptControl','未知服务器错误！');
             }
           })
         }
@@ -275,7 +275,7 @@
       },
       addNumberOfLike_comment(index){
         if(!this.$store.state.userName){
-          return console.log("点赞需要登陆");
+          return this.$emit('promptControl','你还没有登陆，无法点赞！');
         }
         else{
           axios.get("/filmReviews/addNumberOfLike_comment", {
@@ -288,7 +288,7 @@
               //点赞成功
               this.getComment();
             } else {
-              console.log("点赞失败")
+              return this.$emit('promptControl','未知服务器错误！');
             }
           })
         }

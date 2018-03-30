@@ -75,7 +75,6 @@ export default {
       el.style.opacity = 0
     },
     enter: function (el, done) {
-      // Velocity(el, { opacity: 1, height: '50%',width: '50%' }, { duration: 300 })
       Velocity(el, { opacity: 1,translateY:100 }, { duration: 250,complete: done })
     },
     leave: function (el, done) {

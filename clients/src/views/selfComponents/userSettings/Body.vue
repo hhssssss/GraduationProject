@@ -115,6 +115,7 @@
                     pic:res.result[0].userProfilePicture
                   }
                   this.$store.commit('updateUserInfo1',content);
+                  return this.$emit('promptControl','修改成功！');
                 } else {
                   console.log(res)
                 }

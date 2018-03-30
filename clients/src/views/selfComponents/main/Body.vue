@@ -249,9 +249,9 @@
               }}).then((response) => {
               let res = response.data;
               if (res.status == '1') {
-                //收藏成功
+                // return this.$emit('promptControl','操作成功！');
               } else {
-                console.log("收藏失败")
+                return this.$emit('promptControl','未知服务器错误！');
               }
             })
           }

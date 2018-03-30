@@ -3,11 +3,8 @@
     <div class="content">
       <div class="cancel" @click="loginHide"></div>
       <div class="tip">
-        <div v-if="registerFail">用户账号已被占用！</div>
-        <div v-if="registerSuccess" style="color: #419641">注册成功！</div>
-        <div v-if="loginFail" >账号或密码错误！</div>
-        <div v-if="registerError" >账号或密码不能为空！</div>
-        <div v-if="loginSuccess" style="color: #419641">登陆成功！</div>
+        <div v-if="tipFailFlag">{{tipContent}}</div>
+        <div v-if="tipSuccessFlag" style="color: #419641">{{tipContent}}</div>
       </div>
       <transition name="slide-fade" mode="out-in">
         <div class="login-header" v-if="loginHeader" :key="1">
@@ -46,11 +43,9 @@
               loginHeader:true,
               userId:'',
               userPwd:'',
-              registerFail:false,
-              registerSuccess:false,
-              loginFail:false,
-              registerError:false,
-              loginSuccess:false
+              tipSuccessFlag:false,
+              tipFailFlag:false,
+              tipContent:'',
             }
         },
       methods:{
@@ -66,11 +61,13 @@
           this.$emit('loginHide')
         },
         register(){
-          if(!this.userId||!this.userPwd){
-            this.registerError = true;
+          if(!this.validate(this.userId)||!this.validate(this.userPwd)){
+            this.tipContent = "账号密码只能为6到10位的数字或字母！";
+            this.tipSuccessFlag = false;
+            this.tipFailFlag = true;
             setTimeout(() => {
-              this.registerError = false;
-            },1000);
+              this.tipFailFlag = false;
+            },1500);
             return;
           }
           axios.post("/users/register",{
@@ -79,18 +76,22 @@
           }).then((response) => {
             let res = response.data;
             if (res.status == '1'){
-              this.registerSuccess = true;
+              this.tipContent = "注册成功！";
+              this.tipFailFlag = false;
+              this.tipSuccessFlag = true;
               setTimeout(() => {
-                this.registerSuccess = false;
+                this.tipSuccessFlag = false;
                 this.loginHeader = true;
                 this.userPwd = '';
                 this.userId = '';
               },1000)
             }else{
-              this.registerFail = true;
+              this.tipContent = "用户账号已被占用！";
+              this.tipSuccessFlag = false;
+              this.tipFailFlag = true;
               setTimeout(() => {
-                this.registerFail = false;
-              },1000)
+                this.tipFailFlag = false;
+              },1500)
             }
           })
         },
@@ -101,9 +102,11 @@
           }).then((response) => {
             let res = response.data;
             if (res.status == '1'){
-              this.loginSuccess = true;
+              this.tipContent = "登陆成功！";
+              this.tipFailFlag = false;
+              this.tipSuccessFlag = true;
               setTimeout(() => {
-                this.loginSuccess = false;
+                this.tipSuccessFlag = false;
                 this.$emit(
                   'loginSuccess',
                   this.userId ,
@@ -118,12 +121,23 @@
                 )
               },1000)
             }else{
-              this.loginFail = true;
+              this.tipContent = "账号或密码错误！";
+              this.tipSuccessFlag = false;
+              this.tipFailFlag = true;
               setTimeout(() => {
-                this.loginFail = false;
-              },1000)
+                this.tipFailFlag = false;
+              },1500)
             }
           })
+        },
+        validate(value){
+          const pattern = /^[a-zA-Z0-9]{6,10}$/;
+          if (value === '' || value === null) return false;
+          if(!pattern.test(value)){
+            return false;
+          }else {
+            return true
+          }
         }
       }
     }
