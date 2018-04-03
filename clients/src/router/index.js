@@ -10,7 +10,7 @@ import MyFilmReview from '../views/MyFilmReview'
 import MyFilmCollection from '../views/MyFilmCollection'
 import MyFilmReviewCollection from '../views/MyFilmReviewCollection'
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   mode:'history',
