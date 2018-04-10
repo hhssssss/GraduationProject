@@ -11,7 +11,7 @@
           <div class="user" v-else @click="userFunctionShow" :style="{ 'background-image' : `url(/users/getImg?imgId=${userProfilePicture})`}"></div>
           <transition name="slide-fade">
             <div class="user-function" v-show="userFunctionFlag">
-              <div class="user-function-item" @click="signIn">签到</div>
+              <div class="user-function-item" @click="signIn">签到&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img :src="coin_icon2" alt="">&nbsp;{{coins}}</div>
               <router-link to="/film/addReview"><div class="user-function-item" @click="userFunctionShow">我要写影评</div></router-link>
               <router-link to="/film/myFilmReview"><div class="user-function-item" @click="userFunctionShow">我写的影评</div></router-link>
               <router-link to="/film/myFilmCollection"><div class="user-function-item" @click="userFunctionShow">收藏的电影</div></router-link>
@@ -27,6 +27,7 @@
 
 <script>
   import axios from 'axios';
+  import coin_icon2 from '../assets/icon/coin_icon2.png'
     export default {
         name:'header',
         data() {
@@ -35,7 +36,8 @@
               backgroundFlag:false,
               initFlag:false,
               searchKey:'',
-              userFunctionFlag:false
+              userFunctionFlag:false,
+              coin_icon2,
             }
         },
         computed:{
@@ -47,6 +49,9 @@
           },
           userProfilePicture(){
             return this.$store.state.userProfilePicture
+          },
+          coins(){
+            return this.$store.state.coins
           },
           signInFlag(){
             let d = new Date().toLocaleDateString(),
@@ -113,16 +118,17 @@
             })
           },
           signIn(){
+            this.userFunctionFlag = !this.userFunctionFlag;
             if(this.signInFlag){
-              console.log("已经签到过了");
+              return this.$emit('promptControl','你已经签到过了！');
             }else {
               axios.get("/users/signIn",{params:{date:new Date().toLocaleDateString(),user_id:this.$store.state._id}}).then((response) => {
                 let res = response.data
                 if(res.status = '1'){
-                  // 签到成功
+                  return this.$emit('promptControl','签到成功,获得3枚硬币！');
                   this.$store.commit('pushSignIn',new Date().toLocaleDateString());
                 }else{
-                  console.log("签到失败");
+                  return this.$emit('promptControl','未知服务器错误！');
                 }
               })
             }
@@ -258,6 +264,10 @@
       cursor: pointer;
       &:hover{
         background-color: rgba(0,0,0,.05);
+      }
+      img{
+        height: 20px;
+        margin-top: -3px;
       }
     }
   }

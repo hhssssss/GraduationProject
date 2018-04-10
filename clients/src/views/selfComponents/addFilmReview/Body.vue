@@ -96,25 +96,33 @@
         this.nextFlag = !this.nextFlag;
       },
       addFilmReview(){
-        var reviewData = new FormData();
-        console.log(this.$refs.filmReviewImg.files[0])
-        reviewData.append('filmReviewImg', this.$refs.filmReviewImg.files[0] ? this.$refs.filmReviewImg.files[0] : '');
-        reviewData.append('filmReviewImgFlag', this.$refs.filmReviewImg.files[0] ? '1' : '0');
-        reviewData.append('filmReviewName', this.filmReviewName);
-        reviewData.append('filmReviewLabel', this.filmReviewLabel);
-        reviewData.append('filmReviewContent', this.filmReviewContent);
-        reviewData.append('user_id', this.$store.state._id);
-        axios.post('/filmReviews/addFilmReview', reviewData, {
-          headers: {
-            "Content-Type": "multipart/form-data"
-          }
-        }).then((response) => {
-          let res = response.data;
-          if(res.status=="1"){
-            console.log("添加影评成功");
-            this.$router.replace({name:"OneFilmReview",params:{filmReview_id:res.result}})
-          }
-        })
+        if(this.filmReviewName==''){
+          return this.$emit('promptControl','影评名称不能为空！');
+        }else if(this.filmReviewLabel==''){
+          return this.$emit('promptControl','影评标签不能为空！');
+        }else if(this.filmReviewContent==''){
+          return this.$emit('promptControl','影评内容不能为空！');
+        }else{
+          var reviewData = new FormData();
+          // console.log(this.$refs.filmReviewImg.files[0])
+          reviewData.append('filmReviewImg', this.$refs.filmReviewImg.files[0] ? this.$refs.filmReviewImg.files[0] : '');
+          reviewData.append('filmReviewImgFlag', this.$refs.filmReviewImg.files[0] ? '1' : '0');
+          reviewData.append('filmReviewName', this.filmReviewName);
+          reviewData.append('filmReviewLabel', this.filmReviewLabel);
+          reviewData.append('filmReviewContent', this.filmReviewContent);
+          reviewData.append('user_id', this.$store.state._id);
+          axios.post('/filmReviews/addFilmReview', reviewData, {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          }).then((response) => {
+            let res = response.data;
+            if(res.status=="1"){
+              console.log("添加影评成功");
+              this.$router.replace({name:"OneFilmReview",params:{filmReview_id:res.result}})
+            }
+          })
+        }
       }
     }
   }

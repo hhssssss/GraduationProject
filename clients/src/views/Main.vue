@@ -1,6 +1,6 @@
 <template>
     <div id="main">
-      <elHeader @loginShow="loginShow"></elHeader>
+      <elHeader @loginShow="loginShow" @promptControl="promptControl"></elHeader>
       <elBody @promptControl="promptControl"></elBody>
       <elFooter></elFooter>
       <transition v-on:before-enter="beforeEnter"

@@ -17,11 +17,11 @@
       <form>
         <div class="login-input-box">
           <span class="icon icon-user"></span>
-          <input type="text" placeholder="请输入账号" v-model="userId">
+          <input type="text" placeholder="请输入账号" v-model="userId" autocomplete="username">
         </div>
         <div class="login-input-box">
           <span class="icon icon-password"></span>
-          <input type="password" placeholder="请输入密码" v-model="userPwd">
+          <input type="password" placeholder="请输入密码" v-model="userPwd" autocomplete="current-password">
         </div>
       </form>
       <div class="login-button-box">
@@ -36,6 +36,7 @@
 
 <script>
   import axios from 'axios';
+  import lodash from 'lodash';
     export default {
         name:'login',
         data() {
@@ -60,7 +61,7 @@
         loginHide(){
           this.$emit('loginHide')
         },
-        register(){
+        register:lodash.debounce(function () {
           if(!this.validate(this.userId)||!this.validate(this.userPwd)){
             this.tipContent = "账号密码只能为6到10位的数字或字母！";
             this.tipSuccessFlag = false;
@@ -94,8 +95,8 @@
               },1500)
             }
           })
-        },
-        login(){
+        },1000,{'leading': true, 'trailing': false}),
+        login:lodash.debounce(function () {
           axios.post("/users/login",{
             userId:this.userId,
             userPwd:this.userPwd
@@ -129,7 +130,7 @@
               },1500)
             }
           })
-        },
+        },1000,{'leading': true, 'trailing': false}),
         validate(value){
           const pattern = /^[a-zA-Z0-9]{6,10}$/;
           if (value === '' || value === null) return false;

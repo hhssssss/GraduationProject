@@ -68,7 +68,6 @@ const store = new Vuex.Store({
     pushSignIn(state,id){
       state.signIn.push(id);
       state.coins += 3;
-      console.log("签到成功,获得3个硬币");
     },
     reward(state){
       state.coins -= 1;

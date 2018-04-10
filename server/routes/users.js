@@ -52,7 +52,8 @@ router.post("/login",function (req,res,next) {
         }else if(doc){
             res.cookie('user_id',doc._id,{
                 path : '/',
-                maxAge : 1000*60*60
+                maxAge : 1000*60*60,
+                httpOnly : true
             })
             return  res.json({
                         status:'1',

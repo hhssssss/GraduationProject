@@ -1,6 +1,6 @@
 <template>
     <div id="userSettings">
-      <elHeader></elHeader>
+      <elHeader @promptControl="promptControl"></elHeader>
       <elBody @promptControl="promptControl"></elBody>
       <elFooter></elFooter>
       <transition v-on:before-enter="beforeEnter"

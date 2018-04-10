@@ -1,6 +1,6 @@
 <template>
   <div id="main">
-    <elHeader @loginShow="loginShow"></elHeader>
+    <elHeader @loginShow="loginShow" @promptControl="promptControl"></elHeader>
     <elBody :film_id="film_id" @promptControl="promptControl"></elBody>
     <elFooter></elFooter>
     <transition v-on:before-enter="beforeEnter"
