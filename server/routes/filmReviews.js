@@ -281,4 +281,30 @@ router.get("/getMyFilmReviewsByIndex",function (req,res,next) {
         }
     })
 });
+router.post("/deleteFilmReview",function (req,res,next) {
+    let filmReview_id = req.body.filmReview_id;
+    model.filmReview.remove({_id:filmReview_id},function (err) {
+        if(err){
+            return  res.json({
+                status:'0',
+                msg:err.message
+            })
+        }else{
+            model.filmReviewComment.remove({filmReview_id:filmReview_id},function (err) {
+                if(err){
+                    return  res.json({
+                        status:'0',
+                        msg:err.message
+                    })
+                }else {
+                    return res.json({
+                        status:'1',
+                        msg:'删除成功',
+                        result:''
+                    })
+                }
+            })
+        }
+    })
+});
 module.exports = router;

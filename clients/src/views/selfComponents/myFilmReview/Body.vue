@@ -10,9 +10,19 @@
       <div class="body-main">
         <template v-if="filmReviews.length">
           <div class="control" v-for="(filmReview,index) in filmReviews"  v-bind:key="filmReview._id">
-            <div class="item" @click="select(index)">
+            <div class="item" @mouseenter="itemEnter(index)" @mouseleave="itemLeave(index)">
               <div class="title">{{filmReview.title}}</div>
-              <div class="img" :style="{ 'background-image' : `url(/filmReviews/getImg?imgId=${filmReview.img})`}"></div>
+              <div class="img" :style="{ 'background-image' : `url(/filmReviews/getImg?imgId=${filmReview.img})`}">
+                <transition v-on:before-enter="beforeEnter"
+                            v-on:enter="enter"
+                            v-on:leave="leave"
+                            v-bind:css="false">
+                  <div class="itemBody" v-show="itemFlag[index]">
+                    <div class="look" @click="select(index)">查看</div>
+                    <div class="delete" @click="deleteItem(index)">删除</div>
+                  </div>
+                </transition>
+              </div>
             </div>
           </div>
         </template>
@@ -40,6 +50,7 @@
       return {
         filmReviews : [],
         moreFlag : 1,
+        itemFlag : [],
       }
     },
     mounted() {
@@ -59,6 +70,10 @@
       select(index){
         this.$router.push({name:"OneFilmReview",params:{filmReview_id:this.filmReviews[index]._id}})
       },
+      deleteItem(index){
+        axios.post("/filmReviews/deleteFilmReview",{filmReview_id:this.filmReviews[index]._id})
+        this.filmReviews.splice(index,1);
+      },
       getMore(){
         axios.get("/filmReviews/getMyFilmReviewsByIndex", {params: { user_id : this.$store.state._id , index : this.filmReviews.length }}).then((response) => {
           let res = response.data;
@@ -74,6 +89,21 @@
           }
         })
       },
+      itemEnter(index){
+        this.$set(this.itemFlag, index, 1);
+      },
+      itemLeave(index){
+        this.$set(this.itemFlag, index, 0);
+      },
+      beforeEnter: function (el) {
+        el.style.opacity = 0
+      },
+      enter: function (el, done) {
+        Velocity(el, { opacity: 1,width:'100%'}, { duration: 250,complete: done })
+      },
+      leave: function (el, done) {
+        Velocity(el, { opacity: 0 ,width:'0%'}, { duration: 250,complete: done })
+      }
     }
   }
 </script>
@@ -136,12 +166,51 @@
           text-overflow:ellipsis;
         }
         .img{
+          position: relative;
           height: 210px;
           background-position: center;
           background-repeat: no-repeat;
           background-size: cover;
           border-bottom-left-radius: 6px;
           border-bottom-right-radius: 6px;
+          .itemBody{
+            background: rgba(255,255,255,0.2);
+            position: relative;
+            height: 100%;
+            width: 100%;
+          }
+          .look{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 105px;
+            color: #08aba6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all ease-in-out 0.3s;
+            font-size: 20px;
+            &:hover{
+              background: rgba(255,255,255,0.35);
+            }
+          }
+          .delete{
+            position: absolute;
+            top: 105px;
+            left: 0;
+            width: 100%;
+            height: 105px;
+            color: #08aba6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all ease-in-out 0.3s;
+            font-size: 20px;
+            &:hover{
+              background: rgba(255,255,255,0.35);
+            }
+          }
         }
       }
     }

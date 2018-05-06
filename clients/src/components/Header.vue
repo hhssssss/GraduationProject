@@ -125,8 +125,8 @@
               axios.get("/users/signIn",{params:{date:new Date().toLocaleDateString(),user_id:this.$store.state._id}}).then((response) => {
                 let res = response.data
                 if(res.status = '1'){
-                  return this.$emit('promptControl','签到成功,获得3枚硬币！');
                   this.$store.commit('pushSignIn',new Date().toLocaleDateString());
+                  return this.$emit('promptControl','签到成功,获得3枚硬币！');
                 }else{
                   return this.$emit('promptControl','未知服务器错误！');
                 }
