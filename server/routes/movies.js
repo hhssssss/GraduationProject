@@ -71,4 +71,22 @@ router.get("/search",function (req,res,next) {
         }
     })
 });
+router.get("/searchMovies",function (req,res,next) {
+    let searchKey = req.param('searchKey');
+    model.movie.find({name:new RegExp(".*" + searchKey + ".*","gim")},null,{limit:10}).exec(function (err,doc) {
+        if(err){
+            return  res.json({
+                status:'0',
+                message:err.message
+            })
+        }
+        else{
+            return  res.json({
+                status: '1',
+                message: doc.length,
+                result:doc,
+            })
+        }
+    })
+});
 module.exports = router;

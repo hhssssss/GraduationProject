@@ -9,6 +9,7 @@ import AddFilmReview from '../views/AddFilmReview'
 import MyFilmReview from '../views/MyFilmReview'
 import MyFilmCollection from '../views/MyFilmCollection'
 import MyFilmReviewCollection from '../views/MyFilmReviewCollection'
+import Management from '../views/Management'
 
 Vue.use(Router);
 
@@ -24,6 +25,14 @@ export default new Router({
       path: '/user/settings',
       name: 'UserSettings',
       component: UserSettings,
+      meta: {
+        requireAuth: true,
+      },
+    },
+    {
+      path: '/user/management',
+      name: 'Management',
+      component: Management,
       meta: {
         requireAuth: true,
       },

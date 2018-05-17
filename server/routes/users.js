@@ -478,4 +478,39 @@ router.get("/getFilmReviewCollectionByIndex",function (req,res,next) {
         }
     })
 });
+router.get("/",function (req,res,next) {
+    let pageId = req.param('pageId');
+    model.user.find({}).limit(10).skip(pageId*10).exec(function (err,doc) {
+        if(err){
+            return  res.json({
+                status:'0',
+                msg:err.message
+            })
+        }else{
+            return  res.json({
+                status:'1',
+                message:doc.length,
+                result:doc
+            })
+        }
+    })
+});
+router.get("/searchUsers",function (req,res,next) {
+    let searchKey = req.param('searchKey');
+    model.user.find({userName:new RegExp(".*" + searchKey + ".*","gim")},null,{limit:10}).exec(function (err,doc) {
+        if(err){
+            return  res.json({
+                status:'0',
+                message:err.message
+            })
+        }
+        else{
+            return  res.json({
+                status: '1',
+                message: doc.length,
+                result:doc,
+            })
+        }
+    })
+});
 module.exports = router;

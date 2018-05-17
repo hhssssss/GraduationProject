@@ -307,4 +307,39 @@ router.post("/deleteFilmReview",function (req,res,next) {
         }
     })
 });
+router.get("/",function (req,res,next) {
+    let pageId = req.param('pageId');
+    model.filmReview.find({}).limit(10).populate({path:'author',select:'userName'}).skip(pageId*10).exec(function (err,doc) {
+        if(err){
+            return  res.json({
+                status:'0',
+                msg:err.message
+            })
+        }else{
+            return  res.json({
+                status:'1',
+                message:doc.length,
+                result:doc
+            })
+        }
+    })
+});
+router.get("/searchFilmReviews10",function (req,res,next) {
+    let searchKey = req.param('searchKey');
+    model.filmReview.find({title:new RegExp(".*" + searchKey + ".*","gim")},null,{limit:10}).populate({path:'author',select:'userName'}).exec(function (err,doc) {
+        if(err){
+            return  res.json({
+                status:'0',
+                message:err.message
+            })
+        }
+        else{
+            return  res.json({
+                status: '1',
+                message: doc.length,
+                result:doc,
+            })
+        }
+    })
+});
 module.exports = router;
