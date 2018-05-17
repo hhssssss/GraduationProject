@@ -26,7 +26,11 @@ let UserSchema = new mongoose.Schema({
     coins :{
         type : Number,
         default : 0,
-    }
+    },
+    admin : {
+        type : Boolean,
+        default : 0
+    },
 });
 
 module.exports = UserSchema;

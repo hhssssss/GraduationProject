@@ -1,14 +1,8 @@
 <template>
   <div id="management">
-    <elHeader @loginShow="loginShow" @promptControl="promptControl"></elHeader>
+    <elHeader @promptControl="promptControl"></elHeader>
     <elBody @promptControl="promptControl"></elBody>
     <elFooter></elFooter>
-    <transition v-on:before-enter="beforeEnter"
-                v-on:enter="enter"
-                v-on:leave="leave"
-                v-bind:css="false">
-      <login v-show="loginShowFlag" @loginHide="loginHide" @loginSuccess="loginSuccess"></login>
-    </transition>
     <transition v-on:before-enter="beforeEnter"
                 v-on:enter="enter"
                 v-on:leave="leave"
@@ -54,19 +48,6 @@
       prompt:Prompt
     },
     methods:{
-      loginShow(){
-        this.loginShowFlag = !this.loginShowFlag;
-      },
-      loginHide(){
-        this.loginShowFlag = !this.loginShowFlag;
-      },
-      loginSuccess(id,pwd,name,pic,_id,collections,filmReviewCollections,signIn,coins){
-        this.loginShowFlag = !this.loginShowFlag;
-        let content = {
-          id,pwd,name,pic,_id,collections,filmReviewCollections,signIn,coins,
-        }
-        this.$store.commit('getUserInfo',content);
-      },
       promptControl(content){
         this.promptShowFlag = !this.promptShowFlag;
         this.promptContent = content;

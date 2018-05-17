@@ -3,6 +3,7 @@ const router = express.Router();
 const model = require('../db/index');
 const fs = require("fs");
 const path = require("path");
+const formidable = require("formidable");
 
 router.get("/",function (req,res,next) {
     let pageId = req.param('pageId');
@@ -88,5 +89,84 @@ router.get("/searchMovies",function (req,res,next) {
             })
         }
     })
+});
+router.post("/addMovie",function (req,res,next) {
+    let form = new formidable.IncomingForm();
+    form.encoding = 'utf-8';
+    form.uploadDir = path.join(__dirname + "/../upload/movieImg");
+    form.keepExtensions = true;//保留后缀
+    form.maxFieldsSize = 2 * 1024 * 1024;
+    form.parse(req,function (err, fields, files) {
+        if(err){
+            return console.log(err);
+        }
+        else{
+            let movieInfo;
+            if(fields.moviePictureFlag=='1'){
+                let filesName = files.moviePicture.name,
+                    filesType = files.moviePicture.type;
+                if(/.(gif|jpg|jpeg|bmp|png)$/.exec(filesName)){  // 检测文件格式是否为gif,jpg,jpeg,bmp,png
+                    let suffixName,
+                        fullName,
+                        newPath,
+                        oldPath;
+                    suffixName = /\w{1,4}$/.exec(filesType)[0]; // 获取后缀名
+                    fullName = fields.name + '_' + new Date().getTime() + "." + suffixName;
+                    newPath = path.join(form.uploadDir , `/${fullName}`);
+                    oldPath = files.moviePicture.path;
+                    fs.renameSync(oldPath, newPath);
+                    movieInfo = {
+                        ranking:fields.ranking,
+                        name:fields.name,
+                        grade:fields.grade,
+                        title:fields.title,
+                        alias:fields.alias,
+                        director:fields.director,
+                        image:fullName,
+                        actor:fields.actor,
+                        length:fields.length1,
+                        language:fields.language,
+                        time:fields.time,
+                        genre:fields.genre,
+                        country:fields.country,
+                    }
+                }else {
+                    return  res.json({
+                        status:0,
+                        message:'文件不是图片类型'
+                    })
+                }
+            }else {
+                movieInfo = {
+                    ranking:fields.ranking,
+                    name:fields.name,
+                    grade:fields.grade,
+                    title:fields.title,
+                    alias:fields.alias,
+                    director:fields.director,
+                    actor:fields.actor,
+                    length:fields.length1,
+                    language:fields.language,
+                    time:fields.time,
+                    genre:fields.genre,
+                    country:fields.country,
+                }
+            }
+            model.movie.create(movieInfo, function(err){
+                if (err) {
+                    return  res.json({
+                        status:0,
+                        message:'添加失败'
+                    })
+                }
+                else {
+                    return  res.json({
+                        status:1,
+                        message:'添加成功'
+                    })
+                }
+            })
+        }
+    });
 });
 module.exports = router;

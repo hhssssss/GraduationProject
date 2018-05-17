@@ -17,7 +17,7 @@
               <router-link to="/film/myFilmCollection"><div class="user-function-item" @click="userFunctionShow">收藏的电影</div></router-link>
               <router-link to="/film/myFilmReviewCollection"><div class="user-function-item" @click="userFunctionShow">收藏的影评</div></router-link>
               <router-link to="/user/settings"><div class="user-function-item" @click="userFunctionShow">个人信息设置</div></router-link>
-              <router-link to="/user/management"><div class="user-function-item" @click="userFunctionShow">网站管理</div></router-link>
+              <router-link to="/user/management"><div class="user-function-item" @click="userFunctionShow" v-if="admin">网站管理</div></router-link>
               <div class="user-function-item" @click="loginOut">登出</div>
             </div>
           </transition>
@@ -42,6 +42,9 @@
             }
         },
         computed:{
+          admin(){
+            return this.$store.state.admin;
+          },
           userId(){
             return this.$store.state.userId;
           },
@@ -102,7 +105,8 @@
                     collections:res.result.collections,
                     filmReviewCollections:res.result.filmReviewCollections,
                     signIn:res.result.signIn,
-                    coins:res.result.coins
+                    coins:res.result.coins,
+                    admin:res.result.admin
                 }
                 this.$store.commit('getUserInfo',content);
               }

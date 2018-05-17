@@ -513,4 +513,76 @@ router.get("/searchUsers",function (req,res,next) {
         }
     })
 });
+router.post("/addUser",function (req,res,next) {
+    let form = new formidable.IncomingForm();
+    form.encoding = 'utf-8';
+    form.uploadDir = path.join(__dirname + "/../upload/userImg");
+    form.keepExtensions = true;//保留后缀
+    form.maxFieldsSize = 2 * 1024 * 1024;
+    form.parse(req,function (err, fields, files) {
+        if(err){
+            return console.log(err);
+        }
+        else{
+            let userInfo;
+            if(fields.profilePictureFlag=='1'){
+                let filesName = files.profilePicture.name,
+                    filesType = files.profilePicture.type;
+                if(/.(gif|jpg|jpeg|bmp|png)$/.exec(filesName)){  // 检测文件格式是否为gif,jpg,jpeg,bmp,png
+                    let suffixName,
+                        fullName,
+                        newPath,
+                        oldPath;
+                    suffixName = /\w{1,4}$/.exec(filesType)[0]; // 获取后缀名
+                    fullName = fields.user_id + '_' + new Date().getTime() + "." + suffixName;
+                    newPath = path.join(form.uploadDir , `/${fullName}`);
+                    oldPath = files.profilePicture.path;
+                    fs.renameSync(oldPath, newPath);
+                    userInfo = {
+                        userName:fields.userName,
+                        userId:fields.userId,
+                        userPwd:fields.userPwd,
+                        userGender:fields.userGender,
+                        userLikeTypes:fields.userLikeTypes,
+                        userSelfIntroduction:fields.userSelfIntroduction,
+                        userProfilePicture:fullName,
+                        coins:fields.coins,
+                        admin:fields.admin,
+                    }
+                }else {
+                    return  res.json({
+                        status:0,
+                        message:'文件不是图片类型'
+                    })
+                }
+            }else {
+                userInfo = {
+                    userName:fields.userName,
+                    userId:fields.userId,
+                    userPwd:fields.userPwd,
+                    userGender:fields.userGender,
+                    userLikeTypes:fields.userLikeTypes,
+                    userSelfIntroduction:fields.userSelfIntroduction,
+                    coins:fields.coins,
+                    admin:fields.admin,
+
+                }
+            }
+            model.user.create(userInfo, function(err){
+                if (err) {
+                    return  res.json({
+                        status:0,
+                        message:'添加失败'
+                    })
+                }
+                else {
+                    return  res.json({
+                        status:1,
+                        message:'添加成功'
+                    })
+                }
+            })
+        }
+    });
+});
 module.exports = router;

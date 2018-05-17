@@ -22,6 +22,7 @@ const store = new Vuex.Store({
     filmReviewCollections : [],
     signIn : [],
     coins : 0,
+    admin : false,
   },
   mutations:{
     getUserInfo(state,content){
@@ -34,6 +35,7 @@ const store = new Vuex.Store({
       state.filmReviewCollections = content.filmReviewCollections;
       state.signIn = content.signIn;
       state.coins = content.coins;
+      state.admin = content.admin;
     },
     updateUserInfo1(state,content){
       state.userName = content.name;
@@ -48,6 +50,8 @@ const store = new Vuex.Store({
       state.collections = [];
       state.filmReviewCollections = [];
       state.signIn = [];
+      state.coins = 0;
+      state.admin = false;
     },
     pushCollections(state,id){
       state.collections.push(id);

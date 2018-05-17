@@ -33,7 +33,6 @@
             性别
           </div>
           <div class="right sex">
-            <!--<input type="text" placeholder="填写你的性别">-->
             <label class="label-sex"><input name="Sex" type="radio" value="secret" v-model="userGender"><span class="radioInput"></span>保密</label>
             <label class="label-sex"><input name="Sex" type="radio" value="boy" v-model="userGender"><span class="radioInput"></span>男</label>
             <label class="label-sex"><input name="Sex" type="radio" value="girl" v-model="userGender"><span class="radioInput"></span>女</label>

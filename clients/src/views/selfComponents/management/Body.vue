@@ -24,7 +24,7 @@
                 <div class="control">
                   <div class="button" @click="pre">上一页</div>
                   <div class="button" @click="next">下一页</div>
-                  <div class="button">添加{{addTypes[selectedIndex]}}</div>
+                  <div class="button" @click="add">添加{{addTypes[selectedIndex]}}</div>
                 </div>
             </div>
             <div class="line"></div>
@@ -61,6 +61,270 @@
         </div>
       </div>
     </transition>
+    <transition v-on:before-enter="beforeEnter"
+                v-on:enter="enter"
+                v-on:leave="leave"
+                v-bind:css="false">
+      <div class="user" v-if="toastControl[0]">
+        <div class="content">
+          <div class="body-main-item">
+            <div class="left">
+              账号
+            </div>
+            <div class="right">
+              <input type="text" placeholder="填写用户的账号（必填）" v-model="user.userId">
+            </div>
+          </div>
+          <div class="body-main-item">
+            <div class="left">
+              密码
+            </div>
+            <div class="right">
+              <input type="text" placeholder="填写用户的密码（必填）" v-model="user.userPwd">
+            </div>
+          </div>
+          <div class="body-main-item">
+            <div class="left">
+              头像
+            </div>
+            <div class="right" style="padding: 0">
+              <label class="button">
+                <input type="file" name="profile-picture" id="profile-picture" accept="image/gif,image/jpeg,image/jpg,image/png" ref="profilePicture">上传头像
+              </label>
+            </div>
+          </div>
+          <div class="body-main-item">
+            <div class="left">
+              昵称
+            </div>
+            <div class="right">
+              <input type="text" placeholder="填写用户的昵称" v-model="user.userName">
+            </div>
+          </div>
+          <div class="body-main-item">
+            <div class="left">
+              性别
+            </div>
+            <div class="right sex">
+              <label class="label-sex"><input name="Sex" type="radio" value="secret" v-model="user.userGender"><span class="radioInput"></span>保密</label>
+              <label class="label-sex"><input name="Sex" type="radio" value="boy" v-model="user.userGender"><span class="radioInput"></span>男</label>
+              <label class="label-sex"><input name="Sex" type="radio" value="girl" v-model="user.userGender"><span class="radioInput"></span>女</label>
+            </div>
+          </div>
+          <div class="body-main-item">
+            <div class="left">
+              喜欢的电影类型
+            </div>
+            <div class="right">
+              <input type="text" placeholder="填写用户喜欢的电影类型" v-model="user.userLikeTypes">
+            </div>
+          </div>
+          <div class="body-main-item">
+            <div class="left">
+              个人介绍
+            </div>
+            <div class="right">
+              <input type="text" placeholder="填写用户擅长的事情，喜欢的事情" v-model="user.userSelfIntroduction">
+            </div>
+          </div>
+          <div class="body-main-item">
+            <div class="left">
+              拥有的硬币数
+            </div>
+            <div class="right">
+              <input type="number" placeholder="填写用户拥有的硬币数" v-model="user.coins">
+            </div>
+          </div>
+          <div class="body-main-item">
+            <div class="left">
+              管理员权限
+            </div>
+            <div class="right sex">
+              <label class="label-sex"><input name="Admin" type="radio" value="0" v-model="user.admin"><span class="radioInput"></span>普通用户</label>
+              <label class="label-sex"><input name="Admin" type="radio" value="1" v-model="user.admin"><span class="radioInput"></span>管理员</label>
+            </div>
+          </div>
+          <div class="body-main-bottom">
+            <div class="button" @click="saveUser">保存</div>
+            <div class="button" @click="goBack(0)">返回</div>
+          </div>
+        </div>
+      </div>
+    </transition>
+    <transition v-on:before-enter="beforeEnter"
+                v-on:enter="enter"
+                v-on:leave="leave"
+                v-bind:css="false">
+      <div class="movie" v-if="toastControl[1]">
+        <div class="content">
+          <div class="body-main-item">
+            <div class="left">
+              排名
+            </div>
+            <div class="right">
+              <input type="number" placeholder="填写电影的排名" v-model="movie.ranking">
+            </div>
+          </div>
+          <div class="body-main-item">
+            <div class="left">
+              名称
+            </div>
+            <div class="right">
+              <input type="text" placeholder="填写电影的名称(必填)" v-model="movie.name">
+            </div>
+          </div>
+          <div class="body-main-item">
+            <div class="left">
+              图片
+            </div>
+            <div class="right" style="padding: 0">
+              <label class="button">
+                <input type="file" name="movie-picture" id="movie-picture" accept="image/gif,image/jpeg,image/jpg,image/png" ref="moviePicture">上传图片
+              </label>
+            </div>
+          </div>
+          <div class="body-main-item">
+            <div class="left">
+              评分
+            </div>
+            <div class="right">
+              <input type="number" placeholder="填写电影的评分" v-model="movie.grade">
+            </div>
+          </div>
+          <div class="body-main-item">
+            <div class="left">
+              外文名
+            </div>
+            <div class="right">
+              <input type="text" placeholder="填写电影的外文名" v-model="movie.title">
+            </div>
+          </div>
+          <div class="body-main-item">
+            <div class="left">
+              别名
+            </div>
+            <div class="right">
+              <input type="text" placeholder="填写电影的别名" v-model="movie.alias">
+            </div>
+          </div>
+          <div class="body-main-item">
+            <div class="left">
+              导演
+            </div>
+            <div class="right">
+              <input type="text" placeholder="填写电影的导演" v-model="movie.director">
+            </div>
+          </div>
+          <div class="body-main-item">
+            <div class="left">
+              演员
+            </div>
+            <div class="right">
+              <input type="text" placeholder="填写电影的演员" v-model="movie.actor">
+            </div>
+          </div>
+          <div class="body-main-item">
+            <div class="left">
+              片长
+            </div>
+            <div class="right">
+              <input type="number" placeholder="填写电影的时长（分钟）" v-model="movie.length1">
+            </div>
+          </div>
+          <div class="body-main-item">
+            <div class="left">
+              语种
+            </div>
+            <div class="right">
+              <input type="text" placeholder="填写电影的语种" v-model="movie.language">
+            </div>
+          </div>
+          <div class="body-main-item">
+            <div class="left">
+              发行时间
+            </div>
+            <div class="right">
+              <input type="text" placeholder="填写电影的发行时间" v-model="movie.time">
+            </div>
+          </div>
+          <div class="body-main-item">
+            <div class="left">
+              类型
+            </div>
+            <div class="right">
+              <input type="text" placeholder="填写电影的类型" v-model="movie.genre">
+            </div>
+          </div>
+          <div class="body-main-item">
+            <div class="left">
+              发行国家
+            </div>
+            <div class="right">
+              <input type="text" placeholder="填写电影的发行国家" v-model="movie.country">
+            </div>
+          </div>
+          <div class="body-main-bottom">
+            <div class="button" @click="saveMovie">保存</div>
+            <div class="button" @click="goBack(1)">返回</div>
+          </div>
+        </div>
+      </div>
+    </transition>
+    <transition v-on:before-enter="beforeEnter"
+                v-on:enter="enter"
+                v-on:leave="leave"
+                v-bind:css="false">
+      <div class="filmReview" v-if="toastControl[2]">
+        <div class="content">
+          <div class="body-main-item">
+            <div class="left">
+              名称
+            </div>
+            <div class="right">
+              <input type="text" placeholder="填写影评的名称（必填）" v-model="filmReview.title">
+            </div>
+          </div>
+          <div class="body-main-item">
+            <div class="left">
+              标签
+            </div>
+            <div class="right">
+              <input type="text" placeholder="填写影评的标签（必填）" v-model="filmReview.label">
+            </div>
+          </div>
+          <div class="body-main-item">
+            <div class="left">
+              图片
+            </div>
+            <div class="right" style="padding: 0">
+              <label class="button">
+                <input type="file" name="filmReview-picture" id="filmReview-picture" accept="image/gif,image/jpeg,image/jpg,image/png" ref="filmReviewPicture">上传图片
+              </label>
+            </div>
+          </div>
+          <div class="body-main-item">
+            <div class="left">
+              内容
+            </div>
+            <div class="right">
+              <textarea  placeholder="填写影评的内容" v-model="filmReview.content"></textarea>
+            </div>
+          </div>
+          <div class="body-main-item">
+            <div class="left">
+              获得的硬币数
+            </div>
+            <div class="right">
+              <input type="number" placeholder="填写影评所获得的硬币数" v-model="filmReview.coins">
+            </div>
+          </div>
+          <div class="body-main-bottom">
+            <div class="button" @click="saveFilmReview">保存</div>
+            <div class="button" @click="goBack(2)">返回</div>
+          </div>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -76,6 +340,10 @@
         data:'',
         pageId:0,
         searchKey:'',
+        toastControl:[],
+        user:{},
+        movie:{},
+        filmReview:{}
       }
     },
     computed:{
@@ -204,6 +472,115 @@
           })
         }
 
+      },
+      add(){
+        this.$set(this.toastControl,this.selectedIndex,1);
+      },
+      saveUser(){
+        if(!this.user.userId || !this.user.userPwd){
+          return this.$emit('promptControl','账号或密码不能为空！');
+        }
+        if(!this.user.userName){
+          this.user.userName = this.user.userId;
+        }
+        if(!this.user.coins){
+          this.user.coins = 0;
+        }
+        let infoData = new FormData();
+        infoData.append('profilePicture', this.$refs.profilePicture.files[0] ? this.$refs.profilePicture.files[0] : '');
+        infoData.append('profilePictureFlag', this.$refs.profilePicture.files[0] ? '1' : '0');
+        infoData.append('userName', this.user.userName);
+        infoData.append('userLikeTypes', this.user.userLikeTypes);
+        infoData.append('userSelfIntroduction', this.user.userSelfIntroduction);
+        infoData.append('userGender', this.user.userGender);
+        infoData.append('userId', this.user.userId);
+        infoData.append('userPwd', this.user.userPwd);
+        infoData.append('coins', this.user.coins);
+        infoData.append('admin', this.user.admin);
+        axios.post('/users/addUser', infoData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        }).then((response) => {
+          let res = response.data;
+          if(res.status=="1"){
+            console.log("添加用户成功");
+          }
+        });
+        this.$set(this.toastControl,0,0);
+        this.user = {};
+      },
+      saveMovie(){
+        if(!this.movie.name){
+          return this.$emit('promptControl','电影名称不能为空！');
+        }
+        let infoData = new FormData();
+        infoData.append('moviePicture', this.$refs.moviePicture.files[0] ? this.$refs.moviePicture.files[0] : '');
+        infoData.append('moviePictureFlag', this.$refs.moviePicture.files[0] ? '1' : '0');
+        infoData.append('ranking', this.movie.ranking);
+        infoData.append('name', this.movie.name);
+        infoData.append('grade', this.movie.grade);
+        infoData.append('title', this.movie.title);
+        infoData.append('alias', this.movie.alias);
+        infoData.append('director', this.movie.director);
+        infoData.append('actor', this.movie.actor);
+        infoData.append('length1', this.movie.length1);
+        infoData.append('language', this.movie.language);
+        infoData.append('time', this.movie.time);
+        infoData.append('genre', this.movie.genre);
+        infoData.append('country', this.movie.country);
+        axios.post('/movies/addMovie', infoData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        }).then((response) => {
+          let res = response.data;
+          if(res.status=="1"){
+            console.log("添加电影成功");
+          }
+        });
+        this.$set(this.toastControl,1,0);
+        this.movie = {};
+      },
+      saveFilmReview(){
+        if(!this.filmReview.title || !this.filmReview.label){
+          return this.$emit('promptControl','标题或标签不能为空！');
+        }
+        if(!this.filmReview.coins){
+          this.filmReview.coins = 0;
+        }
+        let reviewData = new FormData();
+        reviewData.append('filmReviewImg', this.$refs.filmReviewPicture.files[0] ? this.$refs.filmReviewPicture.files[0] : '');
+        reviewData.append('filmReviewImgFlag', this.$refs.filmReviewPicture.files[0] ? '1' : '0');
+        reviewData.append('filmReviewName', this.filmReview.title);
+        reviewData.append('filmReviewLabel', this.filmReview.label);
+        reviewData.append('filmReviewContent', this.filmReview.content);
+        reviewData.append('coins', this.filmReview.coins);
+        reviewData.append('user_id', this.$store.state._id);
+        axios.post('/filmReviews/addFilmReview', reviewData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        }).then((response) => {
+          let res = response.data;
+          if(res.status=="1"){
+            console.log("添加影评成功");
+          }
+        })
+        this.$set(this.toastControl,2,0);
+        this.filmReview = {};
+      },
+      goBack(index){
+        this.$set(this.toastControl,index,0);
+      },
+      beforeEnter: function (el) {
+        el.style.opacity = 0
+      },
+      enter: function (el, done) {
+        Velocity(el, { opacity: 1,translateY:100 }, { duration: 250,complete: done })
+      },
+      leave: function (el, done) {
+        Velocity(el, { opacity: 0,translateY:-100  }, { duration: 250,complete: done })
       }
     }
   }
@@ -386,6 +763,111 @@
             color: #08aba6;
           }
         }
+      }
+    }
+  }
+  .user,.movie,.filmReview{
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: -100px;
+    background: rgba(0,0,0,0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9;
+    .content{
+      position: relative;
+      background-color: #fff;
+      width: 800px;
+      height: 500px;
+      border: 1px solid #08aba6;
+      border-radius: 6px;
+      padding: 10px 20px;
+      overflow-y: scroll;
+      .body-main-item{
+        border-bottom: 1px solid #f1f1f1;
+        display: flex;
+        align-items: center;
+        .left{
+          width: 30%;
+          padding: 15px 5px;
+        }
+        .right{
+          width: 70%;
+          padding: 15px 0px;
+          display: flex;
+          align-items: center;
+          input[type='file']{
+            display: none;
+          }
+          label{
+            cursor: pointer;
+            display: inline-block;
+            font-size: 16px;
+            font-weight: normal;
+          }
+          input[type='text'],input[type='number']{
+            width: 80%;
+            outline: none;
+            border: none;
+            font-size: 18px;
+            overflow: visible;
+            &::placeholder{
+              color: #dcdcdc;
+            }
+          }
+          textarea{
+            width: 80%;
+            &::placeholder{
+              color: #dcdcdc;
+            }
+          }
+          input[type='radio']{
+            display: none;
+          }
+          .label-sex{
+            margin-right: 15px;
+            line-height: 1;
+          }
+          .radioInput{
+            background-color:#fff;
+            border:1px solid rgba(0,0,0,0.15);
+            border-radius:100%;
+            display:inline-block;
+            height:16px;
+            margin-right:15px;
+            margin-top:-1px;
+            vertical-align:middle;
+            width:16px;
+            line-height:1;
+            padding: 2px;
+          }
+          input[type='radio']:checked + .radioInput{
+            background-color:#08aba6;
+            background-clip: content-box;
+          }
+        }
+      }
+      .body-main-bottom{
+        margin-top: 50px;
+        display: flex;
+        justify-content: space-around;
+      }
+      .button{
+        height: 40px;
+        width: 140px;
+        background-color: #08aba6;
+        color: white;
+        text-align: center;
+        line-height: 40px;
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
+        border: 1px solid #08aba6;
+      }
+      .button:hover{
+        background-color: #fff;
+        color: #08aba6;
       }
     }
   }

@@ -61,10 +61,10 @@
       loginHide(){
         this.loginShowFlag = !this.loginShowFlag;
       },
-      loginSuccess(id,pwd,name,pic,_id,collections,filmReviewCollections,signIn,coins){
+      loginSuccess(id,pwd,name,pic,_id,collections,filmReviewCollections,signIn,coins,admin){
         this.loginShowFlag = !this.loginShowFlag;
         let content = {
-          id,pwd,name,pic,_id,collections,filmReviewCollections,signIn,coins,
+          id,pwd,name,pic,_id,collections,filmReviewCollections,signIn,coins,admin
         }
         this.$store.commit('getUserInfo',content);
       },

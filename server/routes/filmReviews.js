@@ -16,6 +16,9 @@ router.post("/addFilmReview",function (req,res,next) {
             return console.log(err);
         }
         else{
+            if(!fields.coins){
+             fields.coins = 0;
+            }
             let reviewInfo,
                 filmReivew = model.filmReview,
                 filmReviewEntity;
@@ -38,6 +41,7 @@ router.post("/addFilmReview",function (req,res,next) {
                         img:fullName,
                         content:fields.filmReviewContent,
                         author:fields.user_id,
+                        coins:fields.coins,
                         random:Math.random(),
                     }
                 }else {
@@ -52,6 +56,7 @@ router.post("/addFilmReview",function (req,res,next) {
                     label:fields.filmReviewLabel,
                     content:fields.filmReviewContent,
                     author:fields.user_id,
+                    coins:fields.coins,
                     random:Math.random(),
                 }
             }

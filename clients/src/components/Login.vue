@@ -119,6 +119,7 @@
                   res.result.filmReviewCollections,
                   res.result.signIn,
                   res.result.coins,
+                  res.result.admin
                 )
               },1000)
             }else{
