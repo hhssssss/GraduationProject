@@ -347,4 +347,87 @@ router.get("/searchFilmReviews10",function (req,res,next) {
         }
     })
 });
+router.post("/deleteFilmReviewByAdmin",function (req,res,next) {
+    let _id = req.body._id;
+    model.filmReview.remove({_id:_id},function (err) {
+        if (err) {
+            return  res.json({
+                status:0,
+                message:'删除失败'
+            })
+        }
+        else {
+            return  res.json({
+                status:1,
+                message:'删除成功'
+            })
+        }
+    })
+});
+router.post("/updateFilmReview",function (req,res,next) {
+    let form = new formidable.IncomingForm();
+    form.encoding = 'utf-8';
+    form.uploadDir = path.join(__dirname + "/../upload/filmReviewImg");
+    form.keepExtensions = true;//保留后缀
+    form.maxFieldsSize = 2 * 1024 * 1024;
+    form.parse(req,function (err, fields, files) {
+        if(err){
+            return console.log(err);
+        }
+        else{
+            if(!fields.coins){
+                fields.coins = 0;
+            }
+            let reviewInfo;
+            if(fields.filmReviewImgFlag=='1'){
+                let filesName = files.filmReviewImg.name,
+                    filesType = files.filmReviewImg.type;
+                if(/.(gif|jpg|jpeg|bmp|png)$/.exec(filesName)){  // 检测文件格式是否为gif,jpg,jpeg,bmp,png
+                    let suffixName,
+                        fullName,
+                        newPath,
+                        oldPath;
+                    suffixName = /\w{1,4}$/.exec(filesType)[0]; // 获取后缀名
+                    fullName = fields.user_id + '_' + new Date().getTime() + "." + suffixName;
+                    newPath = path.join(form.uploadDir , `/${fullName}`);
+                    oldPath = files.filmReviewImg.path;
+                    fs.renameSync(oldPath, newPath);
+                    reviewInfo = {
+                        title:fields.filmReviewName,
+                        label:fields.filmReviewLabel,
+                        img:fullName,
+                        content:fields.filmReviewContent,
+                        coins:fields.coins,
+                    }
+                }else {
+                    return  res.json({
+                        status:0,
+                        message:'文件不是图片类型'
+                    })
+                }
+            }else {
+                reviewInfo = {
+                    title:fields.filmReviewName,
+                    label:fields.filmReviewLabel,
+                    content:fields.filmReviewContent,
+                    coins:fields.coins,
+                }
+            }
+            model.filmReview.update({_id:fields._id}, reviewInfo, function(err, doc){
+                if (err) {
+                    return  res.json({
+                        status:0,
+                        message:'修改失败'
+                    })
+                }
+                else {
+                    return  res.json({
+                        status:1,
+                        message:'修改成功'
+                    })
+                }
+            })
+        }
+    })
+});
 module.exports = router;

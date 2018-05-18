@@ -49,8 +49,8 @@
                   <td v-if="isActive[2]&&item.author">{{item.author.userName}}</td>
                   <td>
                     <div class="control">
-                      <div class="button">修改</div>
-                      <div class="button">删除</div>
+                      <div class="button" @click="update(index)">修改</div>
+                      <div class="button" @click="del(index)">删除</div>
                     </div>
                   </td>
                 </tr>
@@ -140,8 +140,8 @@
               管理员权限
             </div>
             <div class="right sex">
-              <label class="label-sex"><input name="Admin" type="radio" value="0" v-model="user.admin"><span class="radioInput"></span>普通用户</label>
-              <label class="label-sex"><input name="Admin" type="radio" value="1" v-model="user.admin"><span class="radioInput"></span>管理员</label>
+              <label class="label-sex"><input name="Admin" type="radio" value="false" v-model="user.admin"><span class="radioInput"></span>普通用户</label>
+              <label class="label-sex"><input name="Admin" type="radio" value="true" v-model="user.admin"><span class="radioInput"></span>管理员</label>
             </div>
           </div>
           <div class="body-main-bottom">
@@ -343,7 +343,8 @@
         toastControl:[],
         user:{},
         movie:{},
-        filmReview:{}
+        filmReview:{},
+        updateFlag:0,
       }
     },
     computed:{
@@ -360,6 +361,7 @@
           let res = response.data;
           if(res.message==0){
             this.pageId--;
+            this.data = '';
             return this.$emit('promptControl','已经到最后一页了！');
           }
           if (res.status == '1') {
@@ -374,6 +376,7 @@
           let res = response.data;
           if(res.message==0){
             this.pageId--;
+            this.data = '';
             return this.$emit('promptControl','已经到最后一页了！');
           }
           if (res.status == '1') {
@@ -388,6 +391,7 @@
           let res = response.data;
           if(res.message==0){
             this.pageId--;
+            this.data = '';
             return this.$emit('promptControl','已经到最后一页了！');
           }
           if (res.status == '1') {
@@ -480,33 +484,43 @@
         if(!this.user.userId || !this.user.userPwd){
           return this.$emit('promptControl','账号或密码不能为空！');
         }
-        if(!this.user.userName){
-          this.user.userName = this.user.userId;
-        }
-        if(!this.user.coins){
-          this.user.coins = 0;
-        }
         let infoData = new FormData();
         infoData.append('profilePicture', this.$refs.profilePicture.files[0] ? this.$refs.profilePicture.files[0] : '');
         infoData.append('profilePictureFlag', this.$refs.profilePicture.files[0] ? '1' : '0');
-        infoData.append('userName', this.user.userName);
-        infoData.append('userLikeTypes', this.user.userLikeTypes);
-        infoData.append('userSelfIntroduction', this.user.userSelfIntroduction);
-        infoData.append('userGender', this.user.userGender);
+        infoData.append('userName', this.user.userName?this.user.userName:this.user.userId);
+        infoData.append('userLikeTypes', this.user.userLikeTypes?this.user.userLikeTypes:'');
+        infoData.append('userSelfIntroduction', this.user.userSelfIntroduction?this.user.userSelfIntroduction:'');
+        infoData.append('userGender', this.user.userGender?this.user.userGender:'');
         infoData.append('userId', this.user.userId);
         infoData.append('userPwd', this.user.userPwd);
-        infoData.append('coins', this.user.coins);
-        infoData.append('admin', this.user.admin);
-        axios.post('/users/addUser', infoData, {
-          headers: {
-            "Content-Type": "multipart/form-data"
-          }
-        }).then((response) => {
-          let res = response.data;
-          if(res.status=="1"){
-            console.log("添加用户成功");
-          }
-        });
+        infoData.append('coins', this.user.coins?this.user.coins:0);
+        infoData.append('admin', this.user.admin?this.user.admin:false);
+        if(!this.updateFlag){
+          axios.post('/users/addUser', infoData, {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          }).then((response) => {
+            let res = response.data;
+            if(res.status=="1"){
+              console.log("添加用户成功");
+              this.getUsers(this.pageId);
+            }
+          });
+        }else {
+          infoData.append('_id', this.user._id);
+          axios.post('/users/updateUser', infoData, {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          }).then((response) => {
+            let res = response.data;
+            if(res.status=="1"){
+              console.log("修改用户成功");
+            }
+          });
+          this.updateFlag = 0;
+        }
         this.$set(this.toastControl,0,0);
         this.user = {};
       },
@@ -517,28 +531,44 @@
         let infoData = new FormData();
         infoData.append('moviePicture', this.$refs.moviePicture.files[0] ? this.$refs.moviePicture.files[0] : '');
         infoData.append('moviePictureFlag', this.$refs.moviePicture.files[0] ? '1' : '0');
-        infoData.append('ranking', this.movie.ranking);
+        infoData.append('ranking', this.movie.ranking?this.movie.ranking:'');
         infoData.append('name', this.movie.name);
-        infoData.append('grade', this.movie.grade);
-        infoData.append('title', this.movie.title);
-        infoData.append('alias', this.movie.alias);
-        infoData.append('director', this.movie.director);
-        infoData.append('actor', this.movie.actor);
-        infoData.append('length1', this.movie.length1);
-        infoData.append('language', this.movie.language);
-        infoData.append('time', this.movie.time);
-        infoData.append('genre', this.movie.genre);
-        infoData.append('country', this.movie.country);
-        axios.post('/movies/addMovie', infoData, {
-          headers: {
-            "Content-Type": "multipart/form-data"
-          }
-        }).then((response) => {
-          let res = response.data;
-          if(res.status=="1"){
-            console.log("添加电影成功");
-          }
-        });
+        infoData.append('grade', this.movie.grade?this.movie.grade:'');
+        infoData.append('title', this.movie.title?this.movie.title:'');
+        infoData.append('alias', this.movie.alias?this.movie.alias:'');
+        infoData.append('director', this.movie.director?this.movie.director:'');
+        infoData.append('actor', this.movie.actor?this.movie.actor:'');
+        infoData.append('length1', this.movie.length1?this.movie.length1:'');
+        infoData.append('language', this.movie.language?this.movie.language:'');
+        infoData.append('time', this.movie.time?this.movie.time:'');
+        infoData.append('genre', this.movie.genre?this.movie.genre:'');
+        infoData.append('country', this.movie.country?this.movie.country:'');
+        if(!this.updateFlag){
+          axios.post('/movies/addMovie', infoData, {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          }).then((response) => {
+            let res = response.data;
+            if(res.status=="1"){
+              console.log("添加电影成功");
+              this.getMovies(this.pageId);
+            }
+          });
+        }else {
+          infoData.append('_id', this.movie._id);
+          axios.post('/movies/updateMovie', infoData, {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          }).then((response) => {
+            let res = response.data;
+            if(res.status=="1"){
+              console.log("修改电影成功");
+            }
+          });
+          this.updateFlag = 0;
+        }
         this.$set(this.toastControl,1,0);
         this.movie = {};
       },
@@ -549,29 +579,91 @@
         if(!this.filmReview.coins){
           this.filmReview.coins = 0;
         }
-        let reviewData = new FormData();
-        reviewData.append('filmReviewImg', this.$refs.filmReviewPicture.files[0] ? this.$refs.filmReviewPicture.files[0] : '');
-        reviewData.append('filmReviewImgFlag', this.$refs.filmReviewPicture.files[0] ? '1' : '0');
-        reviewData.append('filmReviewName', this.filmReview.title);
-        reviewData.append('filmReviewLabel', this.filmReview.label);
-        reviewData.append('filmReviewContent', this.filmReview.content);
-        reviewData.append('coins', this.filmReview.coins);
-        reviewData.append('user_id', this.$store.state._id);
-        axios.post('/filmReviews/addFilmReview', reviewData, {
-          headers: {
-            "Content-Type": "multipart/form-data"
-          }
-        }).then((response) => {
-          let res = response.data;
-          if(res.status=="1"){
-            console.log("添加影评成功");
-          }
-        })
+        let infoData = new FormData();
+        infoData.append('filmReviewImg', this.$refs.filmReviewPicture.files[0] ? this.$refs.filmReviewPicture.files[0] : '');
+        infoData.append('filmReviewImgFlag', this.$refs.filmReviewPicture.files[0] ? '1' : '0');
+        infoData.append('filmReviewName', this.filmReview.title);
+        infoData.append('filmReviewLabel', this.filmReview.label?this.filmReview.label:'');
+        infoData.append('filmReviewContent', this.filmReview.content?this.filmReview.content:'');
+        infoData.append('coins', this.filmReview.coins?this.filmReview.coins:0);
+        infoData.append('user_id', this.$store.state._id);
+        if(!this.updateFlag){
+          axios.post('/filmReviews/addFilmReview', infoData, {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          }).then((response) => {
+            let res = response.data;
+            if(res.status=="1"){
+              console.log("添加影评成功");
+              this.getFilmReviews(this.pageId);
+            }
+          })
+        }else {
+          infoData.append('_id', this.filmReview._id);
+          axios.post('/filmReviews/updateFilmReview', infoData, {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          }).then((response) => {
+            let res = response.data;
+            if(res.status=="1"){
+              console.log("修改影评成功");
+            }
+          });
+          this.updateFlag = 0;
+        }
         this.$set(this.toastControl,2,0);
         this.filmReview = {};
       },
+      del(index){
+        let id = this.data[index]._id;
+        if(this.selectedIndex == 0){
+          axios.post("/users/deleteUser", {'_id':id}).then((response)=>{
+              let res = response.data;
+              if(res.status=="1"){
+                console.log("删除成功");
+                this.getUsers(this.pageId);
+              }
+            })
+        }else if(this.selectedIndex == 1){
+          axios.post("/movies/deleteMovie", {'_id':id}).then((response)=>{
+            let res = response.data;
+            if(res.status=="1"){
+              console.log("删除成功");
+              this.getMovies(this.pageId);
+            }
+          })
+        }else if(this.selectedIndex == 2){
+          axios.post("/filmReviews/deleteFilmReviewByAdmin", {'_id':id}).then((response)=>{
+            let res = response.data;
+            if(res.status=="1"){
+              console.log("删除成功");
+              this.getFilmReviews(this.pageId);
+            }
+          })
+        }
+
+      },
+      update(index){
+        this.updateFlag = 1;
+        if(this.selectedIndex ==0){
+          this.user = this.data[index];
+        }else if(this.selectedIndex ==1){
+          this.movie = this.data[index];
+        }else if(this.selectedIndex ==2){
+          this.filmReview = this.data[index];
+        }
+        this.$set(this.toastControl,this.selectedIndex,1)
+      },
       goBack(index){
         this.$set(this.toastControl,index,0);
+        this.user = {};
+        this.movie = {};
+        this.filmReview ={};
+        if(this.updateFlag ==1){
+          this.updateFlag = 0;
+        }
       },
       beforeEnter: function (el) {
         el.style.opacity = 0

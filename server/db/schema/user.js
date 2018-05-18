@@ -29,7 +29,7 @@ let UserSchema = new mongoose.Schema({
     },
     admin : {
         type : Boolean,
-        default : 0
+        default : false
     },
 });
 

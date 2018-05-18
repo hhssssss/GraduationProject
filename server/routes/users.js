@@ -585,4 +585,104 @@ router.post("/addUser",function (req,res,next) {
         }
     });
 });
+router.post("/deleteUser",function (req,res,next) {
+    let _id = req.body._id;
+    model.user.remove({_id:_id},function (err) {
+        if (err) {
+            res.json({
+                status:0,
+                message:'删除失败'
+            })
+        }
+        else {
+            res.json({
+                status:1,
+                message:'删除成功'
+            })
+        }
+    })
+    model.filmReview.remove({author:_id},function (err) {
+        
+    });
+    model.filmReviewComment.remove({user:_id},function (err) {
+        
+    });
+    model.movieComment.remove({user:_id},function (err) {
+        
+    });
+    model.movieCommentReply.remove({user:_id},function (err) {
+        
+    });
+});
+router.post("/updateUser",function (req,res,next) {
+    let form = new formidable.IncomingForm();
+    form.encoding = 'utf-8';
+    form.uploadDir = path.join(__dirname + "/../upload/userImg");
+    form.keepExtensions = true;//保留后缀
+    form.maxFieldsSize = 2 * 1024 * 1024;
+    form.parse(req,function (err, fields, files) {
+        if(err){
+            return console.log(err);
+        }
+        else{
+            let userInfo;
+            if(fields.profilePictureFlag=='1'){
+                let filesName = files.profilePicture.name,
+                    filesType = files.profilePicture.type;
+                if(/.(gif|jpg|jpeg|bmp|png)$/.exec(filesName)){  // 检测文件格式是否为gif,jpg,jpeg,bmp,png
+                    let suffixName,
+                        fullName,
+                        newPath,
+                        oldPath;
+                    suffixName = /\w{1,4}$/.exec(filesType)[0]; // 获取后缀名
+                    fullName = fields.user_id + '_' + new Date().getTime() + "." + suffixName;
+                    newPath = path.join(form.uploadDir , `/${fullName}`);
+                    oldPath = files.profilePicture.path;
+                    fs.renameSync(oldPath, newPath);
+                    userInfo = {
+                        userName:fields.userName,
+                        userId:fields.userId,
+                        userPwd:fields.userPwd,
+                        userGender:fields.userGender,
+                        userLikeTypes:fields.userLikeTypes,
+                        userSelfIntroduction:fields.userSelfIntroduction,
+                        userProfilePicture:fullName,
+                        coins:fields.coins,
+                        admin:fields.admin,
+                    }
+                }else {
+                    return  res.json({
+                        status:0,
+                        message:'文件不是图片类型'
+                    })
+                }
+            }else {
+                userInfo = {
+                    userName:fields.userName,
+                    userId:fields.userId,
+                    userPwd:fields.userPwd,
+                    userGender:fields.userGender,
+                    userLikeTypes:fields.userLikeTypes,
+                    userSelfIntroduction:fields.userSelfIntroduction,
+                    coins:fields.coins,
+                    admin:fields.admin,
+                }
+            }
+            model.user.update({_id:fields._id}, userInfo, function(err, doc){
+                if (err) {
+                    return  res.json({
+                        status:0,
+                        message:'修改失败'
+                    })
+                }
+                else {
+                    return  res.json({
+                        status:1,
+                        message:'修改成功'
+                    })
+                }
+            })
+        }
+    });
+});
 module.exports = router;
