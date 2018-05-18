@@ -93,7 +93,7 @@ router.get("/searchMovies",function (req,res,next) {
 router.post("/addMovie",function (req,res,next) {
     let form = new formidable.IncomingForm();
     form.encoding = 'utf-8';
-    form.uploadDir = path.join(__dirname + "/../upload/movieImg");
+    form.uploadDir = path.join(__dirname + "/../assets/movieImg");
     form.keepExtensions = true;//保留后缀
     form.maxFieldsSize = 2 * 1024 * 1024;
     form.parse(req,function (err, fields, files) {
@@ -148,6 +148,7 @@ router.post("/addMovie",function (req,res,next) {
                     length:fields.length1,
                     language:fields.language,
                     time:fields.time,
+                    image:'movieImg_1.jpg',
                     genre:fields.genre,
                     country:fields.country,
                 }
@@ -189,7 +190,7 @@ router.post("/deleteMovie",function (req,res,next) {
 router.post("/updateMovie",function (req,res,next) {
     let form = new formidable.IncomingForm();
     form.encoding = 'utf-8';
-    form.uploadDir = path.join(__dirname + "/../upload/movieImg");
+    form.uploadDir = path.join(__dirname + "/../assets/movieImg");
     form.keepExtensions = true;//保留后缀
     form.maxFieldsSize = 2 * 1024 * 1024;
     form.parse(req,function (err, fields, files) {

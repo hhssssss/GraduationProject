@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="610ab571-4b51-44d0-81e9-a639b46ee109" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/clients/src/views/selfComponents/management/Body.vue" afterPath="$PROJECT_DIR$/clients/src/views/selfComponents/management/Body.vue" />
-      <change beforePath="$PROJECT_DIR$/server/db/schema/user.js" afterPath="$PROJECT_DIR$/server/db/schema/user.js" />
-      <change beforePath="$PROJECT_DIR$/server/routes/filmReviews.js" afterPath="$PROJECT_DIR$/server/routes/filmReviews.js" />
+      <change beforePath="$PROJECT_DIR$/clients/src/views/selfComponents/main/Body.vue" afterPath="$PROJECT_DIR$/clients/src/views/selfComponents/main/Body.vue" />
       <change beforePath="$PROJECT_DIR$/server/routes/movies.js" afterPath="$PROJECT_DIR$/server/routes/movies.js" />
-      <change beforePath="$PROJECT_DIR$/server/routes/users.js" afterPath="$PROJECT_DIR$/server/routes/users.js" />
-      <change beforePath="$PROJECT_DIR$/server/upload/movieImg/555_1526576326929.jpeg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/server/upload/movieImg/333_1526632471913.png" afterPath="" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -57,48 +54,29 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="movies.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="movies.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server/routes/movies.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2304">
-              <caret line="266" column="3" lean-forward="true" selection-start-line="266" selection-start-column="3" selection-end-line="266" selection-end-column="3" />
+            <state relative-caret-position="337">
+              <caret line="147" column="42" lean-forward="true" selection-start-line="147" selection-start-column="42" selection-end-line="147" selection-end-column="42" />
               <folding>
                 <element signature="e#245#744#0" expanded="false" />
                 <element signature="e#797#1190#0" expanded="false" />
                 <element signature="e#1430#2428#0" expanded="false" />
                 <element signature="e#2482#2950#0" expanded="false" />
-                <element signature="e#3001#5974#0" expanded="false" />
-                <element signature="e#6028#6376#0" expanded="false" />
+                <element signature="e#6072#6420#0" expanded="false" />
+                <element signature="e#6474#9470#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="users.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/server/routes/users.js">
+      <file leaf-file-name="Body.vue" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/clients/src/views/selfComponents/main/Body.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="96">
-              <caret line="604" column="8" lean-forward="true" selection-start-line="604" selection-start-column="8" selection-end-line="604" selection-end-column="8" />
-              <folding>
-                <element signature="e#254#1294#0" expanded="false" />
-                <element signature="e#1342#2160#0" expanded="false" />
-                <element signature="e#2211#2383#0" expanded="false" />
-                <element signature="e#2435#3096#0" expanded="false" />
-                <element signature="e#3144#3287#0" expanded="false" />
-                <element signature="e#7176#7763#0" expanded="false" />
-                <element signature="e#7819#8741#0" expanded="false" />
-                <element signature="e#8807#10465#0" expanded="false" />
-                <element signature="e#10513#11526#0" expanded="false" />
-                <element signature="e#11574#13548#0" expanded="false" />
-                <element signature="e#13607#14098#0" expanded="false" />
-                <element signature="e#14164#14713#0" expanded="false" />
-                <element signature="e#14778#15288#0" expanded="false" />
-                <element signature="e#15360#15928#0" expanded="false" />
-                <element signature="e#15970#16379#0" expanded="false" />
-                <element signature="e#16432#16903#0" expanded="false" />
-                <element signature="e#16953#19707#0" expanded="false" />
-                <element signature="e#20454#23230#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="1152">
+              <caret line="168" column="9" lean-forward="true" selection-start-line="168" selection-start-column="9" selection-end-line="168" selection-end-column="9" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -192,7 +170,6 @@
         <option value="$PROJECT_DIR$/clients/src/views/selfComponents/myFilmReview/Body.vue" />
         <option value="$PROJECT_DIR$/clients/src/router/index.js" />
         <option value="$PROJECT_DIR$/server/package.json" />
-        <option value="$PROJECT_DIR$/clients/src/views/selfComponents/main/Body.vue" />
         <option value="$PROJECT_DIR$/clients/src/views/selfComponents/userSettings/Body.vue" />
         <option value="$PROJECT_DIR$/clients/src/components/Prompt.vue" />
         <option value="$PROJECT_DIR$/clients/src/main.js" />
@@ -203,11 +180,12 @@
         <option value="$PROJECT_DIR$/clients/src/views/OneFilmReview.vue" />
         <option value="$PROJECT_DIR$/clients/src/views/OneMovie.vue" />
         <option value="$PROJECT_DIR$/clients/src/components/Header.vue" />
-        <option value="$PROJECT_DIR$/server/routes/movies.js" />
         <option value="$PROJECT_DIR$/server/routes/filmReviews.js" />
         <option value="$PROJECT_DIR$/server/db/schema/user.js" />
         <option value="$PROJECT_DIR$/clients/src/views/selfComponents/management/Body.vue" />
         <option value="$PROJECT_DIR$/server/routes/users.js" />
+        <option value="$PROJECT_DIR$/clients/src/views/selfComponents/main/Body.vue" />
+        <option value="$PROJECT_DIR$/server/routes/movies.js" />
       </list>
     </option>
   </component>
@@ -278,13 +256,6 @@
               <item name="GraduationProject" type="462c0819:PsiDirectoryNode" />
               <item name="clients" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="router" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="GraduationProject" type="b2602c69:ProjectViewProjectNode" />
-              <item name="GraduationProject" type="462c0819:PsiDirectoryNode" />
-              <item name="clients" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="views" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -303,6 +274,15 @@
               <item name="views" type="462c0819:PsiDirectoryNode" />
               <item name="selfComponents" type="462c0819:PsiDirectoryNode" />
               <item name="addFilmReview" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="GraduationProject" type="b2602c69:ProjectViewProjectNode" />
+              <item name="GraduationProject" type="462c0819:PsiDirectoryNode" />
+              <item name="clients" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="selfComponents" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="GraduationProject" type="b2602c69:ProjectViewProjectNode" />
@@ -510,16 +490,15 @@
       <workItem from="1525601629518" duration="9160000" />
       <workItem from="1525672632089" duration="1032000" />
       <workItem from="1526526574488" duration="31447000" />
-      <workItem from="1526624645766" duration="9155000" />
+      <workItem from="1526624645766" duration="10661000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="526012000" />
+    <option name="totallyTimeSpent" value="527518000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24417374" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -528,7 +507,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36989498" sideWeight="0.4894068" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.36989498" sideWeight="0.4894068" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -575,13 +554,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/clients/src/views/selfComponents/oneMovie/Body.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="265">
-          <caret line="196" column="20" lean-forward="true" selection-start-line="196" selection-start-column="20" selection-end-line="196" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server/db/schema/movie.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="384">
@@ -730,14 +702,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
           <caret line="30" column="13" lean-forward="false" selection-start-line="30" selection-start-column="8" selection-end-line="30" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/clients/src/views/selfComponents/main/Body.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="235" column="12" lean-forward="true" selection-start-line="235" selection-start-column="12" selection-end-line="235" selection-end-column="62" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -928,6 +892,78 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/server/db/schema/filmReviewComment.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="461">
+          <caret line="20" column="20" lean-forward="false" selection-start-line="20" selection-start-column="20" selection-end-line="20" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/db/schema/movieComment.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="456">
+          <caret line="19" column="14" lean-forward="true" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/db/schema/movieCommentReply.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="12" column="16" lean-forward="false" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/db/schema/user.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="30" column="23" lean-forward="true" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/routes/users.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="604" column="8" lean-forward="true" selection-start-line="604" selection-start-column="8" selection-end-line="604" selection-end-column="8" />
+          <folding>
+            <element signature="e#254#1294#0" expanded="false" />
+            <element signature="e#1342#2160#0" expanded="false" />
+            <element signature="e#2211#2383#0" expanded="false" />
+            <element signature="e#2435#3096#0" expanded="false" />
+            <element signature="e#3144#3287#0" expanded="false" />
+            <element signature="e#7176#7763#0" expanded="false" />
+            <element signature="e#7819#8741#0" expanded="false" />
+            <element signature="e#8807#10465#0" expanded="false" />
+            <element signature="e#10513#11526#0" expanded="false" />
+            <element signature="e#11574#13548#0" expanded="false" />
+            <element signature="e#13607#14098#0" expanded="false" />
+            <element signature="e#14164#14713#0" expanded="false" />
+            <element signature="e#14778#15288#0" expanded="false" />
+            <element signature="e#15360#15928#0" expanded="false" />
+            <element signature="e#15970#16379#0" expanded="false" />
+            <element signature="e#16432#16903#0" expanded="false" />
+            <element signature="e#16953#19707#0" expanded="false" />
+            <element signature="e#20454#23230#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/assets/movieImg/movieImg_1.jpg">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clients/src/views/selfComponents/main/Body.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1152">
+          <caret line="168" column="9" lean-forward="true" selection-start-line="168" selection-start-column="9" selection-end-line="168" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/clients/src/views/selfComponents/management/Body.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="310">
@@ -962,76 +998,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/db/schema/filmReviewComment.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="461">
-          <caret line="20" column="20" lean-forward="false" selection-start-line="20" selection-start-column="20" selection-end-line="20" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/db/schema/movieComment.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="456">
-          <caret line="19" column="14" lean-forward="true" selection-start-line="19" selection-start-column="14" selection-end-line="19" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/db/schema/movieCommentReply.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="12" column="16" lean-forward="false" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/db/schema/user.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="30" column="23" lean-forward="true" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server/routes/movies.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2304">
-          <caret line="266" column="3" lean-forward="true" selection-start-line="266" selection-start-column="3" selection-end-line="266" selection-end-column="3" />
+        <state relative-caret-position="337">
+          <caret line="147" column="42" lean-forward="true" selection-start-line="147" selection-start-column="42" selection-end-line="147" selection-end-column="42" />
           <folding>
             <element signature="e#245#744#0" expanded="false" />
             <element signature="e#797#1190#0" expanded="false" />
             <element signature="e#1430#2428#0" expanded="false" />
             <element signature="e#2482#2950#0" expanded="false" />
-            <element signature="e#3001#5974#0" expanded="false" />
-            <element signature="e#6028#6376#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/server/routes/users.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="604" column="8" lean-forward="true" selection-start-line="604" selection-start-column="8" selection-end-line="604" selection-end-column="8" />
-          <folding>
-            <element signature="e#254#1294#0" expanded="false" />
-            <element signature="e#1342#2160#0" expanded="false" />
-            <element signature="e#2211#2383#0" expanded="false" />
-            <element signature="e#2435#3096#0" expanded="false" />
-            <element signature="e#3144#3287#0" expanded="false" />
-            <element signature="e#7176#7763#0" expanded="false" />
-            <element signature="e#7819#8741#0" expanded="false" />
-            <element signature="e#8807#10465#0" expanded="false" />
-            <element signature="e#10513#11526#0" expanded="false" />
-            <element signature="e#11574#13548#0" expanded="false" />
-            <element signature="e#13607#14098#0" expanded="false" />
-            <element signature="e#14164#14713#0" expanded="false" />
-            <element signature="e#14778#15288#0" expanded="false" />
-            <element signature="e#15360#15928#0" expanded="false" />
-            <element signature="e#15970#16379#0" expanded="false" />
-            <element signature="e#16432#16903#0" expanded="false" />
-            <element signature="e#16953#19707#0" expanded="false" />
-            <element signature="e#20454#23230#0" expanded="false" />
+            <element signature="e#6072#6420#0" expanded="false" />
+            <element signature="e#6474#9470#0" expanded="false" />
           </folding>
         </state>
       </provider>
